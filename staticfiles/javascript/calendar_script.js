@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-
     //get all current date, month, and year from the user's device
     const currentDate = new Date();
     const month = currentDate.getMonth();  // 0-11 (January = 0)
@@ -16,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
         "July", "August", "September", "October", "November", "December"
     ];
 
-    //document.getElementById("month_name").innerText = months[month]; //sets to the correct month
     document.getElementById("month_name").querySelector("h2").innerText = months[month];
     const calendarGrid = document.getElementById("calendar_grid");
 
@@ -36,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function() {
             dayCell.classList.add('highlight'); //highlights the current day
         }
     }
-
 });
 
 

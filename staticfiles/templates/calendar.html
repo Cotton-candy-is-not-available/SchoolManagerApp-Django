@@ -13,7 +13,10 @@
 <body>
     {% include 'navbar.html' %}
 
-    <p>CALENDAR PAGE </p>
+    <!-- add new event button -->
+      <form action="{% url 'add_event' %}" method="get">
+        <button type="submit">Add New Event</button>
+      </form>
 
     <div class = "calendar_box" id = "month_name">
         <h2>Month</h2>
@@ -32,8 +35,9 @@
 
     </div>
 
+
+
+
     <script src="{% static 'javascript/calendar_script.js' %}" defer></script>
-
-
 </body>
 </html>

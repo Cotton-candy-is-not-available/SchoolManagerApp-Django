@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 class Calendar(models.Model): #each calendar can have many events associated to it
     date = models.DateField()
     day_number = models.IntegerField()

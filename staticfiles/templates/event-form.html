@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Form</title>
+</head>
+
+<body>
+ <form action="{% url 'add_event' %}" method="POST">
+    {% csrf_token %}
+    {{ event_form.as_p }}
+    <button type="submit">SUBMIT</button>
+ </form>
+
+
+</body>
+</html>
