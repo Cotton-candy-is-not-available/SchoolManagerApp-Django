@@ -5,6 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Nav Bar</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/common_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
 
     <style>
         .a {
@@ -34,9 +37,6 @@
         <div class = navDiv>
             <h3><a href="{% url 'index' %}" class = a>Home</a></h3>
             <h3><a href="{% url 'calendar' %}" class = a>Calendar</a></h3>
-
-
-
         </div>
     </div>
 </nav>

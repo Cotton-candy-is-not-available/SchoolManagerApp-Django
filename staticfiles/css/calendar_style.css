@@ -1,11 +1,30 @@
+.calendar_box {
+    margin: 20px auto;
+    max-width: 700px;
+}
 
-h2 {
+/*month title*/
+.calendar_box > h2 {
+    font-size: 30px;
     text-align: center;
-    font-size: 43px;
-    padding: 30px;
-    color: red;
+    font-weight: bold;
+    padding: 6px;
 }
 
-body {
-  background-color: powderblue;
+/*days and numbers*/
+.grid_box {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 10px;
+    text-align: center;
+    border: 3px solid black;
 }
+
+/*days of the month */
+.day {
+    padding: 20px;
+    border: 1px solid #ddd;
+    text-align: right;
+    background-color: #f4f4f4;
+}
+

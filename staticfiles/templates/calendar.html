@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Calendar</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/calendar_style.css' %}">
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/calendar_style.css' %}">
 
 </head>
 
@@ -13,7 +14,27 @@
     {% include 'navbar.html' %}
 
     <p>CALENDAR PAGE </p>
-    <h2>HELLOOOO</h2>
+
+    <div class = "calendar_box" id = "month_name">
+        <h2>January</h2>
+        <div class = "grid_box" id = "calendar_grid">
+            <p>Sunday</p>
+            <p>Monday</p>
+            <p>Tuesday</p>
+            <p>Wednesday</p>
+            <p>Thursday</p>
+            <p>Friday</p>
+            <p>Saturday</p>
+
+
+        </div>
+
+
+
+    </div>
+
+    <script src="{% static 'javascript/calendar_script.js' %}" defer></script>
+
 
 </body>
 </html>
