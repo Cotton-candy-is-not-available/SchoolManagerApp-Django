@@ -1,0 +1,32 @@
+ .a {
+            text-decoration: none;
+            font-size: 30px;
+        }
+ .topNav {
+  overflow: hidden;
+  background-color: #333;
+}
+/*nav text styling*/
+.topNav a {
+  float: left;
+  color: #f2f2f2;/*white*/
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topNav a:hover { /*hover colour*/
+  background-color: #ddd;
+  color: black;
+}
+
+.topNav a.active { /*non hover colour*/
+  background-color: #04AA6D;
+  color: white;
+}
+
+/*move logout to the right*/
+.topNav-right {
+  float: right;
+}
