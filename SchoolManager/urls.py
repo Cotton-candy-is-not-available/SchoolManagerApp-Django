@@ -1,19 +1,31 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
-    path('', views.index, name='index'),
+
+#------- START PAGE -----#
+    path('', views.start_page, name='start_page'),
+
+#------ HOME PAGE ----#
+    path('index/', views.index, name='index'),
+
+#-------- CALENDAR -------#
+
     path('calendar/', views.calendar, name='calendar'),
 
-# register page
+# ------- REGISTER PAGE -------#
     path('register/', views.register, name='register'),
 
-# log in
+# -------- lOG IN ---------#
 
-    path('login/', views.login, name='login'),
+    path('login/', views.log_in, name='log_in'),
+
+
+#--------- LOG OUT ------#
+    path('user_logout', views.user_logout, name='user_logout'),
+
 ]
-
-
 
 
 
