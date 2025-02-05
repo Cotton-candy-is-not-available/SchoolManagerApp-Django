@@ -31,6 +31,10 @@ document.addEventListener("DOMContentLoaded", function() {
         dayCell.className = 'day';
         dayCell.innerText = day.toString();
         calendarGrid.appendChild(dayCell);
+
+        if (day == currentDate.getDate()) {
+            dayCell.classList.add('highlight'); //highlights the current day
+        }
     }
 
 });
