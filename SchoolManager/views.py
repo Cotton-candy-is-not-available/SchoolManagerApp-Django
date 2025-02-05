@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Calendar, Event
 from .forms import EventForm
+from datetime import date, datetime, timedelta
+from calendar import HTMLCalendar
+
 
 def index(request):
     Events = Event.objects.all()
@@ -16,26 +19,27 @@ def index(request):
     })
 
 def calendar(request):
-    from datetime import datetime
-    current_month = datetime.now().month
-    current_year = datetime.now().year
-    days = Calendar.objects.filter(date__month=current_month, date__year=current_year)
-    return render(request, 'calendar.html', {'days': days})
+    return render(request,'calendar.html')
 
 def addEvent(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST)
 
         if event_form.is_valid():
-            #retrieve the calendar day associated with the selected calendar day
-            calendar_day = event_form.cleaned_data['day']
+            calendar_id = request.POST.get('calendar_id')  #gets the calendar ID from the POST data
 
-            event = event_form.save(commit=False)
-            event.day = calendar_day  #link the event to the selected day
-            event.save()
+            #if a calendar ID is provided, associate the event with it
+            if calendar_id:
+                calendar = Calendar.objects.get(id=calendar_id)
+                event = event_form.save()
+                event.calendar = calendar  #associate the event with the calendar
+                event.save()
+            else:
+                messages.error(request, "Calendar ID not provided.")
+                return redirect('calendar')
 
             return redirect('calendar')
     else:
-        event_form = EventForm()
+        event_form = EventForm()  #for GET request, show the form
 
     return render(request, 'event-form.html', {'event_form': event_form})

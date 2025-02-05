@@ -9,6 +9,8 @@
      <form action="{% url 'add_event' %}" method="POST">
         {% csrf_token %}
         {{ event_form.as_p }}
+         <label for="date_of_event">Date of event:</label>
+         <input type = "date" name = "date_of_event" id = "date_of_event" required></input>
         <button type="submit">SUBMIT</button>
      </form>
 
