@@ -4,12 +4,12 @@
         }
  .topNav {
   overflow: hidden;
-  background-color: #333;
+  background-color: #207971;
 }
 /*nav text styling*/
 .topNav a {
   float: left;
-  color: #f2f2f2;/*white*/
+  color: #ffffff;/*white*/
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -17,13 +17,13 @@
 }
 
 .topNav a:hover { /*hover colour*/
-  background-color: #ddd;
-  color: black;
+  background-color: #93cbec;
+  color: #207971;
 }
 
 .topNav a.active { /*non hover colour*/
-  background-color: #04AA6D;
-  color: white;
+  background-color: #207971;
+  color: #ffffff;
 }
 
 /*move logout to the right*/
