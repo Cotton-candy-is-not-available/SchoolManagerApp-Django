@@ -2,13 +2,14 @@
             text-decoration: none;
             font-size: 30px;
         }
+
  .topNav {
   overflow: hidden;
   background-color: #207971;
 }
 /*nav text styling*/
 .topNav a {
-  float: left;
+ float: left;
   color: #ffffff;/*white*/
   text-align: center;
   padding: 14px 16px;
@@ -18,7 +19,7 @@
 
 .topNav a:hover {
   background-color: #93cbec;/*hover colour*/
-  color: #207971;/*regular colour*/
+  color: #637920;/*regular colour*/
 }
 
 /*move logout to the right*/
@@ -33,10 +34,10 @@ ul {
   margin: 0;
   padding: 0;
   width: 15%;/*width of side nav box*/
-  background-color: #43817b;/* box colour*/
-  position: absolute;/*makes nav bar stay where it is*/
+  background-color: #ba16a4;/* box colour*/
+  position: fixed;
   height: 100%;
-  overflow: auto;/* if it ever gets to big it will let you scroll*/
+  overflow: auto;
 }
 
 li a {
@@ -48,19 +49,19 @@ li a {
 
 /*When on tab*/
 li a.active {
-  background-color: #04AA6D;
+  background-color: #5faa04;
   color: white;
 }
 
 /*When not on tab*/
 li a:hover:not(.active) {
-  background-color: #555;
+  background-color: #b11d1d;
   color: white;
 }
 
 /*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
 .main_body{
     margin-left:20%;
-    padding:30px 16px;/* top padding, left side padding*/
+    padding:16px 16px;/* top padding, left side padding*/
     height:1000px
 }
