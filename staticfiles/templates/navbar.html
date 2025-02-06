@@ -9,24 +9,29 @@
 <body>
 
 <nav>
-{##}
-{#        <div class = navDiv>#}
-{#            <h3><a href="{% url 'index' %}" class = a>Home</a></h3>{# Home / main calender button #}
-{#        <div class = navRight>#}
-{#            <h3><a href="{% url 'index' %}" class = a>Log out</a></h3>{# log out button #}
-{#        </div>#}
-{#            <h3><a href="{% url 'calendar' %}" class = a>Calendar</a></h3>#}
-{##}
-{#        </div>#}
-
+{# Top navigation bar with home and log out#}
+{#Home/calender button#}
     <div class="topNav">
-  <a class="active" href={% url 'index' %}>Home</a>
+  <a class href={% url 'index' %}>Home</a>
 
+{#Log out link and styles#}
   <div class="topNav-right">
-    <a href="#logout">About</a>
+    <a href="#logout">Log out</a>
   </div>
 
 </div>
+
+{# Side navigation bar#}
+    <ul>
+  <li><a class="active" href="#To do list">To do list</a></li>{# active means that you are on the page #}
+  <li><a href="#Daily schedule">Daily schedule</a></li>
+</ul>
+
+
+
+
+
+
 </nav>
 
 

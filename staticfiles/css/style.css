@@ -16,17 +16,50 @@
   font-size: 17px;
 }
 
-.topNav a:hover { /*hover colour*/
-  background-color: #93cbec;
-  color: #207971;
-}
-
-.topNav a.active { /*non hover colour*/
-  background-color: #207971;
-  color: #ffffff;
+.topNav a:hover {
+  background-color: #93cbec;/*hover colour*/
+  color: #207971;/*regular colour*/
 }
 
 /*move logout to the right*/
 .topNav-right {
   float: right;
+}
+
+
+/*Side navigation bar*/
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 15%;/*width of side nav box*/
+  background-color: #43817b;/* box colour*/
+  height: 100%;
+  overflow: auto;/* if it ever gets to big it will let you scroll
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+/*When on tab*/
+li a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+/*When not on tab*/
+li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+/*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
+.main_body{
+    margin-left:20%;
+    padding:30px 16px;/* top padding, left side padding*/
+    height:1000px
 }
