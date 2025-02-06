@@ -34,8 +34,9 @@ ul {
   padding: 0;
   width: 15%;/*width of side nav box*/
   background-color: #43817b;/* box colour*/
+  position: absolute;/*makes nav bar stay where it is*/
   height: 100%;
-  overflow: auto;/* if it ever gets to big it will let you scroll
+  overflow: auto;/* if it ever gets to big it will let you scroll*/
 }
 
 li a {
