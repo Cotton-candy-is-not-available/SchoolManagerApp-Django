@@ -1,43 +1,33 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Nav Bar</title>
-
-    <style>
-        .a {
-            text-decoration: none;
-            font-size: 30px;
-        }
-
-        .navBar {
-        padding-right: 15px;
-        padding: 15px;
-        }
-
-        .navDiv {
-            display: flex;
-            align-items: center;
-            grid-gap: 15px;
-        }
-
-    </style>
-
-
+    <link rel ="stylesheet" href="{% static 'css/navBar_style.css ' %}">{# link to styling #}
 </head>
 <body>
 
 <nav>
-    <div class = navBar>
-        <div class = navDiv>
-            <h3><a href="{% url 'index' %}" class = a>Home</a></h3>
-            <h3><a href="{% url 'calendar' %}" class = a>Calendar</a></h3>
-            <h4><a href ="{% url 'user_logout' %}" class = a> Log out</h4>
+{# Top navigation bar with home and log out#}
+{#Home/calender button#}
+    <div class="topNav">
+  <a class href={% url 'index' %}>Home</a>
 
-        </div>
-    </div>
+{#Log out link and styles#}
+  <div class="topNav-right">
+    <a href="#logout">Log out</a>
+  </div>
+
+</div>
+
+{# Side navigation bar#}
+  <ul>
+  <li><a class = "active" href="#To do list">To do list</a></li>{# active means that you are on the page #}
+  <li><a href="#Daily schedule">Daily schedule</a></li>
+</ul>
+
+
 </nav>
 
 
