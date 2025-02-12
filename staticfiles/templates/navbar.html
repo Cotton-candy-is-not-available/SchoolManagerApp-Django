@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nav Bar</title>
+
+    <style>
+        .a {
+            text-decoration: none;
+            font-size: 30px;
+        }
+
+        .navBar {
+        padding-right: 15px;
+        padding: 15px;
+        }
+
+        .navDiv {
+            display: flex;
+            align-items: center;
+            grid-gap: 15px;
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+<nav>
+    <div class = navBar>
+        <div class = navDiv>
+            <h3><a href="{% url 'index' %}" class = a>Home</a></h3>
+            <h3><a href="{% url 'calendar' %}" class = a>Calendar</a></h3>
+            <h4><a href ="{% url 'user_logout' %}" class = a> Log out</h4>
+
+        </div>
+    </div>
+</nav>
+
+
+
+
+</body>
+</html>
