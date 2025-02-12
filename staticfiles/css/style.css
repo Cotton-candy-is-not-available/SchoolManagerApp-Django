@@ -3,20 +3,23 @@
             font-size: 30px;
         }
 
+ /*----------------   Home and log out button text ------------*/
  .topNav {
   overflow: hidden;
   background-color: #207971;
+     height: 80px;/*height of top nav*/
 }
 /*nav text styling*/
 .topNav a {
  float: left;
   color: #ffffff;/*white*/
   text-align: center;
-  padding: 14px 16px;
+  padding: 30px 25px;/*text height, text side padding*/
   text-decoration: none;
   font-size: 17px;
 }
 
+/*Hover colours*/
 .topNav a:hover {
   background-color: #93cbec;/*hover colour*/
   color: #637920;/*regular colour*/
@@ -28,18 +31,19 @@
 }
 
 
-/*Side navigation bar*/
+/* --------------------------- Side navigation bar ---------------------------------*/
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  width: 15%;/*width of side nav box*/
+  width: 14%;/*width of side nav box*/
   background-color: #ba16a4;/* box colour*/
   position: fixed;
   height: 100%;
   overflow: auto;
 }
 
+/*Side nav text styling*/
 li a {
   display: block;
   color: #000;
