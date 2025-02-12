@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", function() {
+function generateCalendar() {
+
     //get all current date, month, and year from the user's device
     const currentDate = new Date();
     const month = currentDate.getMonth();  // 0-11 (January = 0)
@@ -9,13 +10,8 @@ document.addEventListener("DOMContentLoaded", function() {
     //total number of days in the month
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    //all possible months to be displayed
-    const months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-
-    document.getElementById("month_name").querySelector("h2").innerText = months[month];
+    //retrieves correct month from views.py function
+    document.getElementById("month_name").querySelector("h2").innerText = month[month - 1];
     const calendarGrid = document.getElementById("calendar_grid");
 
     for (let i = 0; i < firstDayOfMonth; i++) {
@@ -30,10 +26,21 @@ document.addEventListener("DOMContentLoaded", function() {
         dayCell.innerText = day.toString();
         calendarGrid.appendChild(dayCell);
 
-        if (day == currentDate.getDate()) {
+        if (day === currentDate.getDate()) {
             dayCell.classList.add('highlight'); //highlights the current day
         }
     }
-});
 
+}
 
+function nextMonth() {
+    const currentDate = new Date;
+    currentDate.setMonth(currentDate.getMonth() + 1); //or choose from array of strings and change the text??
+    generateCalendar()
+}
+
+function prevMonth() {
+    const currentDate = new Date;
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    generateCalendar()
+}

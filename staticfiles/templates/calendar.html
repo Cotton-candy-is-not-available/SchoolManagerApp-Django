@@ -19,6 +19,11 @@
         <button type="submit">Add New Event</button>
       </form>
 
+    <!-- Next and Previous Month buttons -->
+    <button type="button" onclick="prevMonth()">Previous Month</button>
+    <button type="button" onclick="nextMonth()">Next Month</button>
+
+
     <div class = "calendar_box" id = "month_name">
         <h2>Month</h2>
         <div class = "grid_box" id = "calendar_grid">
@@ -33,8 +38,6 @@
             to the user's local device dates (realtime)-->
             </div>
     </div>
-
-
 
 
     <script src="{% static 'javascript/calendar_script.js' %}" defer></script>
