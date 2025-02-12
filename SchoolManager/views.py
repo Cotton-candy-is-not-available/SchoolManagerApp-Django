@@ -68,3 +68,8 @@ def user_logout(request):
     auth.logout(request)
 
     return redirect('start_page')
+
+
+def weekly_schedule(request):
+
+    return render(request, 'weekly_schedule.html')

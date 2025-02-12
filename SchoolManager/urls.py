@@ -25,8 +25,11 @@ urlpatterns = [
 #--------- LOG OUT ------#
     path('user_logout', views.user_logout, name='user_logout'),
 
-]
 
+#--------- WEEKLY SCHEDULE --------#
+    path('weekly_schedule/', views.weekly_schedule, name='weekly_schedule'),
+
+]
 
 
 
