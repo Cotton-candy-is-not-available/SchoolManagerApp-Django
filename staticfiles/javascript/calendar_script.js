@@ -1,17 +1,25 @@
-function generateCalendar() {
 
+
+function generateCalendar(newDate) {
     //get all current date, month, and year from the user's device
-    const currentDate = new Date();
-    const month = currentDate.getMonth();  // 0-11 (January = 0)
-    const year = currentDate.getFullYear();
+    //newDate = new Date('2025-04-05');
+    newDate.toLocaleString('en-US', { timeZone: 'America/New_York' }) //sets time zone
+
+    const month = newDate.getMonth();  // 0-11 (January = 0)
+    const year = newDate.getFullYear();
 
     //get the starting day of the month (0 = Sunday, 1 = Monday, etc.)
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     //total number of days in the month
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const daysInMonth = new Date(year, month, 0).getDate();
 
-    //retrieves correct month from views.py function
-    document.getElementById("month_name").querySelector("h2").innerText = month[month - 1];
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    //set the month name in the calendar header
+    document.getElementById("month_name").querySelector("h2").innerText = months[month];
     const calendarGrid = document.getElementById("calendar_grid");
 
     for (let i = 0; i < firstDayOfMonth; i++) {
@@ -26,21 +34,23 @@ function generateCalendar() {
         dayCell.innerText = day.toString();
         calendarGrid.appendChild(dayCell);
 
-        if (day === currentDate.getDate()) {
+        if (day === newDate.getDate()) {
             dayCell.classList.add('highlight'); //highlights the current day
         }
     }
-
 }
 
 function nextMonth() {
     const currentDate = new Date;
-    currentDate.setMonth(currentDate.getMonth() + 1); //or choose from array of strings and change the text??
-    generateCalendar()
+
+    currentDate.setMonth(currentDate.getMonth() + 1); //increases the value of month (0-11)
+    generateCalendar(currentDate)
 }
 
 function prevMonth() {
     const currentDate = new Date;
     currentDate.setMonth(currentDate.getMonth() - 1);
-    generateCalendar()
+    generateCalendar(currentDate)
 }
+
+

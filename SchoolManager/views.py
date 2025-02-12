@@ -48,7 +48,14 @@ def addEvent(request):
         event_form = EventForm(request.POST)
 
         if event_form.is_valid():
-            event_form.save()
+            #get the date_of_event from the POST data of the form
+            date_of_event = request.POST.get('date_of_event')
+
+            #set the date retrieved date_of_event to the form
+            event_instance = event_form.save(commit=False)
+            event_instance.date_of_event = date_of_event  # Set the date
+
+            event_instance.save()
             return redirect('calendar')
         else:
             return HttpResponse("something went wrong with the event form")
