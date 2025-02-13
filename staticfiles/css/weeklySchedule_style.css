@@ -6,25 +6,47 @@
   grid-template-columns: repeat(3, 1fr);
     row-gap: 20px;
   column-gap: 100px;
+    max-width: 940px;
+     word-wrap: break-word;/*wraps words*/
 
-  grid-auto-rows: minmax(50px, auto);
-  max-width: 940px;
+/*    scrolling*/
+    height: 100%;
+    grid-template-rows: 50px 400px;
+
 }
 
 .container > div {
   background-color: #f1f1f1;
   border: 1px solid black;
-  padding: 10px;
+  padding-left: 10px;
+  right: 10px;
   /*font-size: 30px;*/
   text-align: center;
 }
 
 .weekName{
-    grid-column: 1/2;
+    text-justify: auto ;
+  grid-column: 1/2;
   grid-row: 1;
 }
 
-.eventDisplay{
-     grid-column: 1;
-  grid-row: 2 / 8;
+.day1EventDisplay{
+     grid-column: 1;/*column start*/
+  grid-row: 2 / 6;/*row start and end*/
+    overflow: auto;/*makes it scrollable when too big*/
+}
+
+
+.day2EventDisplay{
+     grid-column: 2;/*column start*/
+  grid-row: 2 / 6;/*row start and end*/
+    overflow: auto;/*makes it scrollable when too big*/
+
+}
+
+.day3EventDisplay{
+     grid-column: 3;/*column start*/
+  grid-row: 2 / 6;/*row start and end*/
+    overflow: auto;/*makes it scrollable when too big*/
+
 }

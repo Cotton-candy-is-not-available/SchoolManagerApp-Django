@@ -15,10 +15,21 @@
         <button type="submit">Add New Event</button>
       </form>
 
-    <div class="container">
+{# ---------------- Counter ----------------------#}
+            <p id="count">0</p>
+        <div>
+            <button onclick="dec()">Decrement</button>
+            <button onclick="inc()">Increment</button>
+        </div>
+{# ---------------- Counter ----------------------#}
 
+
+{#<input type="button" name="adding" value="{{ counter|add:"2" }}">#}
+{#    <button type="submit">Add num</button>#}
+
+    <div class="container">
         <div class="weekName">
-<p>{{ weekDay|date:"l d" }}</p>{# day of the week #}
+<p>{{ weekDay|date:"l d" }}</p>{# day of the week 1 #}
     </div>
 
          <div>
@@ -28,14 +39,10 @@
 <p>{{ weekDay3|date:"l d" }}</p>{# day of the week #}
 </div>
 
-
-<div class="eventDisplay">
-
-{# {% for Events in events %}#}
-{#        <p> <br> <b>{{ Events.description }}<br></b></p>#}
-{#        {% endfor %}#}
-
-         {% for Events in events %}
+{#------------------  Display events in respective columns -------------------------#}
+{#    Current day events #}
+<div class="day1EventDisplay">
+         {% for Events in day1_events %}
 {#            {% if Events.date_of_event == weekDay|date:"l d" %}#}
                  <br> <b>{{ Events.event_name }} <br></b>
                  <br> <b>{{ Events.description }}<br></b>
@@ -45,18 +52,32 @@
 
         </div>{# week day 1 text #}
 
+{# Next day events #}
+<div class="day2EventDisplay">
 
-        <div>tttttttt</div>
-
-
-        <div>textdnn</div>
+         {% for Events in day2_events %}
+                 <br> <b>{{ Events.event_name }} <br></b>
+                 <br> <b>{{ Events.description }}<br></b>
+         {% endfor %}
 
 </div>
 
+{#  Third day events  #}
+    <div class="day3EventDisplay">
+
+         {% for Events in day3_events %}
+                 <br> <b>{{ Events.event_name }} <br></b>
+                 <br> <b>{{ Events.description }}<br></b>
+         {% endfor %}
+
+</div>
+    </div>
 </div>
 
 
 
 
 </body>
+
+<script src="{% static 'javascript/javascript.js' %}" defer></script>
 </html>

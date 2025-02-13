@@ -68,11 +68,11 @@ li a:hover:not(.active) {
 .main_content{
     margin-left:20%;
     padding:16px 16px;/* top padding, left side padding*/
-    height:450px;
+    height:100px;
 
 }
 
-body{
-    /*overflow-y: hidden;!*makes it not possible to scroll*!*/
-    /*overflow-x: hidden;!*makes it not possible to scroll*!*/
-}
+/*body{*/
+/*    overflow-y: hidden;!*makes it not possible to scroll*!*/
+/*    overflow-x: hidden;!*makes it not possible to scroll*!*/
+/*}*/

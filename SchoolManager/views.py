@@ -1,5 +1,6 @@
 from time import strftime
 
+from django.db.models.expressions import result
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import CreateUserForm, LoginForm
@@ -10,6 +11,7 @@ from django.contrib.auth import authenticate
 from datetime import datetime, timedelta
 from .models import Event
 from .forms import EventForm
+
 def start_page(request):
     return render(request, 'start_page.html')
 
@@ -74,21 +76,7 @@ def user_logout(request):
 
     return redirect('start_page')
 
-
-def weekly_schedule(request):
-    #events = Event.objects.all()
-    weekDay = datetime.today()#gets today's date
-    weekDay2 = datetime.today() + timedelta(days=1) #gets the day after
-    weekDay3 = datetime.today() + timedelta(days=2)# gets the 3rd day after the first one
-    #Filters to only get events that are asscosiated with the same days
-    events = Event.objects.filter(date_of_event__day=weekDay.day, date_of_event__month =weekDay.month)
-
-    context = {'weekDay':weekDay, 'weekDay2':weekDay2, 'weekDay3':weekDay3, 'events': events}
-
-    return render(request, 'weekly_schedule.html',context=context )
-
-
-
+#------------------- Adding Events -------------------------
 def addEvent(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST)
@@ -109,4 +97,23 @@ def addEvent(request):
     else:
         event_form = EventForm()  #for GET request, show the form
         return render(request, 'event-form.html', {'event_form': event_form})
+
+
+
+# ----------------- weekly_schedule ------------------------
+
+def weekly_schedule(request):
+
+    weekDay = datetime.today()#gets today's date
+    weekDay2 = datetime.today() + timedelta(days=1) #gets the day after
+    weekDay3 = datetime.today() + timedelta(days=2)# gets the 3rd day after the first one
+
+    #Filters to only get events that are associated with the same days
+    day1_events = Event.objects.filter(date_of_event__day=weekDay.day, date_of_event__month =weekDay.month)
+    day2_events = Event.objects.filter(date_of_event__day=weekDay2.day, date_of_event__month =weekDay2.month)
+    day3_events = Event.objects.filter(date_of_event__day=weekDay3.day, date_of_event__month =weekDay3.month)
+
+    context = {'weekDay':weekDay, 'weekDay2':weekDay2, 'weekDay3':weekDay3,
+               'day1_events': day1_events, 'day2_events':day2_events, 'day3_events':day3_events}
+    return render(request, 'weekly_schedule.html',context=context )
 
