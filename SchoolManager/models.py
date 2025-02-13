@@ -8,5 +8,5 @@ class Event(models.Model):
     #each event can be associated to only one calendar
 
     def __str__(self):
-        return f"Event on {self.description}"
+        return f"{self.event_name},  on the {self.date_of_event}"
 

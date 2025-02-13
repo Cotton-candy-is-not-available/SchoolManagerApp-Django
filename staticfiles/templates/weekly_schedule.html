@@ -37,7 +37,8 @@
 
          {% for Events in events %}
 {#            {% if Events.date_of_event == weekDay|date:"l d" %}#}
-                 <br> <b>{{ Events.description }} said:<br></b>
+                 <br> <b>{{ Events.event_name }} <br></b>
+                 <br> <b>{{ Events.description }}<br></b>
 
 {#            {% endif %}#}
         {% endfor %}

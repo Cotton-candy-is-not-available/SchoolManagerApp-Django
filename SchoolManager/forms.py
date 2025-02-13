@@ -26,5 +26,5 @@ class LoginForm(AuthenticationForm):
 class EventForm(forms.ModelForm):
         class Meta:
             model = Event
-            fields = ['description']
+            fields = ['event_name','description']
 
