@@ -1,3 +1,5 @@
+from time import strftime
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import CreateUserForm, LoginForm
@@ -5,11 +7,14 @@ from .forms import CreateUserForm, LoginForm
 from django.contrib.auth.models import auth
 
 from django.contrib.auth import authenticate
-
+from datetime import datetime, timedelta
+from .models import Event
+from .forms import EventForm
 def start_page(request):
     return render(request, 'start_page.html')
 
 def index(request):
+    events = Event.objects.all()
     return render(request, 'index.html')
 
 def calendar(request):
@@ -71,5 +76,37 @@ def user_logout(request):
 
 
 def weekly_schedule(request):
+    #events = Event.objects.all()
+    weekDay = datetime.today()#gets today's date
+    weekDay2 = datetime.today() + timedelta(days=1) #gets the day after
+    weekDay3 = datetime.today() + timedelta(days=2)# gets the 3rd day after the first one
+    #Filters to only get events that are asscosiated with the same days
+    events = Event.objects.filter(date_of_event__day=weekDay.day, date_of_event__month =weekDay.month)
 
-    return render(request, 'weekly_schedule.html')
+    context = {'weekDay':weekDay, 'weekDay2':weekDay2, 'weekDay3':weekDay3, 'events': events}
+
+    return render(request, 'weekly_schedule.html',context=context )
+
+
+
+def addEvent(request):
+    if request.method == 'POST':
+        event_form = EventForm(request.POST)
+
+        if event_form.is_valid():
+            #get the date_of_event from the POST data of the form
+            date_of_event = request.POST.get('date_of_event')
+
+            #set the date retrieved date_of_event to the form
+            event_instance = event_form.save(commit=False)
+            event_instance.date_of_event = date_of_event  # Set the date
+
+            event_instance.save()
+            return redirect('weekly_schedule')
+        else:
+            return HttpResponse("something went wrong with the event form")
+
+    else:
+        event_form = EventForm()  #for GET request, show the form
+        return render(request, 'event-form.html', {'event_form': event_form})
+

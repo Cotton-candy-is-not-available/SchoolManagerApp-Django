@@ -37,8 +37,8 @@ ul {
   margin: 0;
   padding: 0;
   width: 14%;/*width of side nav box*/
-  background-color: #ba16a4;/* box colour*/
-  position: fixed;
+  background-color: #ba1655;/* box colour*/
+  position: absolute;/* make it stay at the top*/
   height: 100%;
   overflow: auto;
 }
@@ -65,8 +65,14 @@ li a:hover:not(.active) {
 
 /*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
 /* Move to common style .css when fully merged and change to body{*/
-.main_body{
+.main_content{
     margin-left:20%;
     padding:16px 16px;/* top padding, left side padding*/
-    height:1000px
+    height:450px;
+
+}
+
+body{
+    /*overflow-y: hidden;!*makes it not possible to scroll*!*/
+    /*overflow-x: hidden;!*makes it not possible to scroll*!*/
 }
