@@ -33,9 +33,7 @@ urlpatterns = [
 
 #--------- WEEKLY SCHEDULE --------#
     path('weekly_schedule/', views.weekly_schedule, name='weekly_schedule'),
-    # path('weekly_schedule/', views.weekly_schedule, name='weekly_schedule'),
 
-    # path('weekly_schedule/', views.counter, name='counter'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

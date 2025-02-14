@@ -1,5 +1,4 @@
 from django.db import models
-import datetime
 
 class Event(models.Model):
     event_name = models.CharField(max_length=100, default= "[Event Name]")#event name
