@@ -1,6 +1,3 @@
-from time import strftime
-
-from django.db.models.expressions import result
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
