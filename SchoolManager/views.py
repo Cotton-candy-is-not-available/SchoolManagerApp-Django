@@ -118,6 +118,10 @@ def addEvent(request):
 
 
 def weekly_schedule(request):
+    global decrease, increase
+    increase = 0
+    decrease = 0
+
     weekDay = datetime.today()#gets today's date
     weekDay2 = datetime.today() + timedelta(days=1)#gets the day after
     weekDay3 = datetime.today() + timedelta(days=2)# gets the 3rd day after the first one
