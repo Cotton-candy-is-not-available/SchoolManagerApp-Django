@@ -4,77 +4,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <title>Weekly schedule</title>
-    <link rel ="stylesheet" href="{% static 'css/weeklySchedule_style.css ' %}">{# link to styling #}
+    <link rel="stylesheet" href="{% static 'css/weeklySchedule_style.css ' %}">
+    {# link to styling #}
 </head>
 <body>
-<div class = "main_content">
-<h1>Weekly Schedule</h1>
- <!-- add new event button -->
-      <form action="{% url 'add_event' %}" method="get">
+<div class="main_content">
+    <h1>Weekly Schedule</h1>
+    <!-- add new event button -->
+    <form action="{% url 'add_event' %}" method="get">
         <button type="submit">Add New Event</button>
-      </form>
+    </form>
 
-{# ---------------- Counter ----------------------#}
-            <p id="count">0</p>
-        <div>
-            <button onclick="dec()">Decrement</button>
-            <button onclick="inc()">Increment</button>
-        </div>
-{# ---------------- Counter ----------------------#}
+{#    <a href="{% url 'see_other_dates' %}"><button  id="1" type="button">Next</button> </a>#}
 
+    {# ---------------- Next and previous days ----------------------#}
 
-{#<input type="button" name="adding" value="{{ counter|add:"2" }}">#}
-{#    <button type="submit">Add num</button>#}
+    <form action="{% url 'next_' %}" method="get">
+        <button type="submit">Next</button>
+    </form>
+ <form action="{% url 'prev' %}" method="get">
+        <button  type="submit">Previous</button>
+    </form>
 
+    {# ---------------- Week name display ----------------------#}
     <div class="container">
         <div class="weekName">
-<p>{{ weekDay|date:"l d" }}</p>{# day of the week 1 #}
+            <p>{{ weekDay|date:"l d" }}</p>{# day of the week 1 #}
+        </div>
+
+        <div>
+            <p>{{ weekDay2|date:"l d" }}</p>{# day of the week #}
+        </div>
+        <div>
+            <p>{{ weekDay3|date:"l d" }}</p>{# day of the week #}
+        </div>
+
+        {#------------------  Display events in respective columns -------------------------#}
+        {#    Current day events #}
+        <div class="day1EventDisplay">
+            {% for Events in day1_events %}
+                {#            {% if Events.date_of_event == weekDay|date:"l d" %}#}
+                <br> <b>{{ Events.event_name }} <br></b>
+                <br> <b>{{ Events.description }}<br></b>
+
+                {#            {% endif %}#}
+            {% endfor %}
+
+        </div>
+        {# week day 1 text #}
+
+        {# Next day events #}
+        <div class="day2EventDisplay">
+
+            {% for Events in day2_events %}
+                <br> <b>{{ Events.event_name }} <br></b>
+                <br> <b>{{ Events.description }}<br></b>
+            {% endfor %}
+
+        </div>
+
+        {#  Third day events  #}
+        <div class="day3EventDisplay">
+
+            {% for Events in day3_events %}
+                <br> <b>{{ Events.event_name }} <br></b>
+                <br> <b>{{ Events.description }}<br></b>
+            {% endfor %}
+
+        </div>
     </div>
-
-         <div>
-<p>{{ weekDay2|date:"l d" }}</p>{# day of the week #}
-    </div>
-         <div>
-<p>{{ weekDay3|date:"l d" }}</p>{# day of the week #}
 </div>
-
-{#------------------  Display events in respective columns -------------------------#}
-{#    Current day events #}
-<div class="day1EventDisplay">
-         {% for Events in day1_events %}
-{#            {% if Events.date_of_event == weekDay|date:"l d" %}#}
-                 <br> <b>{{ Events.event_name }} <br></b>
-                 <br> <b>{{ Events.description }}<br></b>
-
-{#            {% endif %}#}
-        {% endfor %}
-
-        </div>{# week day 1 text #}
-
-{# Next day events #}
-<div class="day2EventDisplay">
-
-         {% for Events in day2_events %}
-                 <br> <b>{{ Events.event_name }} <br></b>
-                 <br> <b>{{ Events.description }}<br></b>
-         {% endfor %}
-
-</div>
-
-{#  Third day events  #}
-    <div class="day3EventDisplay">
-
-         {% for Events in day3_events %}
-                 <br> <b>{{ Events.event_name }} <br></b>
-                 <br> <b>{{ Events.description }}<br></b>
-         {% endfor %}
-
-</div>
-    </div>
-</div>
-
-
 
 
 </body>

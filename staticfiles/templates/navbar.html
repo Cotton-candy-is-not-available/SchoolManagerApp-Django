@@ -13,7 +13,7 @@
 {# Top navigation bar with home and log out#}
 {#Home/calender button#}
     <div class="topNav">
-  <a class href={% url 'index' %}>Home</a>
+  <a href={% url 'calendar' %}>Home</a>
 
 {#Log out link and styles#}
   <div class="topNav-right">
@@ -25,7 +25,7 @@
 {# Side navigation bar#}
   <ul>
   <li><a class = "active" href="#To do list">To do list</a></li>{# active means that you are on the page #}
-  <li><a href="{% url 'weekly_schedule'%}">Weekly schedule</a></li>
+  <li><a href={% url 'weekly_schedule' %}>Weekly schedule</a></li>
 </ul>
 
 
