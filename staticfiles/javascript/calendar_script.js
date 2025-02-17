@@ -1,33 +1,32 @@
-
+let currentDate = new Date; //start from current user's device date
 
 function generateCalendar(newDate) {
-    //get all current date, month, and year from the user's device
-    //newDate = new Date('2025-04-05');
-    newDate.toLocaleString('en-US', { timeZone: 'America/New_York' }) //sets time zone
-
-    const month = newDate.getMonth();  // 0-11 (January = 0)
+    //retrieve the current newDate and calculate/retrieve all of its information
+    const month = newDate.getMonth(); // 0 - 11
     const year = newDate.getFullYear();
-
-    //get the starting day of the month (0 = Sunday, 1 = Monday, etc.)
-    const firstDayOfMonth = new Date(year, month, 1).getDay();
-    //total number of days in the month
-    const daysInMonth = new Date(year, month, 0).getDate();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDay = firstDay.getDay();
 
     const months = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
 
-    //set the month name in the calendar header
-    document.getElementById("month_name").querySelector("h2").innerText = months[month];
-    const calendarGrid = document.getElementById("calendar_grid");
+    //update month name h2 tag in html with the correct month and year
+    document.getElementById("month_name").querySelector("h2").innerText = months[month] + ' ' + year;
 
-    for (let i = 0; i < firstDayOfMonth; i++) {
-        const emptyCell = document.createElement("p");
-        calendarGrid.appendChild(emptyCell);  //add empty cell before the 1st day
+    //clear previous calendar by redefining the calendarGrid for a new one
+    const calendarGrid = document.getElementById('calendar_grid');
+    //fixed display of all the days of the week
+    calendarGrid.innerHTML = '<p>Sunday</p><p>Monday</p><p>Tuesday</p><p>Wednesday</p><p>Thursday</p><p>Friday</p><p>Saturday</p>';
+
+    for (let i = 0; i < startingDay; i++) {
+        calendarGrid.innerHTML += '<p></p>'; //empty squares for days before the first of the month
     }
 
-    //add the rest of the days of the month to the grid
+    //add all the rest of the days to the calendarGrid
     for (let day = 1; day <= daysInMonth; day++) {
         const dayCell = document.createElement("div");
         dayCell.className = 'day';
@@ -37,20 +36,30 @@ function generateCalendar(newDate) {
         if (day === newDate.getDate()) {
             dayCell.classList.add('highlight'); //highlights the current day
         }
+
+       /*
+       events.forEach(event => {
+            //extract the day from the event's date_of_event string
+            const eventDate = new Date(event.day_of_event);
+            const eventDay = eventDate.getDate();
+            if (eventDay === day) {
+             // display
+            }
+        })
+        */
     }
 }
 
 function nextMonth() {
-    const currentDate = new Date;
-
     currentDate.setMonth(currentDate.getMonth() + 1); //increases the value of month (0-11)
-    generateCalendar(currentDate)
+    generateCalendar(currentDate);
 }
 
 function prevMonth() {
-    const currentDate = new Date;
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    generateCalendar(currentDate)
+    currentDate.setMonth(currentDate.getMonth() - 1); //decreases the value of month (0-11)
+    generateCalendar(currentDate);
 }
 
-
+window.onload = function() {
+    generateCalendar(currentDate);
+}
