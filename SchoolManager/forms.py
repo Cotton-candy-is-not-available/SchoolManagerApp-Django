@@ -26,5 +26,11 @@ class LoginForm(AuthenticationForm):
 class EventForm(forms.ModelForm):
         class Meta:
             model = Event
-            fields = ['event_name','description']
+            # Makes the little box with dates appear
+            widgets = {
+            'date_of_event': forms.DateInput(format=('%m/%d/%Y'),
+                                                 attrs={'class': 'form-control', 'placeholder': 'Select a date',
+                                                        'type': 'date'}),
+            }
+            fields = '__all__'
 

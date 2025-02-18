@@ -50,3 +50,7 @@
     overflow: auto;/*makes it scrollable when too big*/
 
 }
+
+.important_colour{
+    color: #b11d1d;
+}

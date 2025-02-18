@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from .models import Event
 from .forms import EventForm
 
+
 # global variables for next and prev buttons in weekly schedule
 increase = 0
 decrease = 0
@@ -92,7 +93,6 @@ def addEvent(request):
             #set the date retrieved date_of_event to the form
             event_instance = event_form.save(commit=False)
             event_instance.date_of_event = date_of_event  # Set the date
-
             event_instance.save()
             print("New event")
             return redirect('weekly_schedule')
@@ -101,7 +101,7 @@ def addEvent(request):
 
     else:
         event_form = EventForm()  #for GET request, show the form
-        return render(request, 'event-form.html', {'event_form': event_form})
+        return render(request, 'weekly_schedule.html', {'event_form': event_form})
 
 
 
@@ -121,6 +121,8 @@ def weekly_schedule(request):
     global decrease, increase
     increase = 0
     decrease = 0
+    event = Event.objects.all()
+    event_form = EventForm(request.POST)
 
     weekDay = datetime.today()#gets today's date
     weekDay2 = datetime.today() + timedelta(days=1)#gets the day after
@@ -131,7 +133,8 @@ def weekly_schedule(request):
     day3_events = Event.objects.filter(date_of_event__day=weekDay3.day, date_of_event__month=weekDay3.month)
 
     context = {'weekDay':weekDay, 'weekDay2':weekDay2, 'weekDay3':weekDay3,
-               'day1_events':day1_events, 'day2_events':day2_events, 'day3_events':day3_events}
+               'day1_events':day1_events, 'day2_events':day2_events, 'day3_events':day3_events
+               , 'event_form':event_form, 'event':event}
     return render(request, 'weekly_schedule.html',context=context )
 
 
