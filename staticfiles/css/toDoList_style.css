@@ -1,8 +1,18 @@
-.row {
-
-}
-
 /*Pop up box styling*/
 .modal-box{
   color: #5faa04;
 }
+
+/*.list-grid{*/
+/*  display: grid;*/
+/*  grid-template-rows: 100px 100px ;*/
+/*  grid-template-columns: 100px 100px 100px ;*/
+/*  background-color: dodgerblue;*/
+/*  padding: 10px;*/
+/*}*/
+/*.list-grid > div {*/
+/*  background-color: #f1f1f1;*/
+/*  border: 1px solid black;*/
+/*  padding: 10px;*/
+/*  text-align: center;*/
+/*}*/

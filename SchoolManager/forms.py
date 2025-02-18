@@ -31,6 +31,6 @@ class CreateListForm(forms.ModelForm):
 class CreateTaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['list','description', 'Important', 'mid_important', 'least_important']
 
 

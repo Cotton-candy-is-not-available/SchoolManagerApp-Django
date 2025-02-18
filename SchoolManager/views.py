@@ -130,3 +130,9 @@ def Todo_list(request):
     context = {'task': task, 'lists': lists, 'listForm': listForm, 'taskForm': taskForm}
     return render(request, 'Todo_list.html', context=context)
 
+def Toggle_task(request, task_id):
+    task = Task.objects.get(pk=task_id)
+    task.completed = not task.completed
+    task.save()
+    return redirect('Todo_list')
+

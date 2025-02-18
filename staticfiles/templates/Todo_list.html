@@ -6,7 +6,8 @@
     <meta charset="utf-8">
 
     <title>To do list</title>
-    <link rel="stylesheet" href="{% static 'css/toDoList_style.css ' %}">{#link to styling#}
+    <link rel="stylesheet" href="{% static 'css/toDoList_style.css ' %}">
+    {#link to styling#}
 
 </head>
 
@@ -16,73 +17,90 @@
 
     {#------------ Create new list -------------------#}
     {# ---- pop up button ------#}
-<button class="btn" onclick="newList.showModal()">New List</button>
+    <button class="btn" onclick="newList.showModal()">New List</button>
 
-   {#--------- Create new task ---------#}
-{# ---- pop up button ------#}
-<button class="btn" onclick="newTask.showModal()">New Task</button>
+    {#--------- Create new task ---------#}
+    {# ---- pop up button ------#}
+    <button class="btn" onclick="newTask.showModal()">New Task</button>
 
     {# ------------ Display list ------------#}
-    <div class="row">
-            {% for TD_list in lists %}
-                <h2><b> {{ TD_list.List_name }} </b></h2>
-                {# ------------ Display tasks for each lists ------------#}
-                {% for Tasks in task %}
-                    {% if Tasks.list.List_name == TD_list.List_name %}
-{#                        <li> {{ Tasks.completed }}</li> if completed = true cross out <s></s>#}
-                        <li> {{ Tasks.description }}</li>
-                    {% endif %}
-                {% endfor %}
+    <div class="list-grid">
+        {% for TD_list in lists %}
+            <div><h2><b> {{ TD_list.List_name }} </b></h2></div>
+            {# ------------ Display tasks for each lists ------------#}
+            {% for Tasks in task %}
+                {% if Tasks.list.List_name == TD_list.List_name %}
+                    <span>
+                       {% if Tasks.completed == True %}
+                           <button onclick="location.href='{% url 'Toggle_task' Tasks.id %}'"
+                                   class="action-link">☑</button>
+
+                           {# If its top priority it turns red #}
+                           {% if Tasks.Important == True %}
+                               <s><span style="color: #b11d1d">{{ Tasks.description }}</span></s>
+                           {% else %}
+                               <s><span>{{ Tasks.description }}</span></s>
+                           {% endif %}
+
+                       {% else %}
+                           <button onclick="location.href='{% url 'Toggle_task' Tasks.id %}'"
+                                   class="action-link">☐</button>
+                           {% if Tasks.Important == True %}
+                               <span style="color: #b11d1d">{{ Tasks.description }}</span>
+                           {% else %}
+                               <span class="task-desc">{{ Tasks.description }}</span>
+
+                           {% endif %}
+
+                       {% endif %}
+                    </span>
+                {% endif %}
             {% endfor %}
+        {% endfor %}
     </div>
 
-{#Delete#}
-{# delete pop up with all tasks#}
-{# click delete button on ones you want to delete#}
-{#or#}
-{# delete pop up with all tasks#}
-{# add the check button in models and make visisble now#}
-{# if the button = true then run delete function#}
 
     {#------------ Create new list -------------------#}
     {#----- pop up --------#}
-<dialog id="newList" class="modal">
-  <div class="modal-box">
-    {# ---- list Form -----  #}
+    <dialog id="newList" class="modal">
+        <div class="modal-box">
+            {# ---- list Form -----  #}
+            <h3>New List</h3>{# Title #}
             <form method="post" action="{% url 'create_list' %}">
-     {% csrf_token %}
-            {{ listForm.as_p }}
-          <input type="submit">
-      </form>
+                {% csrf_token %}
+                {{ listForm.as_p }}
+                <input type="submit">
+            </form>
 
-    <div class="modal-action">
-      <form method="dialog">
-        <button class="btn">Close</button>
-      </form>
-    </div>
-  </div>
-</dialog>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
 
 
-   {#--------- Create new task ---------#}
+    {#--------- Create new task ---------#}
     {#----- pop up --------#}
-<dialog id="newTask" class="modal">
-  <div class="modal-box">
-      <div class ="test">
-    {# ---- task Form -----  #}
-      <form method="post" action="{% url 'create_task' %}">
-     {% csrf_token %}
-            {{ taskForm.as_p }}
-          <input type="submit">
-      </form>
-    <div class="modal-action">
-      <form method="dialog">
-        <button class="btn">Close</button><!-- Close button -->
-      </form>
-    </div>
-    </div>
-  </div>
-</dialog>
+    <dialog id="newTask" class="modal">
+        <div class="modal-box">
+            <div class="test">
+                {# ---- task Form -----  #}
+                <h3>New Task</h3>{# Title #}
+                <form method="post" action="{% url 'create_task' %}">
+                    {% csrf_token %}
+                    {{ taskForm.as_p }}
+                    <input type="submit">
+                </form>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <button class="btn">Close</button><!-- Close button -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </dialog>
 
 
 </div>
