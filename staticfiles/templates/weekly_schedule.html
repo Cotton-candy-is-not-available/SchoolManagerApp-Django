@@ -13,8 +13,7 @@
 <div class="main_content">
     <h1>Weekly Schedule</h1>
 
-    <!-- add new event button -->
-    {# ---- pop up button ------#}
+    <!-- add new event pop up button -->
     <button class="btn" onclick="newEvents.showModal()">Add New Event</button>
 
 
@@ -44,28 +43,28 @@
         {#    Current day events #}
         <div class="day1EventDisplay">
             {% for Events in day1_events %}
-                        <br> <b>{{ Events.event_name }}</b> <br>
-                        <br>{{ Events.description }}<br>
-         {% endfor %}
+                <br> <b>{{ Events.event_name }}</b>
+                <br>{{ Events.description }}
+                {#                <a href="{% url 'deleteEvent' Events.id %}">Delete event</a>#}
+            {% endfor %}
         </div>
 
-{#  Move to to do list tasks    #}
-{#                {% if Events.Important == True %}#}
-                    {#                    most important events#}
-{#                #}
-{#                    <div class="important_colour">#}
-{#                        <br> <b>{{ Events.event_name }}</b> <br>#}
-{#                        <br>{{ Events.description }}<br>#}
-{#                    </div>#}
-{#  Move to to do list tasks        #}
-{#                {% else %}#}
-{#                    <div>#}
-{#                        not that important events#}
-{#                        <br> <b>{{ Events.event_name }}</b> <br>#}
-{#                        <br>{{ Events.description }}<br>#}
-{#                    </div>#}
-{#                {% endif %}#}
-
+        {#  Move to to do list tasks    #}
+        {#                {% if Events.Important == True %}#}
+        {#                    most important events#}
+        {#                #}
+        {#                    <div class="important_colour">#}
+        {#                        <br> <b>{{ Events.event_name }}</b> <br>#}
+        {#                        <br>{{ Events.description }}<br>#}
+        {#                    </div>#}
+        {#  Move to to do list tasks        #}
+        {#                {% else %}#}
+        {#                    <div>#}
+        {#                        not that important events#}
+        {#                        <br> <b>{{ Events.event_name }}</b> <br>#}
+        {#                        <br>{{ Events.description }}<br>#}
+        {#                    </div>#}
+        {#                {% endif %}#}
 
 
         {# Next day events #}
@@ -93,7 +92,7 @@
 <dialog id="newEvents" class="modal">
     <div class="modal-box">
         {# ---- list Form -----  #}
-         <h3 >Add Event</h3> {# Title #}
+        <h3>Add Event</h3> {# Title #}
         <form method="post" action="{% url 'add_event' %}">
             {% csrf_token %}
             {{ event_form.as_p }}
@@ -111,5 +110,4 @@
 
 </body>
 
-<script src="{% static 'javascript/javascript.js' %}" defer></script>
 </html>
