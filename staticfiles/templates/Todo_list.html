@@ -26,7 +26,7 @@
     {# ------------ Display list ------------#}
     <div class="list-grid">
         {% for TD_list in lists %}
-            <div><h2><b> {{ TD_list.List_name }} </b></h2></div>
+            <div><h2><u><b> {{ TD_list.List_name }} </b></u></h2></div>
             {# ------------ Display tasks for each lists ------------#}
             {% for Tasks in task %}
                 {% if Tasks.list.List_name == TD_list.List_name %}
