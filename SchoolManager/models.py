@@ -8,7 +8,6 @@ class Event(models.Model):
     event_name = models.CharField(max_length=100, default= "[Event Name]")#event name
     description = models.TextField()
     date_of_event = models.DateField(null = True, blank = True)
-    del_ete = models.BooleanField(default=False)
 
     # Move to, to do list tasks
     # Important = models.BooleanField(default=False)
