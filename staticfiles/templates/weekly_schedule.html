@@ -45,7 +45,6 @@
             {% for Events in day1_events %}
                 <br> <b>{{ Events.event_name }}</b>
                 <br>{{ Events.description }}
-                {#                <a href="{% url 'deleteEvent' Events.id %}">Delete event</a>#}
             {% endfor %}
         </div>
 

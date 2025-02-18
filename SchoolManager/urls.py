@@ -27,6 +27,7 @@ urlpatterns = [
 
     # ------------ Events ------------#
     path('add_Event/', views.addEvent, name="add_event"),
+    path('viewEvent/<str:pk>', views.viewEvent, name="viewEvent"),
     path('updateEvent/<str:pk>', views.updateEvent, name='updateEvent'),
 
 #delete event from database
