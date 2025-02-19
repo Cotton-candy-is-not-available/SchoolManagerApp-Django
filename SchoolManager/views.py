@@ -21,11 +21,11 @@ def calendar(request):
     #serialize events, converting datetime to string using isoformat
     events_list = list(events.values('id', 'description', 'date_of_event'))
 
-    for event in events_list:
-        event['date_of_event'] = event['date_of_event'].isoformat()  #convert to string for json
+    # for event in events_list:
+    #     event['date_of_event'] = event['date_of_event'].isoformat()  #convert to string for json
 
-    events_json = json.dumps(events_list)
-    return render(request, 'calendar.html', {'events': events, 'events_json': events_json})
+    #events_json = json.dumps(events_list)
+    return render(request, 'calendar.html', {'events': events})
 
 def addEvent(request):
     if request.method == 'POST':

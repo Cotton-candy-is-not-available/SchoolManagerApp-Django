@@ -1,7 +1,10 @@
 let currentDate = new Date; //start from current user's device date
 
 function generateCalendar(newDate) {
-    //retrieve the current newDate and calculate/retrieve all of its information
+    //retrieve all events and their information passed from views json dump
+    //const events = JSON.parse('{{ events_json|escapejs }}');
+
+    //retrieve the current newDate and calculate/retrieve all of its information for the calendar
     const month = newDate.getMonth(); // 0 - 11
     const year = newDate.getFullYear();
     const firstDay = new Date(year, month, 1);
@@ -47,6 +50,7 @@ function generateCalendar(newDate) {
             }
         })
         */
+
     }
 }
 
