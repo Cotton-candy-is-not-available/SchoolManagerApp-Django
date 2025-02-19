@@ -9,14 +9,6 @@ class Event(models.Model):
     description = models.TextField()
     date_of_event = models.DateField(null = True, blank = True)
 
-    # Move to, to do list tasks
-    # Important = models.BooleanField(default=False)
-    # mid_important = models.BooleanField(default=False)
-    # least_important = models.BooleanField(default=False)
-    # each event can be associated to only one calendar
-    # class Meta:
-    #     ordering = ['-Important', '-mid_important', '-least_important']
-
     def __str__(self):
         return f"{self.event_name},  on the {self.date_of_event}"
 

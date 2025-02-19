@@ -131,11 +131,8 @@ def updateEvent(request, pk):
 @login_required
 def deleteEvent(request, pk):
     event = Event.objects.get(id=pk)
-    # if request.method == 'POST':
     event.delete()
-    # return redirect('weekly_schedule')  # can now update on index page and are shown to index
-    context = {'event': event}
-    return render(request, 'weekly_schedule.html', context=context)
+    return redirect('weekly_schedule')
 
 
 # ----------------- weekly_schedule ------------------------
@@ -155,6 +152,7 @@ def weekly_schedule(request):
     increase = 0
     decrease = 0
     event_form = EventForm(request.POST)
+    all_events = Event.objects.filter(user_id=request.user.id)
     weekDay = datetime.today()  # gets today's date
     weekDay2 = datetime.today() + timedelta(days=1)  # gets the day after
     weekDay3 = datetime.today() + timedelta(days=2)  # gets the 3rd day after the first one
@@ -168,7 +166,7 @@ def weekly_schedule(request):
 
     context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3,
                'day1_events': day1_events, 'day2_events': day2_events, 'day3_events': day3_events
-        , 'event_form': event_form}
+        , 'event_form': event_form, 'all_events': all_events}
     return render(request, 'weekly_schedule.html', context=context)
 
 

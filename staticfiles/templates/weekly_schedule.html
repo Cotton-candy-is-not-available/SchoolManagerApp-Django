@@ -16,6 +16,9 @@
     <!-- add new event pop up button -->
     <button class="btn" onclick="newEvents.showModal()">Add New Event</button>
 
+    <!-- Delete event pop up button -->
+    <button class="btn" onclick="deleteEvents.showModal()">Delete Event</button>
+
 
     {# ---------------- Next and previous days ----------------------#}
 
@@ -44,32 +47,14 @@
         <div class="day1EventDisplay">
             {% for Events in day1_events %}
                 <br> <b>{{ Events.event_name }}</b>
-                <br>{{ Events.description }}
+                <br>{{ Events.description }}<br>
             {% endfor %}
         </div>
-
-        {#  Move to to do list tasks    #}
-        {#                {% if Events.Important == True %}#}
-        {#                    most important events#}
-        {#                #}
-        {#                    <div class="important_colour">#}
-        {#                        <br> <b>{{ Events.event_name }}</b> <br>#}
-        {#                        <br>{{ Events.description }}<br>#}
-        {#                    </div>#}
-        {#  Move to to do list tasks        #}
-        {#                {% else %}#}
-        {#                    <div>#}
-        {#                        not that important events#}
-        {#                        <br> <b>{{ Events.event_name }}</b> <br>#}
-        {#                        <br>{{ Events.description }}<br>#}
-        {#                    </div>#}
-        {#                {% endif %}#}
-
 
         {# Next day events #}
         <div class="day2EventDisplay">
             {% for Events in day2_events %}
-                <br> <b>{{ Events.event_name }}</b> <br>
+                <br> <b>{{ Events.event_name }}</b>
                 <br>{{ Events.description }}<br>
             {% endfor %}
         </div>
@@ -78,7 +63,7 @@
         <div class="day3EventDisplay">
 
             {% for Events in day3_events %}
-                <br> <b>{{ Events.event_name }}</b> <br>
+                <br> <b>{{ Events.event_name }}</b>
                 <br>{{ Events.description }}<br>
             {% endfor %}
 
@@ -107,6 +92,44 @@
 </dialog>
 
 
-</body>
+{#------------ Delete event -------------------#}
+{#----- pop up --------#}
+<dialog id="deleteEvents" class="modal">
+    <div class="modal-box">
 
+        {# --------- list Form -----  #}
+        <h3>Delete Event</h3> {# Title #}
+
+        {#        {% for Events in day1_events %}#}
+        {#            <form method="get"  action="{% url 'deleteEvent' Events.id %}">#}
+        {##}
+        {#            <label for="eventName"><input type='checkbox' name='{{ Events.id }}' id='{{ Events.id }}'></input>#}
+        {#             <br> <b>{{ Events.event_name }}</b>#}
+        {#                <br>{{ Events.description }}<br></label>#}
+        {#            <form method="post" action="{% url 'deleteEvent' Events.id %}">#}
+        {#            {% csrf_token %}#}
+        {##}
+        {#        {% endfor %}#}
+        {#        <br>#}
+        {#        <input type="submit">#}
+        {#            </form>#}
+
+
+
+        {% for Events in all_events %}
+            <br>
+            {{ Events.event_name }}
+            <br>{{ Events.description }}<br>
+            <a href="{% url 'deleteEvent' Events.id %}" class="action-link">Delete</a>
+        {% endfor %}
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn">Close</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+
+</body>
 </html>
