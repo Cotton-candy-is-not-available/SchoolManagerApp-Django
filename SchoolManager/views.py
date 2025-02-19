@@ -115,17 +115,19 @@ def viewEvent(request, pk):
 
 
 # Update event
-@login_required
-def updateEvent(request, pk):
-    event = Event.objects.get(id=pk)
-    form = EventForm(instance=event)
-    if request.method == 'POST':
-        form = EventForm(request.POST, instance=event)
-        if form.is_valid():
-            form.save()
-            return redirect('weekly_schedule')
-    context = {'form': form}
-    return render(request, 'weekly_schedule.html', context=context)
+# @login_required
+# def updateEvent(request, pk):
+#     event = Event.objects.get(id=pk)
+#     form = EventForm(instance=event)
+#     if request.method == 'POST':
+#         form = EventForm(request.POST, instance=event)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('weekly_schedule')
+#     context = {'form': form}
+#     return render(request, 'update_event_page.html', context=context)
+
+
 
 
 @login_required
