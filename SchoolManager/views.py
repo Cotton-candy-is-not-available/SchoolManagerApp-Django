@@ -1,7 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.html import escapejs
+from django.forms.models import model_to_dict
 
 from .models import Event
 from .forms import EventForm
@@ -13,19 +14,28 @@ def index(request):
     event_form = EventForm()
     return render(request, 'index.html')
 
+
+def displayEvents(request):
+    events = Event.objects.all()
+    return JsonResponse({"events": list(events.values())})
+
+
+
 def calendar(request):
     #get all events for the current month
     events = Event.objects.all()
+
+    # return JsonResponse({"events": list(queryset.values())})
     #pass all events as json dump to the javascript file
 
-    #serialize events, converting datetime to string using isoformat
-    events_list = list(events.values('id', 'description', 'date_of_event'))
-
-    for event in events_list:
-        event['date_of_event'] = event['date_of_event'].isoformat()  #convert to string for json
-
-    events_json = json.dumps(events_list)
-    return render(request, 'calendar.html', {'events': events, 'events_json': events_json})
+    # serialize events, converting datetime to string using isoformat
+    # events_list = list(events.values('id', 'description', 'date_of_event'))
+    #
+    # for event in events_list:
+    #     event['date_of_event'] = event['date_of_event'].isoformat()  #convert to string for json
+    #
+    # events_json = json.dumps(events_list)
+    return render(request, 'calendar.html', {'events': events})
 
 def addEvent(request):
     if request.method == 'POST':

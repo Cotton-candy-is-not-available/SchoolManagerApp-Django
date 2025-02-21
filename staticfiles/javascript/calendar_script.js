@@ -33,21 +33,38 @@ function generateCalendar(newDate) {
         dayCell.innerText = day.toString();
         calendarGrid.appendChild(dayCell);
 
-        if (day === newDate.getDate()) {
-            dayCell.classList.add('highlight'); //highlights the current day
-        }
+        $(document).ready(function () {
+               setInterval(function () {
+               $.ajax({
+                   type:'GET',
+                   url: "http://127.0.0.1:8000/displayEvents/",//gets display events link so that it can render the data
+                   // startDateObj = datetime.strptime(response.events[key].date_of_event,%d-%m-%y - %H:%M:%S)
+                   success: function (response){
+                   // {#console.log(response)#}
+                       $("#display").empty();
+                       if (day === newDate.getDate()){
+                       dayCell.innerHTML = day.toString() + " "//clears boxes
 
-       /*
-       events.forEach(event => {
-            //extract the day from the event's date_of_event string
-            const eventDate = new Date(event.day_of_event);
-            const eventDay = eventDate.getDate();
-            if (eventDay === day) {
-             // display
-            }
-        })
-        */
+                            dayCell.classList.add('highlight'); //highlights the current day
+
+                           $("#display").empty()
+
+                       for(var key in response.events){//displays all events
+                           var temp = "<li>"+response.events[key].date_of_event+" "+response.events[key].description+"</li>";
+                           dayCell.innerHTML =  dayCell.innerText +"___" +temp
+                           $("#display").append(temp);
+                       }
+
+                   }},
+                   error: function (response){
+                       alert("error")
+                   }
+               });
+               },1000);
+           })
+
     }
+
 }
 
 function nextMonth() {
