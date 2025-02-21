@@ -34,6 +34,8 @@ def register(request):
 
             return redirect('index')
 
+
+
     return render(request, "register.html", {'form': form})
 
 
