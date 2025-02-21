@@ -2,7 +2,6 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.html import escapejs
-from django.forms.models import model_to_dict
 
 from .models import Event
 from .forms import EventForm
@@ -24,8 +23,6 @@ def displayEvents(request):
 def calendar(request):
     #get all events for the current month
     events = Event.objects.all()
-
-    # return JsonResponse({"events": list(queryset.values())})
     #pass all events as json dump to the javascript file
 
     # serialize events, converting datetime to string using isoformat

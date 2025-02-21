@@ -64,7 +64,6 @@ function generateCalendar(newDate) {
            })
 
     }
-
 }
 
 function nextMonth() {
