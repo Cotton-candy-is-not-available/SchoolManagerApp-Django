@@ -8,38 +8,6 @@
     <title>Heeelo world</title>
 </head>
 <body>
-{##}
-{#<ul id = "display-data">#}
-{##}
-{#</ul>#}
-
 
 </body>
 </html>
-{##}
-{#<script>#}
-{##}
-{#    $(document).ready(function () {#}
-{#        setInterval(function () {#}
-{#        $.ajax({#}
-{#            type:'GET',#}
-{#            url: "{% url 'display_events' %}",#}
-{#            success: function (response){#}
-            {#console.log(response)#}
-{#                $("#display-data").empty();#}
-{#                for(var key in response.events){#}
-{#                    var temp = "<li>"+response.events[key].description+"</li>";#}
-{#                    $("#display-data").append(temp);#}
-{#                }#}
-{#            },#}
-{#            error: function (response){#}
-{#                alert("error")#}
-{#            }#}
-{#        });#}
-{#            #}
-{#            #}
-{#        },1000);#}
-{#    })#}
-{##}
-{##}
-{#</script>#}
