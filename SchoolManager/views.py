@@ -88,8 +88,14 @@ def create_task(request):
     context = {'form': form}
     return render(request, 'Todo_list.html', context=context)
 
+#delete Tasks
+def delete_task(request, pk):
+    tasks = Task.objects.get(id=pk)
+    tasks.delete()
+    return redirect('Todo_list')
 
-# ---- List -----
+
+# ------- List --------
 def create_list(request):
     form_ = CreateListForm()
     if request.method == 'POST':
@@ -100,7 +106,6 @@ def create_list(request):
 
     context = {'form_': form_}
     return render(request, 'Todo_list.html', context=context)
-
 
 def update_list_name(request, pk):
     lists = TD_list.objects.get(id=pk)
@@ -114,13 +119,11 @@ def update_list_name(request, pk):
     return render(request, 'Todo_list.html', context=context)
 
 
+#Delete list
 def delete_list(request, pk):
     lists = TD_list.objects.get(id=pk)
-    if request.method == 'POST':
-        lists.delete()
-        return redirect('Todo_list')  # can now update on index page and are shown to index
-    context = {'lists': lists}
-    return render(request, 'Todo_list.html', context=context)
+    lists.delete()
+    return redirect('Todo_list')
 
 
 def Todo_list(request):

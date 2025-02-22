@@ -23,42 +23,51 @@
     {# ---- pop up button ------#}
     <button class="btn" onclick="newTask.showModal()">New Task</button>
 
+    {#--------- Delete list ---------#}
+    <!-- Delete tasks pop up button -->
+    <button class="btn" onclick="deleteLists.showModal()">Delete List</button>
+
+    {#--------- Delete task ---------#}
+    <!-- Delete tasks pop up button -->
+    <button class="btn" onclick="deleteTasks.showModal()">Delete Tasks</button>
+
+
     {# ------------ Display list ------------#}
     <div class="list-grid">
         {% for TD_list in lists %}
-            <div><h2><u><b> {{ TD_list.List_name }} </b></u></h2></div>
+            <div class="list-name"><h2><u><b> {{ TD_list.List_name }} </b></u></h2></div>{# list title #}
+
             {# ------------ Display tasks for each lists ------------#}
             {% for Tasks in task %}
                 {% if Tasks.list.List_name == TD_list.List_name %}
-                    <span>
+                    <ul>
                        {% if Tasks.completed == True %}
                            <button onclick="location.href='{% url 'Toggle_task' Tasks.id %}'"
                                    class="action-link">☑</button>
 
                            {# If its top priority it turns red #}
                            {% if Tasks.Important == True %}
-                               <s><span style="color: #b11d1d">{{ Tasks.description }}</span></s>
+                               <li style="color: #b11d1d"><s>{{ Tasks.description }}</s></li>
                            {% else %}
-                               <s><span>{{ Tasks.description }}</span></s>
+                               <li><s>{{ Tasks.description }}</s></li>
                            {% endif %}
 
                        {% else %}
                            <button onclick="location.href='{% url 'Toggle_task' Tasks.id %}'"
                                    class="action-link">☐</button>
                            {% if Tasks.Important == True %}
-                               <span style="color: #b11d1d">{{ Tasks.description }}</span>
+                               <li style="color: #b11d1d">{{ Tasks.description }}</li>
                            {% else %}
-                               <span class="task-desc">{{ Tasks.description }}</span>
+                               <li class="task-desc">{{ Tasks.description }}</li>
 
                            {% endif %}
 
                        {% endif %}
-                    </span>
+                    </ul>
                 {% endif %}
             {% endfor %}
         {% endfor %}
     </div>
-
 
     {#------------ Create new list -------------------#}
     {#----- pop up --------#}
@@ -103,7 +112,54 @@
     </dialog>
 
 
-</div>
+{#------------ Delete Tasks -------------------#}
+{#----- pop up --------#}
+<dialog id="deleteTasks" class="modal">
+    <div class="modal-box">
 
+        {# --------- Display all tasks -----  #}
+        <h3>Delete Task</h3> {# Title #}
+
+        {% for Tasks in task %}
+            {{ Tasks.description }}<br>
+            <a href="{% url 'delete_task' Tasks.id %}" class="action-link">Delete</a><br><br>
+        {% endfor %}
+        <div class="modal-action">
+            <form method="dialog">
+               <br> <button class="btn">Close</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+
+
+{#------------ Delete Lists -------------------#}
+{#----- pop up --------#}
+<dialog id="deleteLists" class="modal">
+    <div class="modal-box">
+
+        {# --------- Display all Lists -----  #}
+        <h3>Delete List</h3> {# Title #}
+
+        {% for Lists in lists %}
+            <br>{{ Lists.List_name }}<br>
+            <a href="{% url 'delete_list' Lists.id %}" class="action-link">Delete</a><br>
+        {% endfor %}
+        <div class="modal-action">
+            <form method="dialog">
+               <br> <button class="btn">Close</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+
+
+
+
+
+
+</div>
 </body>
 </html>
