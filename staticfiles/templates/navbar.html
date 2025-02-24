@@ -3,7 +3,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Nav Bar</title>
+    <title>School manager</title>
+    <link rel="icon" type="image/x-icon" href="/staticfiles/images/favicon.png">{# Favicon image of  logo #}
     <link rel ="stylesheet" href="{% static 'css/navBar_style.css ' %}">{# link to styling #}
 </head>
 <body>
@@ -12,20 +13,20 @@
 {# Top navigation bar with home and log out#}
 {#Home/calender button#}
     <div class="topNav">
-  <a class href={% url 'index' %}>Home</a>
+  <a href={% url 'calendar' %}>Home</a>
 
 {#Log out link and styles#}
   <div class="topNav-right">
-    <a href="#logout">Log out</a>
+    <a href="{% url 'user_logout' %}">Log out</a>
   </div>
 
 </div>
 
 {# Side navigation bar#}
-  <ul>
-  <li><a class = "active" href="#To do list">To do list</a></li>{# active means that you are on the page #}
-  <li><a href="#Daily schedule">Daily schedule</a></li>
-</ul>
+  <div class="sideNav">
+  <li><a href="#To do list">To do list</a></li>{# active means that you are on the page #}
+  <li><a href={% url 'weekly_schedule' %}>Weekly schedule</a></li>
+</div>
 
 
 </nav>
