@@ -42,11 +42,10 @@ function generateCalendar(newDate) {
                    success: function (response){
                    // {#console.log(response)#}
                        $("#display").empty();
+
                        if (day === newDate.getDate()){
                        dayCell.innerHTML = day.toString() + " "//clears boxes
-
                             dayCell.classList.add('highlight'); //highlights the current day
-
                            $("#display").empty()
 
                        for(var key in response.events){//displays all events
@@ -54,15 +53,13 @@ function generateCalendar(newDate) {
                            dayCell.innerHTML =  dayCell.innerText +"___" +temp
                            $("#display").append(temp);
                        }
-
                    }},
                    error: function (response){
                        alert("error")
                    }
                });
                },1000);
-           })
-
+        })
     }
 }
 

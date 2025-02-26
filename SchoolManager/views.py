@@ -18,11 +18,10 @@ def displayEvents(request):
     events = Event.objects.all()
     return JsonResponse({"events": list(events.values())})
 
-
-
 def calendar(request):
     events = Event.objects.all()
-    return render(request, 'calendar.html', {'events': events})
+    event_form = EventForm(request.POST)
+    return render(request, 'calendar.html', {'events': events, 'event_form': event_form})
 
 def addEvent(request):
     if request.method == 'POST':
@@ -42,4 +41,4 @@ def addEvent(request):
             return HttpResponse("something went wrong with the event form")
     else:
         event_form = EventForm()  #for GET request, show the form
-        return render(request, 'event-form.html', {'event_form': event_form})
+        return render(request, 'calendar.html', {'event_form': event_form})
