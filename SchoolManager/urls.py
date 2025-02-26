@@ -1,5 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
 
@@ -23,6 +26,7 @@ urlpatterns = [
     # --------- LOG OUT ------#
     path('user_logout', views.user_logout, name='user_logout'),
 
+
     # --------- Todo_list: Tasks ------#
     path('create_task', views.create_task, name='create_task'),
     path('toggle/<int:task_id>/', views.Toggle_task, name='Toggle_task'),
@@ -37,4 +41,19 @@ urlpatterns = [
 
     # path('update_list_name/<str:pk>', views.update_list_name, name='update_list_name'),
 
+    # ------------ Events ------------#
+    path('add_Event/', views.addEvent, name="add_event"),
+    path('viewEvent/<str:pk>', views.viewEvent, name="viewEvent"),
+    # path('updateEvent/<str:pk>', views.updateEvent, name='updateEvent'),
+
+    #delete event from database
+    path('deleteEvent/<str:pk>', views.deleteEvent, name='deleteEvent'),
+
+    # --------- WEEKLY SCHEDULE --------#
+    # path('weekly_schedule/<int:more_>', views.weekly_schedule, name='weekly_schedule'),
+    path('weekly_schedule/', views.weekly_schedule, name='weekly_schedule'),
+    path('next_/', views.next_, name='next_'),
+    path('prev/', views.prev, name='prev'),
+
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

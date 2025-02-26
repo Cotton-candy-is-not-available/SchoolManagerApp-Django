@@ -12,3 +12,4 @@ Future work
 * You'll need to create one or more django apps
 * You are welcome to review material from BIT2008
 * Alternatively, there's a Django tutorial available here: https://docs.djangoproject.com/en/5.1/intro/tutorial01/
+pip install pythonmonkey

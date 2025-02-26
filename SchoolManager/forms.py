@@ -1,5 +1,3 @@
-#copy and paste this code to Bita's
-
 from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib .auth.models import User
@@ -7,7 +5,12 @@ from django.contrib .auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput
 from django import forms
-from .models import TD_list, Task
+from .models import TD_list, Task, Event
+
+
+from .models import Event
+
+#------------------ Register/login ---------------------------
 
 class CreateUserForm(UserCreationForm):
 
@@ -21,6 +24,7 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(widget=PasswordInput)
 
 
+
 # ------ To do list -----
 class CreateListForm(forms.ModelForm):
     class Meta:
@@ -32,5 +36,17 @@ class CreateTaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['list','description', 'Important', 'mid_important', 'least_important']
+
+#----------------- Events -------------------------
+class EventForm(forms.ModelForm):
+        class Meta:
+            model = Event
+            # Makes the little box with dates appear
+            widgets = {
+            'date_of_event': forms.DateInput(format=('%m/%d/%Y'),
+                                                 attrs={'class': 'form-control', 'placeholder': 'Select a date',
+                                                        'type': 'date'}),
+            }
+            fields = '__all__'
 
 
