@@ -151,7 +151,6 @@ def Toggle_task(request, task_id):
     task.save()
     return redirect('Todo_list')
 
-=======
 # -------------------  Events -------------------------
 # Add an event
 @login_required
