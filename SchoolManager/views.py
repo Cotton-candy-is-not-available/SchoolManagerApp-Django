@@ -1,23 +1,23 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
-from .forms import CreateUserForm, LoginForm
-
 from django.contrib.auth.models import auth
 
 from django.contrib.auth import authenticate
 from datetime import datetime, timedelta
-from .models import Event
-from .forms import EventForm
+from .models import Event, TD_list, Task
+from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm
+
 
 # global variables for next and prev buttons in weekly schedule
 increase = 0
 decrease = 0
 
 
+
 def start_page(request):
     return render(request, 'start_page.html')
+
 
 
 @login_required
@@ -46,8 +46,11 @@ def register(request):
 
     return render(request, "register.html", {'form': form})
 
+#     return render(request, "register.html", {'form': form})
+
 
 # -------- log in ------#
+
 
 def log_in(request):
     form = LoginForm()
@@ -82,7 +85,73 @@ def user_logout(request):
 
     return redirect('start_page')
 
+# -------- Todo_list ------------#
+# ----Tasks-----
+def create_task(request):
+    form = CreateTaskForm()
+    if request.method == 'POST':
+        form = CreateTaskForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('Todo_list')
 
+    context = {'form': form}
+    return render(request, 'Todo_list.html', context=context)
+
+#delete Tasks
+def delete_task(request, pk):
+    tasks = Task.objects.get(id=pk)
+    tasks.delete()
+    return redirect('Todo_list')
+
+
+# ------- List --------
+def create_list(request):
+    form_ = CreateListForm()
+    if request.method == 'POST':
+        form_ = CreateListForm(request.POST, request.FILES)
+        if form_.is_valid():
+            form_.save()
+            return redirect('Todo_list')
+
+    context = {'form_': form_}
+    return render(request, 'Todo_list.html', context=context)
+
+def update_list_name(request, pk):
+    lists = TD_list.objects.get(id=pk)
+    form = CreateListForm(instance=lists)
+    if request.method == 'POST':
+        form = CreateListForm(request.POST, instance=lists)
+        if form.is_valid():
+            form.save()
+            return redirect('Todo_list')  # can now update on index page and are shown to index
+    context = {'form': form}
+    return render(request, 'Todo_list.html', context=context)
+
+
+#Delete list
+def delete_list(request, pk):
+    lists = TD_list.objects.get(id=pk)
+    lists.delete()
+    return redirect('Todo_list')
+
+
+def Todo_list(request):
+    lists = TD_list.objects.all()
+    task = Task.objects.all()
+    listForm = CreateListForm()
+    taskForm = CreateTaskForm()
+
+    context = {'task': task, 'lists': lists, 'listForm': listForm, 'taskForm': taskForm}
+    return render(request, 'Todo_list.html', context=context)
+
+def Toggle_task(request, task_id):
+    task = Task.objects.get(pk=task_id)
+    task.completed = not task.completed
+    task.save()
+    return redirect('Todo_list')
+
+=======
 # -------------------  Events -------------------------
 # Add an event
 @login_required
@@ -218,3 +287,4 @@ def prev(request):
                'day1_events': day1_events, 'day2_events': day2_events, 'day3_events': day3_events,
                'event_form': event_form}
     return render(request, 'weekly_schedule.html', context=context)
+

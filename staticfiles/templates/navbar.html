@@ -24,8 +24,9 @@
 
 {# Side navigation bar#}
   <div class="sideNav">
-  <li><a href="#To do list">To do list</a></li>{# active means that you are on the page #}
+  <li><a href="{% url 'Todo_list' %}">To do list</a></li>{# active means that you are on the page #}
   <li><a href={% url 'weekly_schedule' %}>Weekly schedule</a></li>
+
 </div>
 
 
