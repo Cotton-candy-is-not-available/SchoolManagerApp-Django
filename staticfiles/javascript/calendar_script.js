@@ -50,12 +50,21 @@ function generateCalendar(newDate) {
                        }
 
                        for (var key in response.events) { //loop through each event
-                           const eventDate = new Date(Event.date_of_event) //save the date of the event
-                           for(day in daysInMonth) { //loop through each day in the month
-                              if (eventDate.getMonth() === month && eventDate.getFullYear() === year && response.events[key].date_of_event === num.toString(day)) { //check if the date of the event is the same as the day
+                           console.log(key)
+                           console.log(response.events);
+                           const eventDate = new Date(response.events[key].date_of_event) //save the date of the event
+                           console.log("this is the eventDay.getday" + eventDate.getDate())
+                           console.log(eventDate)
+                           console.log(daysInMonth);
+
+                           for(let day = 1; day < daysInMonth; day++) {
+                               console.log("we're looping through days in the month")
+                              if (eventDate.getMonth() === month && eventDate.getFullYear() === year && eventDate.getDate() === day) { //check if the date of the event is the same as the day
+                             // if (eventDate.getDate() === day) { //check if the date of the event is the same as the day
                                    var temp = "<li>" + response.events[key].date_of_event + " " + response.events[key].description + "</li>";
                                    dayCell.innerHTML = dayCell.innerText + "___" + temp
                                    $("#display").append(temp);
+                                   console.log("we're doing something")
                               }
                            }
 
