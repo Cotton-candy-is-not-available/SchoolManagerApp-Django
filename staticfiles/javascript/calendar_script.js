@@ -34,7 +34,6 @@ function generateCalendar(newDate) {
         calendarGrid.appendChild(dayCell);
 
         $(document).ready(function () {
-               setInterval(function () {
                $.ajax({
                    type:'GET',
                    url: "http://127.0.0.1:8000/displayEvents/",//gets display events link so that it can render the data
@@ -64,22 +63,17 @@ function generateCalendar(newDate) {
                                    var temp = "<li>" + response.events[key].date_of_event + " " + response.events[key].description + "</li>";
                                    dayCell.innerHTML = dayCell.innerText + "___" + temp
                                    $("#display").append(temp);
-                                   console.log("we're doing something")
+                                   console.log("on this day" + day)
+                                   console.log("test temp" + temp)
+                                   console.log("we're adding" + response.events[key].description)
                               }
                            }
-
-                           // if (response.events[key].date_of_event === num.toString(day)) {
-                           //     var temp = "<li>" + response.events[key].date_of_event + " " + response.events[key].description + "</li>";
-                           //     dayCell.innerHTML = dayCell.innerText + "___" + temp
-                           //     $("#display").append(temp);
-                           // }
                        }
                    },
                    error: function (response){
                        alert("error")
                    }
                });
-               },1000);
         })
     }
 }
