@@ -47,13 +47,25 @@ function generateCalendar(newDate) {
                        dayCell.innerHTML = day.toString() + " "//clears boxes
                             dayCell.classList.add('highlight'); //highlights the current day
                            $("#display").empty()
-
-                       for(var key in response.events){//displays all events
-                           var temp = "<li>"+response.events[key].date_of_event+" "+response.events[key].description+"</li>";
-                           dayCell.innerHTML =  dayCell.innerText +"___" +temp
-                           $("#display").append(temp);
                        }
-                   }},
+
+                       for (var key in response.events) { //loop through each event
+                           const eventDate = new Date(Event.date_of_event) //save the date of the event
+                           for(day in daysInMonth) { //loop through each day in the month
+                              if (eventDate.getMonth() === month && eventDate.getFullYear() === year && response.events[key].date_of_event === num.toString(day)) { //check if the date of the event is the same as the day
+                                   var temp = "<li>" + response.events[key].date_of_event + " " + response.events[key].description + "</li>";
+                                   dayCell.innerHTML = dayCell.innerText + "___" + temp
+                                   $("#display").append(temp);
+                              }
+                           }
+
+                           // if (response.events[key].date_of_event === num.toString(day)) {
+                           //     var temp = "<li>" + response.events[key].date_of_event + " " + response.events[key].description + "</li>";
+                           //     dayCell.innerHTML = dayCell.innerText + "___" + temp
+                           //     $("#display").append(temp);
+                           // }
+                       }
+                   },
                    error: function (response){
                        alert("error")
                    }
