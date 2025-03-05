@@ -1,4 +1,24 @@
-# django-template
+Bita Khoshnazar : 101299553 
+Stefanii Shevtsova : 101318109,
+Molomey Koffi : 101309961
+Anuoluwapo.Ola-Audu: 101220404, 
+Mariya Neyra Alvarado : 101317539
+
+Description of application:
+This is a web based application designed to help students organise their time, tasks and schedules in a single platform.
+Users can personalise their schedule by adding and removing events from the calendar and see a more detailed view in the weekly schedule. 
+Users also have a to-do list to add tasks such ass assignments or daily chores.
+
+Screenshots of application: 
+
+![Screenshot 2025-03-05 141832.png](../../Screenshots/Screenshot%202025-03-05%20141832.png)
+![Screenshot 2025-03-05 141812.png](../../Screenshots/Screenshot%202025-03-05%20141812.png)
+![Screenshot 2025-03-05 141630.png](../../Screenshots/Screenshot%202025-03-05%20141630.png)
+![Screenshot 2025-03-05 141604.png](../../Screenshots/Screenshot%202025-03-05%20141604.png)
+![Screenshot 2025-03-05 141210.png](../../Screenshots/Screenshot%202025-03-05%20141210.png)
+![Screenshot 2025-03-05 141123.png](../../Screenshots/Screenshot%202025-03-05%20141123.png)
+![Screenshot 2025-03-05 102018.png](../../Screenshots/Screenshot%202025-03-05%20102018.png)
+![Screenshot 2025-03-05 101900.png](../../Screenshots/Screenshot%202025-03-05%20101900.png)
 
 1) Clone this with `git clone`
 2) Open a terminal in the cloned folder
@@ -7,9 +27,5 @@
 5) Run the server with `python manage.py runserver`
 6) See if it works at http://localhost:8000
 
-Future work
 
-* You'll need to create one or more django apps
-* You are welcome to review material from BIT2008
-* Alternatively, there's a Django tutorial available here: https://docs.djangoproject.com/en/5.1/intro/tutorial01/
-pip install pythonmonkey
+
