@@ -10,15 +10,8 @@ Users can personalise their schedule by adding and removing events from the cale
 Users also have a to-do list to add tasks such ass assignments or daily chores.
 
 Screenshots of application: 
+![img.png](img.png)
 
-![Screenshot 2025-03-05 141832.png](../../Screenshots/Screenshot%202025-03-05%20141832.png)
-![Screenshot 2025-03-05 141812.png](../../Screenshots/Screenshot%202025-03-05%20141812.png)
-![Screenshot 2025-03-05 141630.png](../../Screenshots/Screenshot%202025-03-05%20141630.png)
-![Screenshot 2025-03-05 141604.png](../../Screenshots/Screenshot%202025-03-05%20141604.png)
-![Screenshot 2025-03-05 141210.png](../../Screenshots/Screenshot%202025-03-05%20141210.png)
-![Screenshot 2025-03-05 141123.png](../../Screenshots/Screenshot%202025-03-05%20141123.png)
-![Screenshot 2025-03-05 102018.png](../../Screenshots/Screenshot%202025-03-05%20102018.png)
-![Screenshot 2025-03-05 101900.png](../../Screenshots/Screenshot%202025-03-05%20101900.png)
 
 1) Clone this with `git clone`
 2) Open a terminal in the cloned folder
@@ -27,5 +20,5 @@ Screenshots of application:
 5) Run the server with `python manage.py runserver`
 6) See if it works at http://localhost:8000
 
-
+![Screenshot 2025-03-05 102018.png](../../Screenshots/Screenshot%202025-03-05%20102018.png)
 
