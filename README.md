@@ -11,8 +11,8 @@ Users also have a to-do list to add tasks such as assignments or daily chores.
 
 Screenshots of application: 
 ![Screenshot 1](img_1.png)
-![img_5.png](img_5.png)
 ![Screenshot 2](img.png)
+![img_5.png](img_5.png)
 ![img_2.png](img_2.png)
 ![img_3.png](img_3.png)
 ![img_4.png](img_4.png)
