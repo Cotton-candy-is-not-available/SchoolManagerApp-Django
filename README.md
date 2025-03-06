@@ -11,17 +11,11 @@ Users also have a to-do list to add tasks such as assignments or daily chores.
 
 Screenshots of application: 
 ![Screenshot 1](img_1.png)
+![img_5.png](img_5.png)
 ![Screenshot 2](img.png)
 ![img_2.png](img_2.png)
 ![img_3.png](img_3.png)
 ![img_4.png](img_4.png)
+![img_6.png](img_6.png)
 
-1) Clone this with `git clone`
-2) Open a terminal in the cloned folder
-3) Install dependencies with `pip install -r requirements.txt` (on a lab computer, you can use `C:\Users\Public\ANACONDA\python.exe -m pip install requirements.txt`)
-4) Create a file called `.env` in your cloned folder with the value `SECRET_KEY=SOMEVALUE` where `SOMEVALUE` is from this website: https://djecrety.ir/
-5) Run the server with `python manage.py runserver`
-6) See if it works at http://localhost:8000
-
-![Screenshot 2025-03-05 102018.png](../../Screenshots/Screenshot%202025-03-05%20102018.png)
 
