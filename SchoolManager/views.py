@@ -1,19 +1,21 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import auth
 
 from django.contrib.auth import authenticate
 from datetime import datetime, timedelta
 from .models import Event, TD_list, Task
 from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm
+from calendar import HTMLCalendar
+import json
 
-
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.utils.html import escapejs
 # global variables for next and prev buttons in weekly schedule
 increase = 0
 decrease = 0
-
-
 
 def start_page(request):
     return render(request, 'start_page.html')
@@ -22,13 +24,41 @@ def start_page(request):
 
 @login_required
 def index(request):
+    event_form = EventForm()
     events = Event.objects.all()
     return render(request, 'index.html', {'events': events})
 
 
+def displayEvents(request):
+    events = Event.objects.all()
+    return JsonResponse({"events": list(events.values())})
+
+
 @login_required
 def calendar(request):
-    return render(request, 'calendar.html')
+    events = Event.objects.all()
+    event_form = EventForm(request.POST)
+    return render(request, 'calendar.html', {'events': events, 'event_form': event_form})
+
+def addEvent(request):
+    if request.method == 'POST':
+        event_form = EventForm(request.POST)
+
+        if event_form.is_valid():
+            #get the date_of_event from the POST data of the form
+            date_of_event = request.POST.get('date_of_event')
+
+            #set the date retrieved date_of_event to the form
+            event_instance = event_form.save(commit=False)
+            event_instance.date_of_event = date_of_event
+
+            event_instance.save()
+            return redirect('calendar')
+        else:
+            return HttpResponse("something went wrong with the event form")
+    else:
+        event_form = EventForm()  #for GET request, show the form
+        return render(request, 'calendar.html', {'event_form': event_form})
 
 
 # ----- for register page -------#

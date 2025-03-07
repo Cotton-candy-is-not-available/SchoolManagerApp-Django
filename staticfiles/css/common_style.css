@@ -1,0 +1,10 @@
+/*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
+.main_content{
+    margin-left:20%;
+    padding:16px 16px;/* top padding, left side padding*/
+    height:100px;
+
+}
+
+
+

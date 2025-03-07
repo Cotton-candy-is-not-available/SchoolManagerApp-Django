@@ -32,3 +32,15 @@ class Event(models.Model):
     def __str__(self):
         return f"{self.event_name},  on the {self.date_of_event}"
 
+class Calendar(models.Model): #each calendar can have many events associated to it
+    date = models.DateField()
+    day_number = models.IntegerField()
+    text_box = models.TextField(null=True, blank=True)
+#
+# class Event(models.Model):
+#     date_of_event = models.DateField(null = True, blank = True)
+#     description = models.TextField()
+#     #each event can be associated to only one calendar
+#
+#     def __str__(self):
+#         return f"Event on {self.date_of_event}"

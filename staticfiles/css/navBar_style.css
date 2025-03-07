@@ -64,7 +64,6 @@ li a:hover:not(.active) {
 }
 
 /*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
-/* Move to common style .css when fully merged and change to body{*/
 .main_content{
     margin-left:20%;
     padding:16px 16px;/* top padding, left side padding*/
