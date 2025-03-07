@@ -1,0 +1,68 @@
+body {
+    background-color: #F3D1B5;
+}
+
+
+.calendar_box {
+    margin: 20px auto;
+    max-width: 1300px;
+}
+
+/* month title */
+.calendar_box > h2 {
+    font-size: 40px;
+    text-align: center;
+    font-weight: bold;
+    padding: 6px;
+    color: #254B5B;
+}
+
+/*days and numbers*/
+.grid_box {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 10px;
+    border: 3px solid #254B5B;
+    padding: 10px;
+    background-color: #566B72;
+    /*days of the week text*/
+    text-align: center;
+    color: white;
+    font-size: 20px;
+}
+
+/* days of the month */
+.day {
+    padding-bottom: 100px;
+    padding-right: 5px;
+    padding-top: 5px;
+    border: 3px solid #254B5B;
+    text-align: right;
+    background-color: #ADB9BC;
+    color: #254B5B;
+}
+
+.highlight {
+    background-color: #E68E77;
+    border: 3px solid #D05E43;
+    color: #254B5B;
+}
+
+/* buttons */
+button {
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #ADB9BC;
+}
+
+button[type="button"]:hover {
+    background-color: #E68E77;
+}
+
+button[type="submit"]:hover {
+    background-color: #E68E77;
+}

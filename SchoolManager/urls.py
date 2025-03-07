@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from .views import displayEvents
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -55,5 +56,7 @@ urlpatterns = [
     path('next_/', views.next_, name='next_'),
     path('prev/', views.prev, name='prev'),
 
+    # path('event-form/', views.addEvent, name="add_event"),
+    path('displayEvents/', views.displayEvents, name="display_events"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
