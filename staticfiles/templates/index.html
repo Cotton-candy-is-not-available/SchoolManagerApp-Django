@@ -1,3 +1,6 @@
+{% include 'navbar.html' %}
+{#main page#}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,12 +15,21 @@
 
 <body>
 
-    {% include 'navbar.html' %}
+
+
+<div class = "main_content">
+    <h1>Welcome, {{ user.username }} !</h1>{# welcomes user and gets their name #}
 
     <p>HIIIIIII TESTING HELLO WORLD!!!</p>
     <p>molomey was here</p>
     <p> bita was here</p>
 
+{#    {% for Events in events %}#}
+{#        <p> <br> <b>{{ Events.description }} said:<br></b></p>#}
+{#        {% endfor %}#}
+
+
+</div>
 
 </body>
 </html>
