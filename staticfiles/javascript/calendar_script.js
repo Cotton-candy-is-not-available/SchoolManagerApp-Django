@@ -33,6 +33,7 @@ function generateCalendar(newDate) {
         dayCell.setAttribute('data-day', day); //basically creating an attribute of each daycell to contain the event data specific to that day
         dayCell.innerText = day.toString();
         calendarGrid.appendChild(dayCell);
+
     }
 
     $(document).ready(function () {
@@ -45,8 +46,10 @@ function generateCalendar(newDate) {
                for (var key in response.events) { //loop through each event
                    console.log(key)
                    console.log(response.events);
-                   const eventDate = new Date(response.events[key].date_of_event) //save the date of the event
-                   console.log("this is the eventDay.getday" + eventDate.getDate())
+                   //.replace(/-/g, '\/') is so that it displays in the correct days
+                   const eventDate = new Date(response.events[key].date_of_event.replace(/-/g, '\/')) //save the date of the event
+                  //Debugging
+                   console.log("this is the eventDay.getday: " + eventDate.getDate())
                    console.log(eventDate)
                    console.log(daysInMonth);
 
@@ -57,8 +60,9 @@ function generateCalendar(newDate) {
                         const dayCell = document.querySelector(`.day[data-day="${day}"]`);
                         if (dayCell) {
                             //retrieve the event data for that day
-                            const eventHTML = `<li>${response.events[key].date_of_event} - ${response.events[key].description}</li>`;
-                            dayCell.innerHTML += `___${eventHTML}`; //add the event data to the data-day of the daycell
+                            const eventHTML = `<br><li>${response.events[key].event_name} </li>`;//displays name of the event
+                            // const eventHTML = `<br><li>${response.events[key].event_name} - ${response.events[key].description}</li>`;//displays description and name of event
+                            dayCell.innerHTML += `${eventHTML}`; //add the event data to the data-day of the daycell
 
                             //highlight the current day
                             if (day === newDate.getDate()) {

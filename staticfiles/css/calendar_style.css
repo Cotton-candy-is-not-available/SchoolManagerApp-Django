@@ -2,6 +2,15 @@ body {
     background-color: #F3D1B5;
 }
 
+/*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
+.center_calendar{
+    margin-left:15%;
+    padding:16px 16px;/* top padding, left side padding*/
+    height:100px;
+
+}
+
+
 
 .calendar_box {
     margin: 20px auto;
