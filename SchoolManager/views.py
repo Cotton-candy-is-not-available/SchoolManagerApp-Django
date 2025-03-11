@@ -213,19 +213,24 @@ def viewEvent(request, pk):
 
 
 # Update event
-# @login_required
-# def updateEvent(request, pk):
-#     event = Event.objects.get(id=pk)
-#     form = EventForm(instance=event)
-#     if request.method == 'POST':
-#         form = EventForm(request.POST, instance=event)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('weekly_schedule')
-#     context = {'form': form}
-#     return render(request, 'update_event_page.html', context=context)
+@login_required
+def updateEvent(request, pk):
+    all_events = Event.objects.filter(user_id=request.user.id)
+    event = Event.objects.get(id=pk)
+    form = EventForm(instance=event)
+    test = weekly_schedule(request)
+
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('weekly_schedule')
+    context = {'event': event, 'all_events': all_events, 'form': form, 'test': test}
+    return render(request, 'updateEvents.html', context=context)
 
 
+def back_to_weekly(request):
+    return redirect('weekly_schedule')
 
 
 @login_required
@@ -248,9 +253,6 @@ def deleteEvent(request, pk):
 
 @login_required
 def weekly_schedule(request):
-    global decrease, increase
-    increase = 0
-    decrease = 0
     event_form = EventForm(request.POST)
     all_events = Event.objects.filter(user_id=request.user.id)
     weekDay = datetime.today()  # gets today's date
@@ -316,4 +318,3 @@ def prev(request):
                'day1_events': day1_events, 'day2_events': day2_events, 'day3_events': day3_events,
                'event_form': event_form}
     return render(request, 'weekly_schedule.html', context=context)
-
