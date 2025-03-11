@@ -217,15 +217,30 @@ def viewEvent(request, pk):
 def updateEvent(request, pk):
     all_events = Event.objects.filter(user_id=request.user.id)
     event = Event.objects.get(id=pk)
-    form = EventForm(instance=event)
-    test = weekly_schedule(request)
+    event_form = EventForm(instance=event)
+    # test = weekly_schedule(request)
 
     if request.method == 'POST':
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
             form.save()
             return redirect('weekly_schedule')
-    context = {'event': event, 'all_events': all_events, 'form': form, 'test': test}
+
+    # Display events in their coresponding column
+    weekDay = datetime.today()  # gets today's date
+    weekDay2 = datetime.today() + timedelta(days=1)  # gets the day after
+    weekDay3 = datetime.today() + timedelta(days=2)  # gets the 3rd day after the first one
+    # Filters to only get events that are associated with the same days
+    day1_events = Event.objects.filter(date_of_event__day=weekDay.day, date_of_event__month=weekDay.month,
+                                       user_id=request.user.id)
+    day2_events = Event.objects.filter(date_of_event__day=weekDay2.day, date_of_event__month=weekDay2.month,
+                                       user_id=request.user.id)
+    day3_events = Event.objects.filter(date_of_event__day=weekDay3.day, date_of_event__month=weekDay3.month,
+                                       user_id=request.user.id)
+
+    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3,
+               'day1_events': day1_events, 'day2_events': day2_events, 'day3_events': day3_events
+        , 'event_form': event_form, 'all_events': all_events, 'event': event}
     return render(request, 'updateEvents.html', context=context)
 
 
