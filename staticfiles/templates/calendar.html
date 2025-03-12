@@ -28,7 +28,10 @@
     <button type="button" onclick="prevMonth()">Previous Month</button>
     <button type="button" onclick="nextMonth()">Next Month</button>
 
-    <!-- displaying the calendar -->
+    <!-- View more button (will hide/display based on JS)-->
+    <a href="{%url 'weekly_schedule' %}" class="moreButton" id="vmButton">View More</a>
+
+    <!-- Displaying the calendar -->
     <div class="calendar_box" id="month_name">
         <h2 id="current_month"></h2>
         <div class="grid_box" id="calendar_grid">

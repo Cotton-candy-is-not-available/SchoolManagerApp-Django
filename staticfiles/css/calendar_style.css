@@ -3,7 +3,7 @@ body {
 }
 
 /*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
-.center_calendar{
+.center_calendar {
     margin-left:15%;
     padding:16px 16px;/* top padding, left side padding*/
     height:100px;
@@ -73,5 +73,17 @@ button[type="button"]:hover {
 
 button[type="submit"]:hover {
     background-color: #E68E77;
+}
+
+/* view more button */
+.moreButton {
+    color: #254B5B;
+    border-radius: 20px;
+    /*display: none;*/
+}
+
+.moreButton:hover {
+    background-color: #566B72;
+    color: white;
 }
 
