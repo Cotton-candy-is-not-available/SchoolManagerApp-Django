@@ -21,13 +21,6 @@ def start_page(request):
     return render(request, 'start_page.html')
 
 
-
-@login_required
-def index(request):
-    event_form = EventForm()
-    events = Event.objects.all()
-    return render(request, 'index.html', {'events': events})
-
 #Displays event in json format for the calendar
 def displayEvents(request):
     events = Event.objects.all()
@@ -99,7 +92,7 @@ def log_in(request):
             if user is not None:
                 auth.login(request, user)
 
-                return redirect('index')
+                return redirect('calendar')
 
                 # return HttpResponse('Logged in as %s' % user.username)
 

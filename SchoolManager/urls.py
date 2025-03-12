@@ -11,7 +11,6 @@ urlpatterns = [
     path('', views.start_page, name='start_page'),
 
     # ------ HOME PAGE ----#
-    path('index/', views.index, name='index'),
 
     # -------- CALENDAR -------#
 
