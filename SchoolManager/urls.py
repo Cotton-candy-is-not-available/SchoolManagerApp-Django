@@ -57,9 +57,10 @@ urlpatterns = [
     path('next_/', views.next_, name='next_'),
     path('prev/', views.prev, name='prev'),
 
-    # path('event-form/', views.addEvent, name="add_event"),
+#------------ Events displaying in different ways --------------------------
     path('displayEvents/', views.displayEvents, name="display_events"),
 
     path('events_of_the_day/', views.events_of_the_day, name='events_of_the_day'),
+    path('stayOnCurrentPage/', views.stayOnCurrentPage, name='stayOnCurrentPage'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
