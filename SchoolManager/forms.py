@@ -47,6 +47,6 @@ class EventForm(forms.ModelForm):
                                                  attrs={'class': 'form-control', 'placeholder': 'Select a date',
                                                         'type': 'date'}),
             }
-            fields = '__all__'
+            fields = ['event_name', 'description', 'date_of_event']
 
 

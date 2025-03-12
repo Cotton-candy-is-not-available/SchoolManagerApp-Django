@@ -16,6 +16,7 @@ class Event(models.Model):
     event_name = models.CharField(max_length=100, default= "[Event Name]")#event name
     description = models.TextField()
     date_of_event = models.DateField(null = True, blank = True)
+    is_completed = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.event_name},  on the {self.date_of_event}"

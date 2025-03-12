@@ -61,7 +61,6 @@ function generateCalendar(newDate) {
                         if (dayCell) {
                             //retrieve the event data for that day
                             const eventHTML = `<br><li>${response.events[key].event_name} </li>`;//displays name of the event
-                            // const eventHTML = `<br><li>${response.events[key].event_name} - ${response.events[key].description}</li>`;//displays description and name of event
                             dayCell.innerHTML += `${eventHTML}`; //add the event data to the data-day of the daycell
 
                             //highlight the current day

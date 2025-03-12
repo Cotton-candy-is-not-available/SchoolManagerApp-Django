@@ -46,6 +46,7 @@ urlpatterns = [
     path('add_Event/', views.addEvent, name="add_event"),
     path('viewEvent/<str:pk>', views.viewEvent, name="viewEvent"),
     # path('updateEvent/<str:pk>', views.updateEvent, name='updateEvent'),
+    path('toggle_event/<int:event_id>/', views.toggle_event, name="toggle_event"),
 
     #delete event from database
     path('deleteEvent/<str:pk>', views.deleteEvent, name='deleteEvent'),

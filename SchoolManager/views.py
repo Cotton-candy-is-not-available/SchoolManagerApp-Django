@@ -211,6 +211,12 @@ def viewEvent(request, pk):
     context = {'event': event}
     return render(request, 'weekly_schedule.html',context=context)
 
+def toggle_event(request, event_id):
+    events = Event.objects.get(pk=event_id)
+    events.is_completed = not events.is_completed
+    events.save()
+    return redirect('weekly_schedule')
+
 
 # Update event
 # @login_required

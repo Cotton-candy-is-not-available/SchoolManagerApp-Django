@@ -10,8 +10,6 @@ body {
 
 }
 
-
-
 .calendar_box {
     margin: 20px auto;
     max-width: 1300px;
@@ -49,6 +47,7 @@ body {
     text-align: right;
     background-color: #ADB9BC;
     color: #254B5B;
+    list-style-type: none;
 }
 
 .highlight {
@@ -75,3 +74,4 @@ button[type="button"]:hover {
 button[type="submit"]:hover {
     background-color: #E68E77;
 }
+
