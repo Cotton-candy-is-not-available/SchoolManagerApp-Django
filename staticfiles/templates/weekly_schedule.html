@@ -50,7 +50,7 @@
         {#------------------  Display events in respective columns -------------------------#}
         {#    Current day events #}
         <div class="day1EventDisplay">
-            {% for Events in day1_events %}
+            {% for Events in display_events.day1_events %}
                 <br> <b>{{ Events.event_name }}</b>
                 <br>{{ Events.description }}<br>
             {% endfor %}
@@ -58,7 +58,7 @@
 
         {# Next day events #}
         <div class="day2EventDisplay">
-            {% for Events in day2_events %}
+            {% for Events in display_events.day2_events %}
                 <br> <b>{{ Events.event_name }}</b>
                 <br>{{ Events.description }}<br>
             {% endfor %}
@@ -67,7 +67,7 @@
         {#  Third day events  #}
         <div class="day3EventDisplay">
 
-            {% for Events in day3_events %}
+            {% for Events in display_events.day3_events %}
                 <br> <b>{{ Events.event_name }}</b>
                 <br>{{ Events.description }}<br>
             {% endfor %}
