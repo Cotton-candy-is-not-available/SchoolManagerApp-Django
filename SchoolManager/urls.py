@@ -11,7 +11,6 @@ urlpatterns = [
     path('', views.start_page, name='start_page'),
 
     # ------ HOME PAGE ----#
-    path('index/', views.index, name='index'),
 
     # -------- CALENDAR -------#
 
@@ -45,18 +44,22 @@ urlpatterns = [
     # ------------ Events ------------#
     path('add_Event/', views.addEvent, name="add_event"),
     path('viewEvent/<str:pk>', views.viewEvent, name="viewEvent"),
-    # path('updateEvent/<str:pk>', views.updateEvent, name='updateEvent'),
+    path('updateEvent/<str:pk>', views.updateEvent, name='updateEvent'),
 
     #delete event from database
     path('deleteEvent/<str:pk>', views.deleteEvent, name='deleteEvent'),
 
     # --------- WEEKLY SCHEDULE --------#
     # path('weekly_schedule/<int:more_>', views.weekly_schedule, name='weekly_schedule'),
+    path('back_to_weekly/', views.back_to_weekly, name='back_to_weekly'),
     path('weekly_schedule/', views.weekly_schedule, name='weekly_schedule'),
     path('next_/', views.next_, name='next_'),
     path('prev/', views.prev, name='prev'),
 
-    # path('event-form/', views.addEvent, name="add_event"),
+#------------ Events displaying in different ways --------------------------
     path('displayEvents/', views.displayEvents, name="display_events"),
+
+    path('events_of_the_day/', views.events_of_the_day, name='events_of_the_day'),
+    path('stayOnCurrentPage/', views.stayOnCurrentPage, name='stayOnCurrentPage'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,15 +5,14 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Weekly schedule</title>
+    <title>Update event</title>
     <link rel="stylesheet" href="{% static 'css/weeklySchedule_style.css ' %}">
     {# link to styling #}
 </head>
 <body>
 <div class="main_content">
     <h1>Weekly Schedule</h1>
-
-    <!-- add new event pop up button -->
+ <!-- add new event pop up button -->
     <button class="btn" onclick="newEvents.showModal()">Add New Event</button>
 
     <!-- Delete event pop up button -->
@@ -21,8 +20,6 @@
 
  <!-- Update event pop up button -->
     <button class="btn" onclick="updateEvents.showModal()">Update Event</button>
-
-
 
 
     {# ---------------- Next and previous days ----------------------#}
@@ -50,7 +47,7 @@
         {#------------------  Display events in respective columns -------------------------#}
         {#    Current day events #}
         <div class="day1EventDisplay">
-            {% for Events in display_events.day1_events %}
+            {% for Events in day1_events %}
                 <br> <b>{{ Events.event_name }}</b>
                 <br>{{ Events.description }}<br>
             {% endfor %}
@@ -58,7 +55,7 @@
 
         {# Next day events #}
         <div class="day2EventDisplay">
-            {% for Events in display_events.day2_events %}
+            {% for Events in day2_events %}
                 <br> <b>{{ Events.event_name }}</b>
                 <br>{{ Events.description }}<br>
             {% endfor %}
@@ -67,7 +64,7 @@
         {#  Third day events  #}
         <div class="day3EventDisplay">
 
-            {% for Events in display_events.day3_events %}
+            {% for Events in day3_events %}
                 <br> <b>{{ Events.event_name }}</b>
                 <br>{{ Events.description }}<br>
             {% endfor %}
@@ -76,72 +73,30 @@
     </div>
 </div>
 
-{#------------ Add new event -------------------#}
-{#----- pop up --------#}
-<dialog id="newEvents" class="modal">
-    <div class="modal-box">
-        {# ---- list Form -----  #}
-        <h3>Add Event</h3> {# Title #}
-        <form method="post" action="{% url 'add_event' %}">
-            {% csrf_token %}
-            {{ event_form.as_p }}
-            <input type="submit">
-        </form>
-
-        <div class="modal-action">
-            <form method="dialog">
-                <button class="btn">Close</button>
-            </form>
-        </div>
-    </div>
-</dialog>
-
 
 {#------------ Update event -------------------#}
 {#----- pop up --------#}
-<dialog id="updateEvents" class="modal">
+<dialog id="updateEvents" class="modal" open = "open">
     <div class="modal-box">
-
-        {# --------- Update Form -----  #}
+        {# ---- Update Form -----  #}
         <h3>Update Event</h3> {# Title #}
-        {% for Events in all_events %}
-            <br>
-            {{ Events.event_name }}
-            <br>{{ Events.description }}<br>
-            <a href="{% url 'updateEvent' Events.id %}" class="action-link">Update</a>
-        {% endfor %}
+        <form method="post" autocomplete="off" >
+    {% csrf_token %}
+    {{ event_form.as_p }}
+    <button type="submit">Update</button>
+</form>
+
         <div class="modal-action">
-            <form method="dialog">
-                <button class="btn">Close</button>
+            <form method="get" action="{% url 'back_to_weekly' %}">
+                <button >Close</button>
             </form>
         </div>
+
     </div>
+
 </dialog>
 
 
-
-
-
-{#------------ Delete event -------------------#}
-{#----- pop up --------#}
-<dialog id="deleteEvents" class="modal">
-    <div class="modal-box">
-
-        {# --------- list Form -----  #}
-        <h3>Delete Event</h3> {# Title #}
-        {% for Events in all_events %}
-            <br>
-            {{ Events.event_name }}
-            <br>{{ Events.description }}<br>
-            <a href="{% url 'deleteEvent' Events.id %}" class="action-link">Delete</a>
-        {% endfor %}
-        <div class="modal-action">
-            <form method="dialog">
-                <button class="btn">Close</button>
-            </form>
-        </div>
-    </div>
-</dialog>
 
 
 </body>
