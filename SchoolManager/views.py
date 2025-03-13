@@ -147,7 +147,7 @@ def update_list_name(request, pk):
         form = CreateListForm(request.POST, instance=lists)
         if form.is_valid():
             form.save()
-            return redirect('Todo_list')  # can now update on index page and are shown to index
+            return redirect('Todo_list')
     context = {'form': form}
     return render(request, 'Todo_list.html', context=context)
 
