@@ -82,7 +82,7 @@
     <div class="modal-box">
         {# ---- list Form -----  #}
         <h3>Add Event</h3> {# Title #}
-        <form method="post" action="{% url 'add_event' %}">
+        <form method="post" action="{% url 'add_event'%}">
             {% csrf_token %}
             {{ event_form.as_p }}
             <input type="submit">
