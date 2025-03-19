@@ -33,7 +33,7 @@ def calendar(request):
     event_form = EventForm(request.POST)
     return render(request, 'calendar.html', {'events': events, 'event_form': event_form})
 
-def addEvent(request):
+def addEvent(request ):
     if request.method == 'POST':
         event_form = EventForm(request.POST)
 
@@ -47,11 +47,12 @@ def addEvent(request):
 
             event_instance.save()
             return redirect('calendar')
+
         else:
             return HttpResponse("something went wrong with the event form")
     else:
         event_form = EventForm()  #for GET request, show the form
-        return render(request, 'calendar.html', {'event_form': event_form})
+        return render(request, 'calendar.html', {'event_form': event_form, 'templateNUM': templateNUM})
 
 
 # ----- for register page -------#
