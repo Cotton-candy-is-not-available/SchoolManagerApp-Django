@@ -263,6 +263,9 @@ def events_of_the_day( request, day1, day2, day3):
 
 @login_required
 def weekly_schedule(request):
+    global increase, decrease
+    increase = 0
+    decrease = 0
     event_form = EventForm(request.POST)
     all_events = Event.objects.filter(user_id=request.user.id)
     weekDay = datetime.today()  # gets today's date

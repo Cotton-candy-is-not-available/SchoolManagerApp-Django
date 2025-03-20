@@ -1,10 +1,29 @@
 
 /*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
-.main_content{
-    margin-left:20%;
-    padding:16px 16px;/* top padding, left side padding*/
-    height:100px;
+/*.main_content{*/
+/*    margin-left:20%;*/
+/*    padding:16px 16px;!* top padding, left side padding*!*/
+/*    height:100px;*/
 
+/*}*/
+
+
+button{
+   padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #ADB9BC;
+}
+
+button[type="button"]:hover {
+    background-color: #E68E77;
+}
+
+button[type="submit"]:hover {
+    background-color: #E68E77;
 }
 
 

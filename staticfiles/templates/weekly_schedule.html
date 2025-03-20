@@ -7,30 +7,31 @@
 
     <title>Weekly schedule</title>
     <link rel="stylesheet" href="{% static 'css/weeklySchedule_style.css ' %}">
-    {# link to styling #}
+    <link rel="stylesheet" href="{% static 'css/common_style.css ' %}">
+    {# links to styling #}
 </head>
 <body>
 <div class="main_content">
     <h1>Weekly Schedule</h1>
 
     <!-- add new event pop up button -->
-    <button class="btn" onclick="newEvents.showModal()">Add New Event</button>
+    <button class="btn" type="button" onclick="newEvents.showModal()">Add New Event</button>
 
-    <!-- Delete event pop up button -->
-    <button class="btn" onclick="deleteEvents.showModal()">Delete Event</button>
-
- <!-- Update event pop up button -->
-    <button class="btn" onclick="updateEvents.showModal()">Update Event</button>
+{#    <!-- Delete event pop up button -->#}
+{#    <button class="btn" type="button" onclick="deleteEvents.showModal()">Delete Event</button>#}
+{##}
+{# <!-- Update event pop up button -->#}
+{#    <button class="btn" type="button" onclick="updateEvents.showModal()">Update Event</button>#}
 
 
 
 
     {# ---------------- Next and previous days ----------------------#}
 
-    <form action="{% url 'next_' %}" method="get">
+    <form class="normalButtonState" action="{% url 'next_' %}" method="get">
         <button type="submit">Next</button>
     </form>
-    <form action="{% url 'prev' %}" method="get">
+    <form class="normalButtonState" action="{% url 'prev' %}" method="get">
         <button type="submit">Previous</button>
     </form>
 
@@ -76,6 +77,30 @@
     </div>
 </div>
 
+
+{# ------------------- Responsive display events -------------------#}
+<div class="responsiveContainer">
+        <div class="responsiveWeekName">
+            <p>{{ weekDay|date:"l d" }}</p>{# day of the week 1#}
+        </div>
+
+{#        ------------------  Display events in respective columns -------------------------#}
+<form class="responsiveButtonState" style="{% url 'prev' %}" method="get">
+        <button type="submit">Previous</button>
+    </form>
+{#            Current day events#}
+        <div class="day1EventDisplayResponsive">
+            {% for Events in display_events.day1_events %}
+                <br> <b>{{ Events.event_name }}</b>
+                <br>{{ Events.description }}<br>
+            {% endfor %}
+        </div>
+    <form class="responsiveButtonState" action="{% url 'next_' %}" method="get">
+        <button type="submit">Next</button>
+    </form>
+</div>
+
+
 {#------------ Add new event -------------------#}
 {#----- pop up --------#}
 <dialog id="newEvents" class="modal">
@@ -85,7 +110,7 @@
         <form method="post" action="{% url 'add_event'%}">
             {% csrf_token %}
             {{ event_form.as_p }}
-            <input type="submit">
+            <button type="submit">Submit</button>
         </form>
 
         <div class="modal-action">

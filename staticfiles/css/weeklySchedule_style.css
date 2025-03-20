@@ -1,57 +1,116 @@
 .container {
     display: grid;
-  grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     row-gap: 20px;
-  column-gap: 100px;
+    column-gap: 100px;
     max-width: 940px;
-     word-wrap: break-word;/*wraps words*/
+    word-wrap: break-word; /*wraps words*/
 
-/*    scrolling*/
+    /*    scrolling*/
     height: 100%;
     grid-template-rows: 50px 400px;
 
 }
 
 .container > div {
-  background-color: #f1f1f1;
-  border: 1px solid black;
-  padding-left: 10px;
-  right: 10px;
-  /*font-size: 30px;*/
-  text-align: center;
+    background-color: #f1f1f1;
+    border: 1px solid black;
+    padding-left: 10px;
+    right: 10px;
+    /*font-size: 30px;*/
+    text-align: center;
 }
 
-.weekName{
-    text-justify: auto ;
-  grid-column: 1/2;
-  grid-row: 1;
+.weekName {
+    text-justify: auto;
+    grid-column: 1/2;
+    grid-row: 1;
 }
 
-.day1EventDisplay{
-     grid-column: 1;/*column start*/
-  grid-row: 2 / 6;/*row start and end*/
-    overflow: auto;/*makes it scrollable when too big*/
+.day1EventDisplay {
+    grid-column: 1; /*column start*/
+    grid-row: 2 / 6; /*row start and end*/
+    overflow: auto; /*makes it scrollable when too big*/
 }
 
 
-.day2EventDisplay{
-     grid-column: 2;/*column start*/
-  grid-row: 2 / 6;/*row start and end*/
-    overflow: auto;/*makes it scrollable when too big*/
-
-}
-
-.day3EventDisplay{
-     grid-column: 3;/*column start*/
-  grid-row: 2 / 6;/*row start and end*/
-    overflow: auto;/*makes it scrollable when too big*/
+.day2EventDisplay {
+    grid-column: 2; /*column start*/
+    grid-row: 2 / 6; /*row start and end*/
+    overflow: auto; /*makes it scrollable when too big*/
 
 }
 
-.important_colour{
+.day3EventDisplay {
+    grid-column: 3; /*column start*/
+    grid-row: 2 / 6; /*row start and end*/
+    overflow: auto; /*makes it scrollable when too big*/
+
+}
+
+.important_colour {
     color: #b11d1d;
 }
 
-.modal{
-    width: 500px;/*change modal/box size*/
+.modal {
+    width: 500px; /*change modal/box size*/
+}
+
+.normalButtonState{
+    display: block;
+}
+.responsiveButtonState{/*hide responsive buttons*/
+    display: none;
+    }
+
+/* ---------------- Responsive weekly schedule ---------------------------*/
+/*Hides and shows nav bars*/
+@media all and (max-width: 1000px) {
+    .container{
+        display: none;
+    }
+    .normalButtonState{
+    display: none;/*hide other button*/
+}
+
+    .responsiveButtonState{/*display responsive buttons*/
+    display: block;
+    grid-row: 2;
+        padding-top: 150px;
+    }
+
+    .responsiveContainer{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    column-gap: 50px;
+        row-gap: 20px;
+        max-width: 300px;
+        word-wrap: break-word; /*wraps words*/
+
+    /*    scrolling*/
+    height: 100%;
+    grid-template-rows: 50px 400px;
+    }
+    .responsiveContainer > div {
+    background-color: #f1f1f1;
+    border: 1px solid black;
+    /*font-size: 30px;*/
+    text-align: center;
+
+}
+.responsiveWeekName {
+    text-justify: auto;
+    grid-column: 2/2;
+    grid-row: 1;
+}
+   .day1EventDisplayResponsive{
+      grid-column: 2; /*column start*/
+    grid-row: 2 / 6; /*row start and end*/
+    overflow: auto; /*makes it scrollable when too big*/
+       width: 250px;
+}
+
+    /*.mobileShow {!* Show responsive hamburger top nav*!*/
+    /*    display: block;*/
+    /*    */
 }

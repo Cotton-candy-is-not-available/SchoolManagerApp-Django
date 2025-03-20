@@ -29,6 +29,7 @@ class TD_list(models.Model):
         return self.List_name
 
 class Task(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True, editable = False)
     list = models.ForeignKey(TD_list, on_delete=models.CASCADE)
     description = models.CharField(max_length=100)
     completed = models.BooleanField(default=False)
