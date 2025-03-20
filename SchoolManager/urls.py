@@ -20,9 +20,10 @@ urlpatterns = [
 
     # -------- PERSONAL JOURNAL -------#
     path('journal/', views.journal, name='journal'),
+    path('viewJournalEntries/', views.viewJournalEntries, name='viewJournalEntries'),
 
     # ------- REGISTER PAGE -------#
-    path('register/', views.register, name='rgitegister'),
+    path('register/', views.register, name='register'),
 
     # -------- lOG IN ---------#
 

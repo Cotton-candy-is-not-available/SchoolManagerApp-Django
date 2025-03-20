@@ -8,6 +8,12 @@ class Calendar(models.Model): #each calendar can have many events associated to 
     day_number = models.IntegerField()
     text_box = models.TextField(null=True, blank=True)
 
+#------ Personal Journal --------------
+class JournalEntry(models.Model):
+    title = models.TextField(max_length= 50)
+    date_of_entry = models.DateField(null = True, blank = True)
+    writing = models.TextField(max_length = 300)
+
 #------ Events --------------
 class Event(models.Model):
     # Start_time = models.DateTimeField(null=True, blank=True)

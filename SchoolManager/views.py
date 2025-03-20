@@ -43,6 +43,11 @@ def calendar(request):
 def journal(request):
     return render(request, 'journal.html')
 
+def viewJournalEntries(request):
+
+
+    return render(request, 'journal.html')
+
 def addEvent(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST)
@@ -75,7 +80,7 @@ def register(request):
         if form.is_valid():
             form.save()
 
-            return redirect('index')
+            return redirect('calendar')
 
     return render(request, "register.html", {'form': form})
 

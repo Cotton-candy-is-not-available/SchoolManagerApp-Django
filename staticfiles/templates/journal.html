@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    {% include 'navbar.html' %}
     <meta charset="UTF-8">
+
     <title>Personal Journal</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/journal_style.css' %}">
+
 </head>
+
 <body>
 
-    <p>hi testing jorunal page</p>
+<!--Centers Content with Navbar-->
+<div class="center_journal">
+
+    <button type="button" class="button"><a href="{% url 'viewJournalEntries' %}">View Your Journal Entries</a></button>
+    <img src="/staticfiles/images/blue_open_notebook.png" alt="notebook background" width = 100%>
 
 
 
 
+
+
+
+
+</div>
 
 </body>
 </html>
