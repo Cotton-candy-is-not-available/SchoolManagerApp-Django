@@ -1,6 +1,5 @@
 let currentDate = new Date; //start from current user's device date
 var numOfEvents = 0; //counter for number of events on a specific day
-var currDayNum = 0; //counter for the number of the day
 
 function generateCalendar(newDate) {
     //retrieve the current newDate and calculate/retrieve all of its information
@@ -55,10 +54,11 @@ function generateCalendar(newDate) {
                         //get the dayCell for the corresponding day
                         const dayCell = document.querySelector(`.day[data-day="${dayNum}"]`);
 
-                        if (dayCell) {
+                        if (dayCell && numOfEvents < 3) {
                             //retrieve the event data for that day
                             const eventHTML = `<li>${response.events[key].event_name}</li>`; //displays name of the event
 
+                            //if numOfEvents in one daycell is less than 3
                             dayCell.innerHTML += `${eventHTML}`; //add the event data to the data-day of the daycell
 
                             //highlight the current day
@@ -71,24 +71,19 @@ function generateCalendar(newDate) {
                           console.log("number of events is:" + numOfEvents + " day number is:" + dayNum);
 
                           if(numOfEvents > 3) { //if the number of events for that specific day is > 3
-                              viewMore(); //toggle the view more button ON
-                              dayCell.innerHTML += `<a href="/weekly_schedule/" className="moreButton" id="vmButton">View More</a>`
-
+                              ShowViewMore(); //toggle the view more button ON
+                              dayCell.innerHTML += `<a href="/weekly_schedule/" id="vmButton" style="color: #254B5B;
+                                                                                                     font-style: italic">View More</a>`
                           }
-                          //if no, keep the view more button toggled OFF
-
-
+                          else {
+                              //if no, keep the view more button toggled OFF
+                              HideViewMore();
+                          }
                       }
                       //if no, take the next event in the database and check again
-
                    }
                    numOfEvents = 0; //reset the event counter for the next day
                }
-
-
-
-
-
 
 
 
@@ -115,8 +110,12 @@ window.onload = function() {
     generateCalendar(currentDate);
 }
 
-function viewMore() {
+function ShowViewMore() {
     var button = document.getElementById("vmButton");
     button.style.display = "block";
-    //button.style.display = "none";
+}
+
+function HideViewMore() {
+    var button = document.getElementById("vmButton");
+    button.style.display = "none";
 }

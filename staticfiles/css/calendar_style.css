@@ -76,14 +76,5 @@ button[type="submit"]:hover {
 }
 
 /* view more button */
-.moreButton {
-    color: #254B5B;
-    border-radius: 20px;
-    /*display: none;*/
-}
-
-.moreButton:hover {
-    background-color: #566B72;
-    color: white;
-}
+/*is styled within line 75 of calendar_script*/
 

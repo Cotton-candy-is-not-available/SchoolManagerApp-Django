@@ -197,12 +197,12 @@ def addEvent(request):
             event_instance.date_of_event = date_of_event
 
             event_instance.save()
-            return redirect('weekly_schedule')
+            return redirect('calendar')
         else:
             return HttpResponse("something went wrong with the event form")
     else:
         event_form = EventForm()  # for GET request, show the form
-        return render(request, 'weekly_schedule.html', {'event_form': event_form})
+        return render(request, 'calendar.html', {'event_form': event_form})
 
 #View event
 @login_required
@@ -210,6 +210,32 @@ def viewEvent(request, pk):
     event = Event.objects.get(id=pk)
     context = {'event': event}
     return render(request, 'weekly_schedule.html',context=context)
+
+def viewMore(request, year, month, day):
+
+    print("viewMore function was run")
+
+    dateCalendar = datetime(year, month, day) #calendar date that is passed to the function
+    dateWeekly = datetime.today() #first date of the weekly
+    global increase, decrease
+
+    diff = abs(dateCalendar.day - dateWeekly.day) #difference between days (only positive)
+
+    if(dateCalendar.day > dateWeekly.day):
+        increase =  diff
+        next_(request)
+        return redirect('next_')
+
+
+    elif(dateCalendar.day < dateWeekly.day):
+        decrease = diff
+        prev(request)
+        return redirect('prev')
+
+    context ={'next_': next_, 'prev': prev, 'increase': increase, 'decrease': decrease}
+
+    return render(request, 'weekly_schedule.html', context=context)
+
 
 def toggle_event(request, event_id):
     events = Event.objects.get(pk=event_id)
@@ -254,9 +280,7 @@ def deleteEvent(request, pk):
 
 @login_required
 def weekly_schedule(request):
-    global decrease, increase
-    increase = 0
-    decrease = 0
+
     event_form = EventForm(request.POST)
     all_events = Event.objects.filter(user_id=request.user.id)
     weekDay = datetime.today()  # gets today's date

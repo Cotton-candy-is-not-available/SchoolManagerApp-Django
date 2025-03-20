@@ -16,6 +16,7 @@ urlpatterns = [
     # -------- CALENDAR -------#
 
     path('calendar/', views.calendar, name='calendar'),
+    path('viewMore/<int:year>/<int:month>/<int:day>/', views.viewMore, name='viewMore'),
 
     # ------- REGISTER PAGE -------#
     path('register/', views.register, name='register'),

@@ -29,7 +29,7 @@
     <button type="button" onclick="nextMonth()">Next Month</button>
 
     <!-- View more button (will hide/display based on JS)-->
-    <a href="{%url 'weekly_schedule' %}" class="moreButton" id="vmButton">View More</a>
+    <a href="{% url 'viewMore' 2025 3 12 %}" id="vmButton">View More</a>
 
     <!-- Displaying the calendar -->
     <div class="calendar_box" id="month_name">
