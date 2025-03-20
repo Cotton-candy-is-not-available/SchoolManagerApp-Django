@@ -40,6 +40,9 @@ def calendar(request):
     event_form = EventForm(request.POST)
     return render(request, 'calendar.html', {'events': events, 'event_form': event_form})
 
+def journal(request):
+    return render(request, 'journal.html')
+
 def addEvent(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST)

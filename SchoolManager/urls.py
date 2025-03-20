@@ -18,6 +18,9 @@ urlpatterns = [
     path('calendar/', views.calendar, name='calendar'),
     path('viewMore/<int:year>/<int:month>/<int:day>/', views.viewMore, name='viewMore'),
 
+    # -------- PERSONAL JOURNAL -------#
+    path('journal/', views.journal, name='journal'),
+
     # ------- REGISTER PAGE -------#
     path('register/', views.register, name='register'),
 
