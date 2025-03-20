@@ -22,7 +22,7 @@ urlpatterns = [
     path('journal/', views.journal, name='journal'),
 
     # ------- REGISTER PAGE -------#
-    path('register/', views.register, name='register'),
+    path('register/', views.register, name='rgitegister'),
 
     # -------- lOG IN ---------#
 
