@@ -23,13 +23,13 @@ def start_page(request):
 
 #Displays event in json format for the calendar
 def displayEvents(request):
-    events = Event.objects.all()
+    events = Event.objects.filter(user_id=request.user.id)
     return JsonResponse({"events": list(events.values())})
 
 
 @login_required
 def calendar(request):
-    events = Event.objects.all()
+    events = Event.objects.filter(user_id=request.user.id)
     event_form = EventForm(request.POST)
     return render(request, 'calendar.html', {'events': events, 'event_form': event_form})
 
@@ -52,7 +52,7 @@ def addEvent(request ):
             return HttpResponse("something went wrong with the event form")
     else:
         event_form = EventForm()  #for GET request, show the form
-        return render(request, 'calendar.html', {'event_form': event_form, 'templateNUM': templateNUM})
+        return render(request, 'calendar.html', {'event_form': event_form})
 
 
 # ----- for register page -------#
@@ -66,7 +66,7 @@ def register(request):
         if form.is_valid():
             form.save()
 
-            return redirect('index')
+            return redirect('calendar')
 
     return render(request, "register.html", {'form': form})
 
@@ -161,8 +161,8 @@ def delete_list(request, pk):
 
 
 def Todo_list(request):
-    lists = TD_list.objects.all()
-    task = Task.objects.all()
+    lists = TD_list.objects.filter(user_id=request.user.id)
+    task = Task.objects.filter(user_id=request.user.id)
     listForm = CreateListForm()
     taskForm = CreateTaskForm()
 
@@ -252,11 +252,11 @@ def deleteEvent(request, pk):
 
 # ----------------- weekly_schedule ------------------------
 #Displays events
-def events_of_the_day( day1, day2, day3):
+def events_of_the_day( request, day1, day2, day3):
     # Filters to only get events that are associated with the same days
-    day1_events = Event.objects.filter(date_of_event__day=day1.day, date_of_event__month=day1.month)
-    day2_events = Event.objects.filter(date_of_event__day=day2.day, date_of_event__month=day2.month)
-    day3_events = Event.objects.filter(date_of_event__day=day3.day, date_of_event__month=day3.month)
+    day1_events = Event.objects.filter(date_of_event__day=day1.day, date_of_event__month=day1.month, user_id=request.user.id)
+    day2_events = Event.objects.filter(date_of_event__day=day2.day, date_of_event__month=day2.month, user_id=request.user.id)
+    day3_events = Event.objects.filter(date_of_event__day=day3.day, date_of_event__month=day3.month, user_id=request.user.id)
 
     context = {'day1_events':day1_events, 'day2_events':day2_events, 'day3_events':day3_events}
     return context
@@ -268,7 +268,7 @@ def weekly_schedule(request):
     weekDay = datetime.today()  # gets today's date
     weekDay2 = datetime.today() + timedelta(days=1)  # gets the day after
     weekDay3 = datetime.today() + timedelta(days=2)  # gets the 3rd day after the first one
-    display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
+    display_events = events_of_the_day(request, weekDay, weekDay2, weekDay3)
     context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
         , 'event_form': event_form, 'all_events': all_events, 'display_events': display_events}
     return render(request, 'weekly_schedule.html', context=context)
@@ -285,7 +285,7 @@ def next_(request):
     weekDay3 = datetime.today() + timedelta(days=2) + timedelta(days=increase)  # gets the 3rd day after the first one
     decrease = increase
     # Filters to only get events that are associated with the same days
-    display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
+    display_events = events_of_the_day(request, weekDay, weekDay2, weekDay3)
 
     context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
         , 'event_form': event_form, 'display_events': display_events}
@@ -303,7 +303,7 @@ def prev(request):
     weekDay3 = datetime.today() + timedelta(days=2) + timedelta(days=decrease)  # gets the 3rd day after the first one
     increase = decrease
     # Filters to only get events that are associated with the same days
-    display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
+    display_events = events_of_the_day(request, weekDay, weekDay2, weekDay3)
 
     context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
         , 'event_form': event_form, 'display_events': display_events}

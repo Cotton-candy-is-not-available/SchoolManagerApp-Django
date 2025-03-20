@@ -10,7 +10,6 @@ urlpatterns = [
     # ------- START PAGE -----#
     path('', views.start_page, name='start_page'),
 
-    # ------ HOME PAGE ----#
 
     # -------- CALENDAR -------#
 
