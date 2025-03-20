@@ -53,7 +53,6 @@ def viewJournalEntries(request):
 def add_entry(request):
     if request.method == 'POST':
         entry_form = EntryForm(request.POST)
-
         if entry_form.is_valid():
             journal_entry = entry_form.save(commit=False) #don't save the form yet
             journal_entry.date_of_entry = datetime.today().date() #get the current date from user's device
@@ -64,7 +63,6 @@ def add_entry(request):
     else:
         entry_form = EntryForm()
         return render(request, 'journal.html', {'entry_form': entry_form})
-
 
 
 def addEvent(request):

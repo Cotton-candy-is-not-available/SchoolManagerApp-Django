@@ -21,9 +21,8 @@
         <img src="/staticfiles/images/blue_open_notebook.png" alt="notebook background" width = 100%>
 
         <!-- Add Journal Entry Form -->
-        <form method="POST">
+        <form action="{% url 'add_entry' %}" method="POST">
             {% csrf_token %}
-{#            {{ entry_form.as_p }}#}
 
             {% for field in entry_form %}
                 <div>
