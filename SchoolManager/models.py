@@ -12,7 +12,7 @@ class Calendar(models.Model): #each calendar can have many events associated to 
 class JournalEntry(models.Model):
     title = models.TextField(max_length= 50)
     date_of_entry = models.DateField(null = True, blank = True)
-    writing = models.TextField(max_length = 300)
+    writing = models.TextField(max_length = 500)
 
 #------ Events --------------
 class Event(models.Model):

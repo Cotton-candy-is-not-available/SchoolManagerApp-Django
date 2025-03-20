@@ -17,7 +17,25 @@
 <div class="center_journal">
 
     <button type="button" class="button"><a href="{% url 'viewJournalEntries' %}">View Your Journal Entries</a></button>
-    <img src="/staticfiles/images/blue_open_notebook.png" alt="notebook background" width = 100%>
+
+        <img src="/staticfiles/images/blue_open_notebook.png" alt="notebook background" width = 100%>
+
+        <!-- Add Journal Entry Form -->
+        <form method="POST">
+            {% csrf_token %}
+{#            {{ entry_form.as_p }}#}
+
+            {% for field in entry_form %}
+                <div>
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <!-- Skip rendering error messages -->
+                </div>
+            {% endfor %}
+
+            <button type="submit">Save Entry</button>
+        </form>
+
 
 
 

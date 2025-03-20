@@ -4,19 +4,16 @@
     padding:16px 16px;/* top padding, left side padding*/
     height:100px;
 }
+
 body {
     background-color: #F3D1B5;
-}
-
-p {
-    font-size: 60px;
 }
 
 a {
     text-decoration: none;
 }
 
-/* buttons */
+/* --------buttons-------- */
 button {
     padding: 10px;
     margin: 10px;
@@ -35,3 +32,22 @@ button[type="submit"]:hover {
     background-color: #E68E77;
 }
 
+/* -------------form styling------------ */
+form {
+    position:absolute;
+    top:20%;
+    left:23%;
+    margin-top: 30px;
+}
+
+form textarea {
+    height: 23px;
+    font-size: 16px;
+    border: none;
+    background-color: transparent;
+    resize: vertical;
+}
+
+form textarea {
+    overflow: hidden; /*hides the scroll bar*/
+}

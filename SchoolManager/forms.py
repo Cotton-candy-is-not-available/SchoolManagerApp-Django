@@ -5,10 +5,10 @@ from django.contrib .auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput
 from django import forms
-from .models import TD_list, Task, Event
-
+from .models import TD_list, Task, Event, JournalEntry
 
 from .models import Event
+
 
 #------------------ Register/login ---------------------------
 
@@ -49,4 +49,9 @@ class EventForm(forms.ModelForm):
             }
             fields = ['event_name', 'description', 'date_of_event']
 
+# -------- Journal Entry Form ------------
+class EntryForm(forms.ModelForm):
+    class Meta:
+        model = JournalEntry
+        fields = ['title', 'writing'] #date will automatically be set to current date
 

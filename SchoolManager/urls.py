@@ -21,12 +21,12 @@ urlpatterns = [
     # -------- PERSONAL JOURNAL -------#
     path('journal/', views.journal, name='journal'),
     path('viewJournalEntries/', views.viewJournalEntries, name='viewJournalEntries'),
+    path('add_entry/', views.add_entry, name='add_entry'),
 
     # ------- REGISTER PAGE -------#
     path('register/', views.register, name='register'),
 
     # -------- lOG IN ---------#
-
     path('login/', views.log_in, name='log_in'),
 
     # --------- LOG OUT ------#

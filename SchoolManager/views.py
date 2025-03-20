@@ -5,8 +5,8 @@ from django.contrib.auth.models import auth
 
 from django.contrib.auth import authenticate
 from datetime import datetime, timedelta
-from .models import Event, TD_list, Task
-from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm
+from .models import Event, TD_list, Task, JournalEntry
+from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm, EntryForm
 from calendar import HTMLCalendar
 import json
 
@@ -41,12 +41,31 @@ def calendar(request):
     return render(request, 'calendar.html', {'events': events, 'event_form': event_form})
 
 def journal(request):
-    return render(request, 'journal.html')
+    entry_form = EntryForm(request.POST)
+
+    return render(request, 'journal.html', {"entry_form": entry_form})
 
 def viewJournalEntries(request):
+    journals = JournalEntry.objects.all()
+
+    return render(request, 'journal.html', {'journals': journals})
+
+def add_entry(request):
+    if request.method == 'POST':
+        entry_form = EntryForm(request.POST)
+
+        if entry_form.is_valid():
+            journal_entry = entry_form.save(commit=False) #don't save the form yet
+            journal_entry.date_of_entry = datetime.today().date() #get the current date from user's device
+            entry_form.save()
+            return redirect('journal')
+        else:
+            return HttpResponse("something went wrong with the event form")
+    else:
+        entry_form = EntryForm()
+        return render(request, 'journal.html', {'entry_form': entry_form})
 
 
-    return render(request, 'journal.html')
 
 def addEvent(request):
     if request.method == 'POST':
