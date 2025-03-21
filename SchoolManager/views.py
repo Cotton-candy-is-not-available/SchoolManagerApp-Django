@@ -135,7 +135,9 @@ def create_logs(request):
     if request.method == 'POST':
         form_ = CreateLogsForm(request.POST, request.FILES)
         if form_.is_valid():
-            form_.save()
+            log = form_.save(commit=False)
+            log.user = request.user
+            log.save()
             return redirect('FutureLogsGoals')
 
     context = {'form_': form_}
@@ -162,9 +164,9 @@ def delete_log(request, pk):
 
 def FutureLogsGoals(request):
     log = Logs.objects.all()
-    # log = Logs.objects.filter(user_id=request.user.id)
-    # goals = Goal.objects.filter(user_id=request.user.id)
-    goals = Goal.objects.all()
+    log = Logs.objects.filter(user_id=request.user.id)
+    goals = Goal.objects.filter(user_id=request.user.id)
+    #goals = Goal.objects.all()
     logForm = CreateLogsForm()
     goalForm = CreateGoalForm()
 
