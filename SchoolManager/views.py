@@ -5,8 +5,8 @@ from django.contrib.auth.models import auth
 
 from django.contrib.auth import authenticate
 from datetime import datetime, timedelta
-from .models import Event, TD_list, Task
-from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm
+from .models import Event, Logs, Goal
+from .forms import CreateUserForm, LoginForm, CreateGoalForm, CreateLogsForm, EventForm
 from calendar import HTMLCalendar
 import json
 
@@ -109,71 +109,73 @@ def user_logout(request):
 
     return redirect('start_page')
 
-# -------- Todo_list ------------#
-# ----Tasks-----
-def create_task(request):
-    form = CreateTaskForm()
+# -------- Future logs and goals ------------#
+# ----Goals-----
+def create_goal(request):
+    form = CreateGoalForm()
     if request.method == 'POST':
-        form = CreateTaskForm(request.POST, request.FILES)
+        form = CreateGoalForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('Todo_list')
+            return redirect('FutureLogsGoals')
 
     context = {'form': form}
-    return render(request, 'Todo_list.html', context=context)
+    return render(request, 'FutureLogs&Goals.html', context=context)
 
-#delete Tasks
-def delete_task(request, pk):
-    tasks = Task.objects.get(id=pk)
-    tasks.delete()
-    return redirect('Todo_list')
+#delete Goals
+def delete_goal(request, pk):
+    goal = Goal.objects.get(id=pk)
+    goal.delete()
+    return redirect('FutureLogsGoals')
 
 
-# ------- List --------
-def create_list(request):
-    form_ = CreateListForm()
+# ------- Logs --------
+def create_logs(request):
+    form_ = CreateLogsForm()
     if request.method == 'POST':
-        form_ = CreateListForm(request.POST, request.FILES)
+        form_ = CreateLogsForm(request.POST, request.FILES)
         if form_.is_valid():
             form_.save()
-            return redirect('Todo_list')
+            return redirect('FutureLogsGoals')
 
     context = {'form_': form_}
-    return render(request, 'Todo_list.html', context=context)
+    return render(request, 'FutureLogs&Goals.html', context=context)
 
-def update_list_name(request, pk):
-    lists = TD_list.objects.get(id=pk)
-    form = CreateListForm(instance=lists)
+def update_log_name(request, pk):
+    log = Logs.objects.get(id=pk)
+    form = CreateLogsForm(instance=log)
     if request.method == 'POST':
-        form = CreateListForm(request.POST, instance=lists)
+        form = CreateLogsForm(request.POST, instance=log)
         if form.is_valid():
             form.save()
-            return redirect('Todo_list')
+            return redirect('FutureLogsGoals')
     context = {'form': form}
-    return render(request, 'Todo_list.html', context=context)
+    return render(request, 'FutureLogs&Goals.html', context=context)
 
 
 #Delete list
-def delete_list(request, pk):
-    lists = TD_list.objects.get(id=pk)
-    lists.delete()
-    return redirect('Todo_list')
+def delete_log(request, pk):
+    log = Logs.objects.get(id=pk)
+    log.delete()
+    return redirect('FutureLogsGoals')
 
 
-def Todo_list(request):
-    lists = TD_list.objects.filter(user_id=request.user.id)
-    task = Task.objects.filter(user_id=request.user.id)
-    listForm = CreateListForm()
-    taskForm = CreateTaskForm()
+def FutureLogsGoals(request):
+    log = Logs.objects.all()
+    # log = Logs.objects.filter(user_id=request.user.id)
+    # goals = Goal.objects.filter(user_id=request.user.id)
+    goals = Goal.objects.all()
+    logForm = CreateLogsForm()
+    goalForm = CreateGoalForm()
 
-    context = {'task': task, 'lists': lists, 'listForm': listForm, 'taskForm': taskForm}
-    return render(request, 'Todo_list.html', context=context)
+    context = {'goals': goals, 'log': log, 'logForm': logForm, 'goalForm': goalForm}
+    return render(request, 'FutureLogs&Goals.html', context=context)
 
-def Toggle_task(request, task_id):
-    task = Task.objects.get(pk=task_id)
-    task.completed = not task.completed
-    task.save()
-    return redirect('Todo_list')
+def Toggle_task(request, goal_id):
+    goals = Goal.objects.get(pk=goal_id)
+    goals.completed = not goals.completed
+    goals.save()
+    return redirect('FutureLogsGoals')
 
 # -------------------  Events -------------------------
 # Add an event

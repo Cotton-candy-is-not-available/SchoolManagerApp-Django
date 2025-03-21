@@ -1,15 +1,14 @@
 
-/*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
-/*.main_content{*/
-/*    margin-left:20%;*/
-/*    padding:16px 16px;!* top padding, left side padding*!*/
-/*    height:100px;*/
+.modal {
+    height: 300px; /*change modal/box size*/
+    width: 300px; /*change modal/box size*/
+    font-size: 16px;
+    overflow: hidden;/*stops scrolling*/
+    /*background-color: #b11d1d;*/
+}
 
-/*}*/
-
-
-button{
-   padding: 10px;
+button {
+    padding: 10px;
     margin: 10px;
     font-size: 16px;
     cursor: pointer;
@@ -26,27 +25,31 @@ button[type="submit"]:hover {
     background-color: #E68E77;
 }
 
+
 @media all and (max-width: 1000px) {
 
-    button{
+    button {
         font-size: 40px;
     }
 
-    h1{
+    h1 {
         font-size: 80px;
     }
 
-
-
+    .modal {
+        width: 800px; /*change modal/box size*/
+        font-size: 40px;
+        /*background-color: #b11d1d;*/
+    }
 }
 
 @media all and (max-width: 800px) {
 
-    button{
+    button {
         font-size: 20px;
     }
 
- h1{
+    h1 {
         font-size: 50px;
     }
 

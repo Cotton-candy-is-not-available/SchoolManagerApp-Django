@@ -1,3 +1,6 @@
+/*Controls size and colours of django forms*/
+
+
 .container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -52,9 +55,6 @@
     color: #b11d1d;
 }
 
-.modal {
-    width: 500px; /*change modal/box size*/
-}
 
 .normalButtonState {
     /*Makes buttons display horizontally*/
@@ -124,6 +124,19 @@
         width: 500px;
         height: 800px;
 
+    }
+
+    .form-control {
+        height: 50px;
+        width: 300px;
+        font-size: 30px;
+    }
+
+    .descriptionForm {
+        /*background-color: #b11d1d;*/
+        height: 50px;
+        width: 350px;
+        font-size: 30px;
     }
 
 }

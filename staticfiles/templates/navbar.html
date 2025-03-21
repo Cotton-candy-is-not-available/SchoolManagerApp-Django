@@ -30,8 +30,8 @@
 
         <nav id="mobile_nav" class="mobile_nav hidden">
             <a href={% url 'calendar' %}>Home</a>
-            <a href="{% url 'Todo_list' %}">To do list</a>
             <a href={% url 'weekly_schedule' %}>Weekly schedule</a>
+            <a href="{% url 'FutureLogsGoals' %}">Future Logs & Goals</a>
         </nav>
 
 
@@ -47,8 +47,8 @@
 <nav>
     {# Side navigation bar#}
   <div class="sideNav">
-  <li><a href="{% url 'Todo_list' %}">To do list</a></li>{# active means that you are on the page #}
   <li><a href={% url 'weekly_schedule' %}>Weekly schedule</a></li>
+  <li><a href="{% url 'FutureLogsGoals' %}">Future Logs and Goals</a></li>{# active means that you are on the page #}
 
 </div>
 </nav>

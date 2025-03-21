@@ -27,18 +27,18 @@ urlpatterns = [
 
 
     # --------- Todo_list: Tasks ------#
-    path('create_task', views.create_task, name='create_task'),
-    path('toggle/<int:task_id>/', views.Toggle_task, name='Toggle_task'),
-    # delete task from database
-    path('delete_task/<str:pk>', views.delete_task, name='delete_task'),
+    path('create_goal', views.create_goal, name='create_goal'),
+    path('toggle/<int:goal_id>/', views.Toggle_task, name='Toggle_task'),
+    # delete goal from database
+    path('delete_goal/<str:pk>', views.delete_goal, name='delete_goal'),
 
     # --------- Todo_list ------#
-    path('Todo_list/', views.Todo_list, name='Todo_list'),
-    path('create_list/', views.create_list, name='create_list'),
+    path('FutureLogsGoals/', views.FutureLogsGoals, name='FutureLogsGoals'),
+    path('create_logs/', views.create_logs, name='create_logs'),
     # delete list and all of its tasks from database
-    path('delete_list/<str:pk>', views.delete_list, name='delete_list'),
+    path('delete_log/<str:pk>', views.delete_log, name='delete_log'),
 
-    # path('update_list_name/<str:pk>', views.update_list_name, name='update_list_name'),
+    path('update_log_name/<str:pk>', views.update_log_name, name='update_log_name'),
 
     # ------------ Events ------------#
     path('add_Event/', views.addEvent, name="add_event"),

@@ -3,13 +3,13 @@
   color: #5faa04;
 }
 
-div.list-grid{
+div.log-grid{
   grid-template: "mainA sidebar" "mainB sidebar";
 
 }
 
 
-/*.list-grid > div {*/
+/*.log-grid > div {*/
 /*  background-color: #f1f1f1;*/
 /*  border: 1px solid black;*/
 /*  padding: 10px;*/
@@ -32,7 +32,7 @@ div.list-grid{
 /*}*/
 
 
-/*.list-grid {*/
+/*.log-grid {*/
 /*   display: grid;*/
 /*  grid-template-columns: repeat(3, 1fr);*/
 /*    row-gap: 20px;*/
@@ -46,7 +46,7 @@ div.list-grid{
 
 /*}*/
 
-/*.list-grid > div {*/
+/*.log-grid > div {*/
 /*  background-color: #f1f1f1;*/
 /*  border: 1px solid black;*/
 /*  padding-left: 10px;*/
@@ -55,7 +55,7 @@ div.list-grid{
 /*  text-align: center;*/
 /*}*/
 
-/*.list-name{*/
+/*.log-name{*/
 /*    text-justify: distribute-center-last ;*/
 /*  grid-column: auto;*/
 /*  grid-row: auto;*/
