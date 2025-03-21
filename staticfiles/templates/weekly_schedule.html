@@ -80,13 +80,22 @@
 
 {# ------------------- Responsive display events -------------------#}
 <div class="responsiveContainer">
+
+{#Empty space for container#}
+<span class="emptySpace"> </span>
+
+
+
         <div class="responsiveWeekName">
             <p>{{ weekDay|date:"l d" }}</p>{# day of the week 1#}
         </div>
 
+{#Empty space for container#}
+<span class="emptySpace"> </span>
+
 {#        ------------------  Display events in respective columns -------------------------#}
-<form class="responsiveButtonState" style="{% url 'prev' %}" method="get">
-        <button type="submit">Previous</button>
+<form action="{% url 'prev' %}" method="get">
+        <button class="responsiveButtonState" type="submit"><</button>
     </form>
 {#            Current day events#}
         <div class="day1EventDisplayResponsive">
@@ -95,8 +104,8 @@
                 <br>{{ Events.description }}<br>
             {% endfor %}
         </div>
-    <form class="responsiveButtonState" action="{% url 'next_' %}" method="get">
-        <button type="submit">Next</button>
+    <form  action="{% url 'next_' %}" method="get">
+        <button class="responsiveButtonState" type="submit">></button>
     </form>
 </div>
 

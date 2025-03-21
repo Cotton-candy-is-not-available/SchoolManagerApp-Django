@@ -111,4 +111,9 @@ li a:hover:not(.active) {
     .sideNav {/* Hide side nav*/
         display: none;
     }
+    .main_content{
+        margin-left:1%;
+    padding:00px  10px;/* top padding, left side padding*/
+    height:00px;
+    }
 }
