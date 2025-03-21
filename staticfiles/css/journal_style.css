@@ -1,8 +1,8 @@
 /*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
 .center_journal {
-    margin-left:15%;
-    padding:16px 16px;/* top padding, left side padding*/
-    height:100px;
+    margin-left: 15%;
+    padding: 16px 16px; /* top padding, left side padding*/
+    height: 100px;
 }
 
 body {
@@ -32,15 +32,21 @@ button[type="submit"]:hover {
     background-color: #E68E77;
 }
 
+.container {
+    position: relative;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 60px;
+}
+
 /* -------------form styling------------ */
-form {
-    position:absolute;
-    top:20%;
-    left:23%;
+.form1 > form {
+    position: absolute;
+    top: 20%;
+    left: 23%;
     margin-top: 30px;
 }
 
-form textarea {
+.form1 > form textarea {
     height: 23px;
     font-size: 16px;
     border: none;
@@ -48,6 +54,7 @@ form textarea {
     resize: vertical;
 }
 
-form textarea {
+.form1 > textarea {
     overflow: hidden; /*hides the scroll bar*/
 }
+
