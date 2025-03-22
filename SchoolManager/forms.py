@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput
 from django import forms
 from .models import Logs, Goal, Event
+from operator import itemgetter
 
 #------------------ Register/login ---------------------------
 
@@ -22,17 +23,22 @@ class LoginForm(AuthenticationForm):
 
 
 
-# ------ To do list -----
+# ------ Future Logs form -----
 class CreateLogsForm(forms.ModelForm):
     class Meta:
         model = Logs
         fields = ['Log_name']
 
-# -------- Task form --------
+# -------- Goal form --------
 class CreateGoalForm(forms.ModelForm):
+
+    Importance = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=sorted(Goal.Order, key=itemgetter(0)),
+    )
     class Meta:
         model = Goal
-        fields = ['log','description', 'Important', 'mid_important', 'least_important']
+        fields = ['log','description', 'Importance']
 
 #----------------- Events -------------------------
 class EventForm(forms.ModelForm):

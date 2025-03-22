@@ -44,23 +44,14 @@
                        {% if Goal.completed == True %}
                            <button onclick="location.href='{% url 'Toggle_task' Goal.id %}'"
                                    class="action-link">☑</button>
-
-                           {# If its top priority it turns red #}
-                           {% if Goal.Important == True %}
-                               <li style="color: #b11d1d"><s>{{ Goal.description }}</s></li>
-                           {% else %}
                                <li><s>{{ Goal.description }}</s></li>
-                           {% endif %}
 
                        {% else %}
                            <button onclick="location.href='{% url 'Toggle_task' Goal.id %}'"
                                    class="action-link">☐</button>
-                           {% if Goal.Important == True %}
-                               <li style="color: #b11d1d">{{ Goal.description }}</li>
-                           {% else %}
+
                                <li class="goal-desc">{{ Goal.description }}</li>
 
-                           {% endif %}
 
                        {% endif %}
                     </ul>

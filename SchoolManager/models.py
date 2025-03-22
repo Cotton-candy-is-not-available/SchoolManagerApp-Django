@@ -34,10 +34,15 @@ class Goal(models.Model):
     log = models.ForeignKey(Logs, on_delete=models.CASCADE)
     description = models.CharField(max_length=100)
     completed = models.BooleanField(default=False)
-    Important = models.BooleanField(default=False)
-    mid_important = models.BooleanField(default=False)
-    least_important = models.BooleanField(default=False)
+
+    Order = [
+        ("1", "Very Important"),
+        ("2", "Mildly Important"),
+        ("3", "Least Important"),
+    ]
+    Importance = models.CharField(choices=Order, default="1", max_length=50)
+
     class Meta:
-        ordering = ['-Important', '-mid_important', '-least_important']
+        ordering = ['Importance']
     def __str__(self):
         return self.log.Log_name + ": " + self.description
