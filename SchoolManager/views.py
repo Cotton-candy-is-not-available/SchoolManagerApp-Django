@@ -42,12 +42,10 @@ def calendar(request):
 
 def journal(request):
     entry_form = EntryForm(request.POST)
-
     return render(request, 'journal.html', {"entry_form": entry_form})
 
 def viewJournalEntries(request):
     journals = JournalEntry.objects.all()
-
     return render(request, 'journal.html', {'journals': journals})
 
 def add_entry(request):

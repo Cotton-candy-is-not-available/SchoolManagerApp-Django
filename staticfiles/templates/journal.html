@@ -17,57 +17,63 @@
 <div class="center_journal">
 
     <button type="button" class="button"><a href="{% url 'viewJournalEntries' %}">View Your Journal Entries</a></button>
-
-        <img src="/staticfiles/images/blue_open_notebook.png" alt="notebook background" width = 100%>
+    <img src="/staticfiles/images/blue_open_notebook.png" alt="notebook background" width=100%>
 
     <div class="container">
 
         <!-- Add Journal Entry #1 Form -->
-        <div class="form1">
+        {% if entry_form %} <!-- only displays the form on journal page so that it doesn't appear when viewJournalEntries button is clicked -->
             <form action="{% url 'add_entry' %}" method="POST">
                 {% csrf_token %}
+                {% for field in entry_form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        <!-- Skip rendering error messages -->
+                    </div>
+                {% endfor %}
                 <button type="submit">Save Entry</button>
             </form>
-            {% for field in entry_form %}
-                <div>
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
-                    <!-- Skip rendering error messages -->
-                </div>
-            {% endfor %}
-        </div>
-
+        {% endif %}
 
         <!-- Add Journal Entry #2 Form -->
-        <div class="form2">
+        {% if entry_form %}
             <form action="{% url 'add_entry' %}" method="POST">
                 {% csrf_token %}
+                {% for field in entry_form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        <!-- Skip rendering error messages -->
+                    </div>
+                {% endfor %}
                 <button type="submit">Save Entry</button>
             </form>
-            {% for field in entry_form %}
-                <div>
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
-                    <!-- Skip rendering error messages -->
-                </div>
-            {% endfor %}
-        </div>
-
-
-
+        {% endif %}
 
     </div>
 
-
-
-
-
-
-
-
+    <!-- displaying saved entries in database -->
+    {% if journals %}
+            <button type="button" class="button"><a href="{% url 'calendar' %}">Previous Page</a></button>
+            <button type="button" class="button"><a href="{% url 'calendar' %}">Next Page</a></button>
+        <div class="journal_entries">
+            {% for entry in journals %}
+                {% if forloop.counter <= 2 %} <!-- only displays 2 entries on the page at a time -->
+                    <div class="entry">
+                        <h3>{{ entry.title }}</h3>
+                        <p>{{ entry.date_of_entry }}</p>
+                        <p>{{ entry.writing }}</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
 
 
 </div>
+
+
 
 </body>
 </html>

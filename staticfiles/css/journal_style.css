@@ -5,6 +5,15 @@
     height: 100px;
 }
 
+.container {
+    position: absolute;
+    display: flex;
+    flex-direction: row; /* Stack forms vertically */
+    column-gap: 200px;
+    top: 28%;
+    left: 23%;
+}
+
 body {
     background-color: #F3D1B5;
 }
@@ -32,29 +41,45 @@ button[type="submit"]:hover {
     background-color: #E68E77;
 }
 
-.container {
-    position: relative;
-    grid-template-columns: 1fr 1fr;
-    margin-top: 60px;
-}
 
 /* -------------form styling------------ */
-.form1 > form {
-    position: absolute;
-    top: 20%;
-    left: 23%;
-    margin-top: 30px;
-}
-
-.form1 > form textarea {
+form textarea {
     height: 23px;
     font-size: 16px;
     border: none;
     background-color: transparent;
     resize: vertical;
+    overflow: hidden;
 }
 
-.form1 > textarea {
-    overflow: hidden; /*hides the scroll bar*/
+form input {
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form textarea {
+    overflow: hidden; /* hides the scroll bar */
+}
+
+/* ------------- view more entries styling------------ */
+.journal_entries {
+    position: absolute;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 250%;
+    max-width: 100%;
+    top: 28%;
+    left: 23%;
+}
+
+.entry {
+
 }
 
