@@ -18,14 +18,17 @@
 
     <button type="button" class="button"><a href="{% url 'viewJournalEntries' %}">View Your Journal Entries</a></button>
 
-    <!--previous and next buttons (for pagination pages of journal entries) -->
-    {% if page_obj.has_previous %}
+    <!--if on the 'viewJournalEntries' page, then displays "Back To Journal" button-->
+    {% if request.path == '/viewJournalEntries/' %}  <!-- Adjust the path if necessary -->
         <button type="button" class="button"><a href="{% url 'journal' %}">Back To Journal</a></button>
+    {% endif %}
+
+    <!--previous and next buttons (for pagination pages of journal entries)-->
+    {% if page_obj.has_previous %}
         <button type="button" class="button"><a href="?page={{ page_obj.previous_page_number }}">Previous Page</a></button>
     {% endif %}
 
     {% if page_obj.has_next %}
-        <button type="button" class="button"><a href="{% url 'journal' %}">Back To Journal</a></button>
         <button type="button" class="button"><a href="?page={{ page_obj.next_page_number }}">Next Page</a></button>
     {% endif %}
 
