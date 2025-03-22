@@ -55,7 +55,7 @@ def addEvent(request ):
             return HttpResponse("something went wrong with the event form")
     else:
         event_form = EventForm()  #for GET request, show the form
-        return render(request, 'calendar.html', {'event_form': event_form, 'templateNUM': templateNUM})
+        return render(request, 'calendar.html', {'event_form': event_form})
 
 
 # ----- for register page -------#
@@ -241,11 +241,6 @@ def updateEvent(request, pk):
     # context = {'event': event, 'all_events': all_events, 'event_form': event_form, 'test': test}
     return render(request, 'updateEvents.html', context=context)
 
-
-def back_to_weekly(request):
-    return redirect('weekly_schedule')
-
-
 @login_required
 def deleteEvent(request, pk):
     event = Event.objects.get(id=pk)
@@ -269,6 +264,9 @@ def weekly_schedule(request):
     event_form = EventForm(request.POST)
     all_events = Event.objects.filter(user_id=request.user.id)
     start_date = request.GET.get('date')
+
+    print("Date1: ", start_date)
+
     if start_date:
         weekDay = datetime.strptime(start_date, "%Y-%m-%d")
     else:
@@ -276,6 +274,8 @@ def weekly_schedule(request):
 
     weekDay2 = weekDay + timedelta(days=1)  # gets the day after
     weekDay3 = weekDay + timedelta(days=2)  # gets the 3rd day after the first one
+    print("Date2: ", start_date)
+    print("weekday", weekDay)
 
     display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
     context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
@@ -286,32 +286,15 @@ def weekly_schedule(request):
 # --------- Goes to dext few days ------------------
 @login_required
 def next_(request):
-    start_date = request.GET.get('date')
-
-    # return redirect(reverse('weekly_schedule', weekDay))
-    # return redirect('weekly_schedule', weekDay)
-
-
-
-
+    # weekDay = "2020-01-01" # gets today's date
+    weekDay = datetime.today()+ timedelta(days=1)
+    # return redirect(reverse('weekly_schedule') + '?date'= weekDay)
+    return redirect(reverse('weekly_schedule') + '?date={}'.format(weekDay))
 
 
 # Goes to previous days
 @login_required
 def prev(request):
-    pass
+
     return redirect('weekly_schedule')
 
-@login_required
-def stayOnCurrentPage(request):
-    global increase, decrease
-    event_form = EventForm(request.POST)
-    weekDay = datetime.today() + timedelta(days=increase)  # gets today's date
-    weekDay2 = datetime.today() + timedelta(days=1) + timedelta(days=increase)  # gets the day after
-    weekDay3 = datetime.today() + timedelta(days=2) + timedelta(days=increase)  # gets the 3rd day after the first one
-    # Filters to only get events that are associated with the same days
-    display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
-
-    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
-        , 'event_form': event_form, 'display_events': display_events}
-    return render(request, 'weekly_schedule.html', context=context)
