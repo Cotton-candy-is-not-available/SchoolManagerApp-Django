@@ -10,7 +10,7 @@ from django.urls import reverse
 
 from .models import Event, TD_list, Task
 from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm
-from calendar import HTMLCalendar
+from calendar import HTMLCalendar, weekday
 import json
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -287,7 +287,11 @@ def weekly_schedule(request):
 @login_required
 def next_(request):
     # weekDay = "2020-01-01" # gets today's date
+    # test = weekly_schedule(request)
+
     weekDay = datetime.today()+ timedelta(days=1)
+    # print("test.weekday", test.weekDay)
+
     # return redirect(reverse('weekly_schedule') + '?date'= weekDay)
     return redirect(reverse('weekly_schedule') + '?date={}'.format(weekDay))
 
