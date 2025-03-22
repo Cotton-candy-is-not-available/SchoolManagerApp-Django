@@ -9,9 +9,9 @@
     position: absolute;
     display: flex;
     flex-direction: row; /* Stack forms vertically */
-    column-gap: 200px;
+    gap: 230px;
     top: 28%;
-    left: 23%;
+    left: 22%;
 }
 
 body {
@@ -70,15 +70,13 @@ form textarea {
 
 /* ------------- view more entries styling------------ */
 .journal_entries {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-
+    display: grid;
+    grid-template-columns: 37rem max-content 37rem;
 }
 
 .entry {
-
-
+    max-width: 29rem;
+    padding: 10px;
 }
 
 
