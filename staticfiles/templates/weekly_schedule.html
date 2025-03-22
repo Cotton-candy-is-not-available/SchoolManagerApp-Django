@@ -19,6 +19,9 @@
     <!-- Delete event pop up button -->
     <button class="btn" onclick="deleteEvents.showModal()">Delete Event</button>
 
+ <!-- Update event pop up button -->
+    <button class="btn" onclick="updateEvents.showModal()">Update Event</button>
+
 
     {# ---------------- Next and previous days ----------------------#}
 
@@ -105,7 +108,7 @@
     <div class="modal-box">
         {# ---- list Form -----  #}
         <h3>Add Event</h3> {# Title #}
-        <form method="post" action="{% url 'add_event' %}">
+        <form method="post" action="{% url 'add_event'%}">
             {% csrf_token %}
             {{ event_form.as_p }}
             <input type="submit">
@@ -120,6 +123,27 @@
 </dialog>
 
 
+{#------------ Update event -------------------#}
+{#----- pop up --------#}
+<dialog id="updateEvents" class="modal">
+    <div class="modal-box">
+
+        {# --------- Update Form -----  #}
+        <h3>Update Event</h3> {# Title #}
+        {% for Events in all_events %}
+            <br>
+            {{ Events.event_name }}
+            <br>{{ Events.description }}<br>
+            <a href="{% url 'updateEvent' Events.id %}" class="action-link">Update</a>
+        {% endfor %}
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn">Close</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
 {#------------ Delete event -------------------#}
 {#----- pop up --------#}
 <dialog id="deleteEvents" class="modal">
@@ -127,23 +151,6 @@
 
         {# --------- list Form -----  #}
         <h3>Delete Event</h3> {# Title #}
-
-        {#        {% for Events in day1_events %}#}
-        {#            <form method="get"  action="{% url 'deleteEvent' Events.id %}">#}
-        {##}
-        {#            <label for="eventName"><input type='checkbox' name='{{ Events.id }}' id='{{ Events.id }}'></input>#}
-        {#             <br> <b>{{ Events.event_name }}</b>#}
-        {#                <br>{{ Events.description }}<br></label>#}
-        {#            <form method="post" action="{% url 'deleteEvent' Events.id %}">#}
-        {#            {% csrf_token %}#}
-        {##}
-        {#        {% endfor %}#}
-        {#        <br>#}
-        {#        <input type="submit">#}
-        {#            </form>#}
-
-
-
         {% for Events in all_events %}
             <br>
             {{ Events.event_name }}

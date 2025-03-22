@@ -1,38 +1,14 @@
- .a {
+.a {
             text-decoration: none;
             font-size: 30px;
         }
 
- /*----------------   Home and log out button text ------------*/
- .topNav {
-  overflow: hidden;
-  background-color: #207971;
-     height: 80px;/*height of top nav*/
-}
-/*nav text styling*/
-.topNav a {
- float: left;
-  color: #ffffff;/*white*/
-  text-align: center;
-  padding: 30px 25px;/*text height, text side padding*/
-  text-decoration: none;
-  font-size: 17px;
-}
-
-/*Hover colours*/
-.topNav a:hover {
-  background-color: #93cbec;/*hover colour*/
-  color: #637920;/*regular colour*/
-}
-
-/*move logout to the right*/
-.topNav-right {
-  float: right;
-}
 
 
 /* --------------------------- Side navigation bar ---------------------------------*/
 .sideNav {
+    display: block;
+
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -64,6 +40,7 @@ li a:hover:not(.active) {
 }
 
 /*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
+
 .main_content{
     margin-left:20%;
     padding:16px 16px;/* top padding, left side padding*/
@@ -74,4 +51,63 @@ li a:hover:not(.active) {
 /*body{*/
 /*    overflow-y: hidden;!*makes it not possible to scroll*!*/
 /*    overflow-x: hidden;!*makes it not possible to scroll*!*/
-/*}*/
+
+
+/* Hamburger nav bar*/
+.navdiv {
+    background: #3C5473;
+    padding-right: 15px;
+    padding: 23px;
+}
+.default_nav {
+    display: grid;
+    grid-template-columns: auto auto auto 1fr auto;
+    grid-template-areas: ". . . . contact";
+    align-items: center;
+    justify-content: space-between;
+}
+.default_nav > a {
+    color: #F2F2F2;
+    font-size: 28px;
+    margin-right: 30px;
+    margin-left: 30px;
+    text-decoration: none;
+    font-family: "Cabin Condensed", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+.contact {
+    grid-area: contact;
+}
+
+/*/MOBILE NAVBAR/*/
+.mobile_nav {
+    grid-column: span 2;
+    animation: appear 1s;
+}
+.hidden {
+    display: none;
+}
+.mobile_nav > a {
+    display: block;
+    background: #A8B2BF;
+    padding: 10px;
+}
+.mobileShow {
+    display: none;
+}
+
+
+/*Hides and shows nav bars*/
+@media all and (max-width: 650px) {
+    .mobileHide {/* Hide top nav*/
+        display: none;
+    }
+    .mobileShow {/* Show responsive hamburger top nav*/
+        display: block;
+
+    }
+    .sideNav {/* Hide side nav*/
+        display: none;
+    }
+}
