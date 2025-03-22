@@ -14,9 +14,11 @@
 <div class="main_content">
     <h1>Weekly Schedule</h1>
 
+
+
     <!-- add new event pop up button -->
     <button class="btn" type="button" onclick="newEvents.showModal()">Add New Event</button>
-
+{##}
 {#        <!-- Delete event pop up button -->#}
 {#        <button class="btn" type="button" onclick="deleteEvents.showModal()">Delete Event</button>#}
 {##}
@@ -51,7 +53,7 @@
         <div class="day1EventDisplay">
             {% for Events in display_events.day1_events %}
                 <br> <b>{{ Events.event_name }}</b>
-                <br>{{ Events.description }}<br>
+                <br >{{ Events.description }}<br>
             {% endfor %}
         </div>
 
@@ -95,10 +97,15 @@
         <button class="responsiveButtonState" type="submit"><</button>
     </form>
     {#            Current day events#}
-    <div class="day1EventDisplayResponsive">
+    <div id = "event" class="day1EventDisplayResponsive">
         {% for Events in display_events.day1_events %}
             <br> <b>{{ Events.event_name }}</b>
             <br>{{ Events.description }}<br>
+
+
+
+
+
         {% endfor %}
     </div>
     <form action="{% url 'next_' %}" method="get">
@@ -115,16 +122,14 @@
         <form method="dialog">
         <h3 style="display: inline-block">Add Event</h3> {# Title #}
 
-        <button style="display: inline-block; margin-left: 160px" class="btn">X</button>
+        <button style="display: inline-block;" class="X-button">X</button>
         </form>
-        <form method="post" action="{% url 'add_event' %}">
+        <form method="post" action="{% url 'add_event' %}" >
             {% csrf_token %}
             {{ event_form.as_p }}
                             <button type="submit">Submit</button>
 
         </form>
-
-
     </div>
 </dialog>
 
@@ -172,6 +177,7 @@
     </div>
 </dialog>
 
+    <script src="{% static 'javascript/RighClick_script.js' %}" defer></script>
 
 </body>
 </html>

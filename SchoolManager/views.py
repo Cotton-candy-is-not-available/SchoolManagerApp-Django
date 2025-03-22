@@ -116,7 +116,9 @@ def create_goal(request):
     if request.method == 'POST':
         form = CreateGoalForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            goal = form.save(commit=False)
+            goal.user = request.user
+            goal.save()
             return redirect('FutureLogsGoals')
 
     context = {'form': form}
@@ -163,10 +165,9 @@ def delete_log(request, pk):
 
 
 def FutureLogsGoals(request):
-    log = Logs.objects.all()
     log = Logs.objects.filter(user_id=request.user.id)
     goals = Goal.objects.filter(user_id=request.user.id)
-    #goals = Goal.objects.all()
+
     logForm = CreateLogsForm()
     goalForm = CreateGoalForm()
 
@@ -311,20 +312,6 @@ def prev(request):
     increase = decrease
     # Filters to only get events that are associated with the same days
     display_events = events_of_the_day(request, weekDay, weekDay2, weekDay3)
-
-    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
-        , 'event_form': event_form, 'display_events': display_events}
-    return render(request, 'weekly_schedule.html', context=context)
-
-@login_required
-def stayOnCurrentPage(request):
-    global increase, decrease
-    event_form = EventForm(request.POST)
-    weekDay = datetime.today() + timedelta(days=increase)  # gets today's date
-    weekDay2 = datetime.today() + timedelta(days=1) + timedelta(days=increase)  # gets the day after
-    weekDay3 = datetime.today() + timedelta(days=2) + timedelta(days=increase)  # gets the 3rd day after the first one
-    # Filters to only get events that are associated with the same days
-    display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
 
     context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
         , 'event_form': event_form, 'display_events': display_events}

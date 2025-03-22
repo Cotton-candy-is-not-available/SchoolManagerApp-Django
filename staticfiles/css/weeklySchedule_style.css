@@ -64,6 +64,9 @@
 .responsiveButtonState { /*hide responsive buttons*/
     display: none;
 }
+.X-button {
+    margin-left: 250px
+}
 
 /* ---------------- Responsive weekly schedule ---------------------------*/
 /*Hides and shows nav bars*/
@@ -125,19 +128,9 @@
         height: 800px;
 
     }
-
-    .form-control {
-        height: 50px;
-        width: 300px;
-        font-size: 30px;
-    }
-
-    .descriptionForm {
-        /*background-color: #b11d1d;*/
-        height: 50px;
-        width: 350px;
-        font-size: 30px;
-    }
+.X-button {
+    margin-left: 410px
+}
 
 }
 

@@ -48,5 +48,3 @@ class EventForm(forms.ModelForm):
                 'description': forms.TextInput(attrs = {'class': 'descriptionForm'}),
             }
             fields = '__all__'
-
-
