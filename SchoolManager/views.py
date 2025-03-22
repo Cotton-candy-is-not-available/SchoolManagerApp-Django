@@ -13,6 +13,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.html import escapejs
+from django.core.paginator import Paginator
 # global variables for next and prev buttons in weekly schedule
 increase = 0
 decrease = 0
@@ -45,8 +46,18 @@ def journal(request):
     return render(request, 'journal.html', {"entry_form": entry_form})
 
 def viewJournalEntries(request):
+    # Retrieve all journal entries from the database
     journals = JournalEntry.objects.all()
-    return render(request, 'journal.html', {'journals': journals})
+
+    # Create a Paginator with 2 entries per page
+    paginator = Paginator(journals, 2)  # Show 2 entries per page
+
+    # Get the current page number from the GET parameters (defaults to 1 if not provided)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)  # Get the Page object for the current page
+
+    # Pass the Page object (page_obj) to the template for iteration
+    return render(request, 'journal.html', {'page_obj': page_obj})
 
 def add_entry(request):
     if request.method == 'POST':

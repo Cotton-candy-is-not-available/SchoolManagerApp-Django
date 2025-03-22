@@ -17,6 +17,17 @@
 <div class="center_journal">
 
     <button type="button" class="button"><a href="{% url 'viewJournalEntries' %}">View Your Journal Entries</a></button>
+
+    <!--previous and next buttons (for pagination pages of journal entries) -->
+    {% if page_obj.has_previous %}
+        <button type="button" class="button"><a href="?page={{ page_obj.previous_page_number }}">Previous Page</a>
+        </button>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+        <button type="button" class="button"><a href="?page={{ page_obj.next_page_number }}">Next Page</a></button>
+    {% endif %}
+
     <img src="/staticfiles/images/blue_open_notebook.png" alt="notebook background" width=100%>
 
     <div class="container">
@@ -44,31 +55,28 @@
                     <div>
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                         {{ field }}
-                        <!-- Skip rendering error messages -->
+                        <!-- wont display error messages for unfilled out form fields -->
                     </div>
                 {% endfor %}
                 <button type="submit">Save Entry</button>
             </form>
         {% endif %}
 
-    </div>
-
-    <!-- displaying saved entries in database -->
-    {% if journals %}
-            <button type="button" class="button"><a href="{% url 'calendar' %}">Previous Page</a></button>
-            <button type="button" class="button"><a href="{% url 'calendar' %}">Next Page</a></button>
+        <!--displaying saved journal entries (when "view your entries button" is clicked)-->
         <div class="journal_entries">
-            {% for entry in journals %}
-                {% if forloop.counter <= 2 %} <!-- only displays 2 entries on the page at a time -->
-                    <div class="entry">
+            {% for entry in page_obj %} <!--loop through all the entries in the database-->
+                <div class="entry">
+                    <div>
                         <h3>{{ entry.title }}</h3>
                         <p>{{ entry.date_of_entry }}</p>
                         <p>{{ entry.writing }}</p>
                     </div>
-                {% endif %}
+                </div>
             {% endfor %}
         </div>
-    {% endif %}
+
+
+    </div>
 
 
 </div>

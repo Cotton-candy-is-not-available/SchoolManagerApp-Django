@@ -70,16 +70,15 @@ form textarea {
 
 /* ------------- view more entries styling------------ */
 .journal_entries {
-    position: absolute;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 250%;
-    max-width: 100%;
-    top: 28%;
-    left: 23%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
 }
 
 .entry {
 
+
 }
+
 
