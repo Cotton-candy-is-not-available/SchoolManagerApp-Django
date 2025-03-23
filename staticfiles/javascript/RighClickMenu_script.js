@@ -12,10 +12,6 @@ for (let i = 0; i < day_1Event_Display.length; i++) {
         event.stopPropagation(); //important!!
 
         console.log("before active i: ", i)
-        //
-        // Event_Right_Click_Menu.classList.item(i)
-        // console.log("test i: ", Event_Right_Click_Menu.classList.item(i))
-
 
         Event_Right_Click_Menu.classList.add("active")
         console.log("after active i: ", i)
