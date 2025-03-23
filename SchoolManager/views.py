@@ -140,7 +140,7 @@ def register(request):
             return redirect('index')
 
         else:
-            for error in list(form.errors.valuse()):
+            for error in list(form.errors.values()):
                 messages.error(request, error)
 
 
