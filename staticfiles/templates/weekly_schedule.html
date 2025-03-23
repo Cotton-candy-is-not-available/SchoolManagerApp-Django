@@ -48,7 +48,7 @@
         {#------------------  Display events in respective columns -------------------------#}
         {#    Current day events #}
         <div class="day1EventDisplay">
-            {% for Events in day1_events %}
+            {% for Events in display_events.day1_events %}
                 <!-- checkboxes for the events -->
                 {% if Events.is_completed == True %}
                    <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
@@ -66,7 +66,7 @@
 
         {# Next day events #}
         <div class="day2EventDisplay">
-            {% for Events in day2_events %}
+            {% for Events in display_events.day2_events %}
                 <!-- checkboxes for the events -->
                 {% if Events.is_completed == True %}
                    <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
@@ -84,7 +84,7 @@
 
         {#  Third day events  #}
         <div class="day3EventDisplay">
-            {% for Events in day3_events %}
+            {% for Events in display_events.day3_events %}
                 <!-- checkboxes for the events -->
                 {% if Events.is_completed == True %}
                    <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
