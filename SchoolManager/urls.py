@@ -30,6 +30,8 @@ urlpatterns = [
     # --------- Todo_list: Tasks ------#
     path('create_task', views.create_task, name='create_task'),
     path('toggle/<int:task_id>/', views.Toggle_task, name='Toggle_task'),
+    path('update_goal/<str:pk>', views.update_goal, name='update_goal'),
+
     # delete task from database
     path('delete_task/<str:pk>', views.delete_task, name='delete_task'),
 

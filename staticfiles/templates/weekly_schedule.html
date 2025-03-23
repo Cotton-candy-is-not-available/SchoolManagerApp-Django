@@ -7,6 +7,7 @@
 
     <title>Weekly schedule</title>
     <link rel="stylesheet" href="{% static 'css/weeklySchedule_style.css ' %}">
+    <link rel="stylesheet" href="{% static 'css/common_style.css ' %}">
     {# link to styling #}
 </head>
 <body>
@@ -19,10 +20,8 @@
     <!-- Delete event pop up button -->
     <button class="btn" onclick="deleteEvents.showModal()">Delete Event</button>
 
- <!-- Update event pop up button -->
-    <button class="btn" onclick="updateEvents.showModal()">Update Event</button>
-
-
+    <!-- Update event pop up button -->
+{#    <button class="btn" onclick="updateEvents.showModal()">Update Event</button>#}
 
 
     {# ---------------- Next and previous days ----------------------#}
@@ -49,19 +48,32 @@
 
         {#------------------  Display events in respective columns -------------------------#}
         {#    Current day events #}
-        <div id = "day1EventDisplay" class="day1EventDisplay">
+        <div id="day1EventDisplay" class="day1EventDisplay">
             {% for Events in display_events.day1_events %}
-                <br> <b>{{ Events.event_name }}</b>
+                <br> <b style="display: inline-block">{{ Events.event_name }}</b>{# Buttons to delete and update#}
+
+                {#   Update events#}
+                <form style="display: inline-block" action="{% url 'updateEvent' Events.id %}" method="get">
+                    <button type="submit"><img class="button_image_style" src="/staticfiles/images/edit-Icon.png" alt="Edit button"></button>
+                </form>
+
+                {# Delete Events  #}
+                <form style="display: inline-block" action="{% url 'deleteEvent' Events.id %}" method="get">
+                    <button type="submit"><img class="button_image_style" src="/staticfiles/images/delete-icon.png" alt="Delete button "></button>
+                </form>
+
                 <br>{{ Events.description }}<br>
 
-        <div id="EventRightClickMenu" class="EventRightClickMenu" >
-        <ul>
-            <li><a href="{% url 'updateEvent' Events.id%}">Update</a></li>
-            <li><a href="{% url 'deleteEvent' Events.id%}">Delete</a></li>
-            <li><a href="#">View More</a></li>
 
-        </ul>
-    </div>
+                {#   Right click menu #}
+                <div id="EventRightClickMenu" class="EventRightClickMenu">
+                    <ul>
+                        <li><a href="{% url 'updateEvent' Events.id %}">Edit</a></li>
+                        <li><a href="{% url 'deleteEvent' Events.id %}">Delete</a></li>
+                        <li><a href="#">View More</a></li>
+
+                    </ul>
+                </div>
             {% endfor %}
         </div>
 
@@ -69,6 +81,17 @@
         <div class="day2EventDisplay">
             {% for Events in display_events.day2_events %}
                 <br> <b>{{ Events.event_name }}</b>
+
+                {#   Update events#}
+                <form style="display: inline-block" action="{% url 'updateEvent' Events.id %}" method="get">
+                    <button type="submit"><img class="button_image_style" src="/staticfiles/images/edit-Icon.png" alt="Edit button"></button>
+                </form>
+
+                {# Delete Events  #}
+                <form style="display: inline-block" action="{% url 'deleteEvent' Events.id %}" method="get">
+                    <button type="submit"><img class="button_image_style" src="/staticfiles/images/delete-icon.png" alt="Delete button "></button>
+                </form>
+
                 <br>{{ Events.description }}<br>
             {% endfor %}
         </div>
@@ -78,6 +101,17 @@
 
             {% for Events in display_events.day3_events %}
                 <br> <b>{{ Events.event_name }}</b>
+
+                {#   Update events#}
+                <form style="display: inline-block" action="{% url 'updateEvent' Events.id %}" method="get">
+                    <button type="submit"><img class="button_image_style" src="/staticfiles/images/edit-Icon.png" alt="Edit button"></button>
+                </form>
+
+                {# Delete Events  #}
+                <form style="display: inline-block" action="{% url 'deleteEvent' Events.id %}" method="get">
+                    <button type="submit"><img class="button_image_style" src="/staticfiles/images/delete-icon.png" alt="Delete button "></button>
+                </form>
+
                 <br>{{ Events.description }}<br>
             {% endfor %}
 
@@ -91,7 +125,7 @@
     <div class="modal-box">
         {# ---- list Form -----  #}
         <h3>Add Event</h3> {# Title #}
-        <form method="post" action="{% url 'add_event'%}">
+        <form method="post" action="{% url 'add_event' %}">
             {% csrf_token %}
             {{ event_form.as_p }}
             <input type="submit">
@@ -113,12 +147,11 @@
 
         {# --------- Update Form -----  #}
         <h3>Update Event</h3> {# Title #}
-        {% for Events in all_events %}
-            <br>
-            {{ Events.event_name }}
-            <br>{{ Events.description }}<br>
-            <a href="{% url 'updateEvent' Events.id %}" class="action-link">Update</a>
-        {% endfor %}
+       <form method="post" autocomplete="off" >
+    {% csrf_token %}
+    {{ event_form.as_p }}
+    <button type="submit">Update</button>
+</form>
         <div class="modal-action">
             <form method="dialog">
                 <button class="btn">Close</button>
@@ -126,9 +159,6 @@
         </div>
     </div>
 </dialog>
-
-
-
 
 
 {#------------ Delete event -------------------#}
@@ -152,7 +182,7 @@
     </div>
 </dialog>
 
-    <script src="{% static 'javascript/RighClickMenu_script.js' %}" defer></script>
+<script src="{% static 'javascript/RighClickMenu_script.js' %}" defer></script>
 
 </body>
 </html>

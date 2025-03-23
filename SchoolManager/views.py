@@ -52,7 +52,7 @@ def addEvent(request ):
             return HttpResponse("something went wrong with the event form")
     else:
         event_form = EventForm()  #for GET request, show the form
-        return render(request, 'calendar.html', {'event_form': event_form, 'templateNUM': templateNUM})
+        return render(request, 'calendar.html', {'event_form': event_form})
 
 
 # ----- for register page -------#
@@ -121,6 +121,21 @@ def create_task(request):
 
     context = {'form': form}
     return render(request, 'Todo_list.html', context=context)
+
+# Update tasks
+
+def update_goal(request, pk):
+    goals = Task.objects.get(id=pk)
+    all_goals = Task.objects.get(id=pk)
+    UpdateGoalsform = CreateTaskForm(instance=goals)
+    if request.method == 'POST':
+        UpdateGoalsform = CreateTaskForm(request.POST, instance=goals)
+        if UpdateGoalsform.is_valid():
+            UpdateGoalsform.save()
+            return redirect('Todo_list')
+    context = {'UpdateGoalsform': UpdateGoalsform}
+    return render(request, 'updateGoals.html', context=context)
+
 
 #delete Tasks
 def delete_task(request, pk):
