@@ -1,3 +1,4 @@
+from aiohttp import request
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
@@ -16,15 +17,17 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.html import escapejs
+
 # global variables for next and prev buttons in weekly schedule
 increase = 0
 decrease = 0
+
 
 def start_page(request):
     return render(request, 'start_page.html')
 
 
-#Displays event in json format for the calendar
+# Displays event in json format for the calendar
 def displayEvents(request):
     events = Event.objects.all()
     return JsonResponse({"events": list(events.values())})
@@ -36,15 +39,16 @@ def calendar(request):
     event_form = EventForm(request.POST)
     return render(request, 'calendar.html', {'events': events, 'event_form': event_form})
 
-def addEvent(request ):
+
+def addEvent(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST)
 
         if event_form.is_valid():
-            #get the date_of_event from the POST data of the form
+            # get the date_of_event from the POST data of the form
             date_of_event = request.POST.get('date_of_event')
 
-            #set the date retrieved date_of_event to the form
+            # set the date retrieved date_of_event to the form
             event_instance = event_form.save(commit=False)
             event_instance.date_of_event = date_of_event
 
@@ -54,7 +58,7 @@ def addEvent(request ):
         else:
             return HttpResponse("something went wrong with the event form")
     else:
-        event_form = EventForm()  #for GET request, show the form
+        event_form = EventForm()  # for GET request, show the form
         return render(request, 'calendar.html', {'event_form': event_form})
 
 
@@ -69,9 +73,10 @@ def register(request):
         if form.is_valid():
             form.save()
 
-            return redirect('index')
+            return redirect('calendar')
 
     return render(request, "register.html", {'form': form})
+
 
 #     return render(request, "register.html", {'form': form})
 
@@ -112,6 +117,7 @@ def user_logout(request):
 
     return redirect('start_page')
 
+
 # -------- Todo_list ------------#
 # ----Tasks-----
 def create_task(request):
@@ -125,7 +131,8 @@ def create_task(request):
     context = {'form': form}
     return render(request, 'Todo_list.html', context=context)
 
-#delete Tasks
+
+# delete Tasks
 def delete_task(request, pk):
     tasks = Task.objects.get(id=pk)
     tasks.delete()
@@ -144,6 +151,7 @@ def create_list(request):
     context = {'form_': form_}
     return render(request, 'Todo_list.html', context=context)
 
+
 def update_list_name(request, pk):
     lists = TD_list.objects.get(id=pk)
     form = CreateListForm(instance=lists)
@@ -156,7 +164,7 @@ def update_list_name(request, pk):
     return render(request, 'Todo_list.html', context=context)
 
 
-#Delete list
+# Delete list
 def delete_list(request, pk):
     lists = TD_list.objects.get(id=pk)
     lists.delete()
@@ -172,11 +180,13 @@ def Todo_list(request):
     context = {'task': task, 'lists': lists, 'listForm': listForm, 'taskForm': taskForm}
     return render(request, 'Todo_list.html', context=context)
 
+
 def Toggle_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     task.completed = not task.completed
     task.save()
     return redirect('Todo_list')
+
 
 # -------------------  Events -------------------------
 # Add an event
@@ -201,12 +211,13 @@ def addEvent(request):
         event_form = EventForm()  # for GET request, show the form
         return render(request, 'weekly_schedule.html', {'event_form': event_form})
 
-#View event
+
+# View event
 @login_required
 def viewEvent(request, pk):
     event = Event.objects.get(id=pk)
     context = {'event': event}
-    return render(request, 'weekly_schedule.html',context=context)
+    return render(request, 'weekly_schedule.html', context=context)
 
 
 # Update event
@@ -241,6 +252,7 @@ def updateEvent(request, pk):
     # context = {'event': event, 'all_events': all_events, 'event_form': event_form, 'test': test}
     return render(request, 'updateEvents.html', context=context)
 
+
 @login_required
 def deleteEvent(request, pk):
     event = Event.objects.get(id=pk)
@@ -249,15 +261,16 @@ def deleteEvent(request, pk):
 
 
 # ----------------- weekly_schedule ------------------------
-#Displays events
-def events_of_the_day( day1, day2, day3):
+# Displays events
+def events_of_the_day(day1, day2, day3):
     # Filters to only get events that are associated with the same days
     day1_events = Event.objects.filter(date_of_event__day=day1.day, date_of_event__month=day1.month)
     day2_events = Event.objects.filter(date_of_event__day=day2.day, date_of_event__month=day2.month)
     day3_events = Event.objects.filter(date_of_event__day=day3.day, date_of_event__month=day3.month)
 
-    context = {'day1_events':day1_events, 'day2_events':day2_events, 'day3_events':day3_events}
+    context = {'day1_events': day1_events, 'day2_events': day2_events, 'day3_events': day3_events}
     return context
+
 
 @login_required
 def weekly_schedule(request):
@@ -274,8 +287,7 @@ def weekly_schedule(request):
 
     weekDay2 = weekDay + timedelta(days=1)  # gets the day after
     weekDay3 = weekDay + timedelta(days=2)  # gets the 3rd day after the first one
-    print("Date2: ", start_date)
-    print("weekday", weekDay)
+
 
     display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
     context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
@@ -284,23 +296,28 @@ def weekly_schedule(request):
 
 
 # --------- Goes to next few days ------------------
+import re
+
 @login_required
-def next_(request):
-    # weekDay = "2020-01-01" # gets today's date
-    test = weekly_schedule(request)
+def next_(request, day):
+    # Search the string
+    match_str = re.search(r'\d{4}-\d{2}-\d{2}', day)
+    #Format date
+    result = datetime.strptime(match_str.group(), '%Y-%m-%d').date()
+    # go to next day
+    nextDay = result + timedelta(days=1)
 
-    weekDay = datetime.today()+ timedelta(days=1)
-    date_str = weekDay.strftime('%Y-%m-%d')
-
-    print("test.weekday", test)
-
-    # return redirect(reverse('weekly_schedule') + '?date'= weekDay)
-    return redirect(reverse('weekly_schedule') + '?date={}'.format(date_str))
+    return redirect(reverse('weekly_schedule') + '?date={}'.format(nextDay))
 
 
 # Goes to previous days
 @login_required
-def prev(request):
+def prev(request, day):
+    # Search the string
+    match_str = re.search(r'\d{4}-\d{2}-\d{2}', day)
+    # Format date
+    result = datetime.strptime(match_str.group(), '%Y-%m-%d').date()
+    # go to next day
+    prevDay = result - timedelta(days=1)
 
-    return redirect('weekly_schedule')
-
+    return redirect(reverse('weekly_schedule') + '?date={}'.format(prevDay))
