@@ -65,13 +65,18 @@
     /*opacity: 0;*/
     /*pointer-events: none;*/
     position: fixed;
+    /*position: relative;*/
+
     transition: opacity 500ms ease;
+
 }
 
 .EventRightClickMenu.active {
     display: block; /*show menu*/
-    opacity: 1;
-    pointer-events: auto;
+    /*opacity: 1;*/
+    /*pointer-events: auto;*/
+    /*position: relative;*/
+
 }
 
 
@@ -107,7 +112,9 @@
 }
 
 
-
+.eventBoxes{
+    color: black;
+}
 
 
 

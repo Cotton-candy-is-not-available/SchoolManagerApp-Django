@@ -17,8 +17,6 @@
     <!-- add new event pop up button -->
     <button class="btn" onclick="newEvents.showModal()">Add New Event</button>
 
-    <!-- Delete event pop up button -->
-    <button class="btn" onclick="deleteEvents.showModal()">Delete Event</button>
 
     <!-- Update event pop up button -->
 {#    <button class="btn" onclick="updateEvents.showModal()">Update Event</button>#}
@@ -50,7 +48,8 @@
         {#    Current day events #}
         <div id="day1EventDisplay" class="day1EventDisplay">
             {% for Events in display_events.day1_events %}
-                <br> <b style="display: inline-block">{{ Events.event_name }}</b>{# Buttons to delete and update#}
+{#                id="eventBoxes"#}
+                <br> <b  class="eventBoxes" style="display: inline-block">{{ Events.event_name }}</b>{# Buttons to delete and update#}
 
                 {#   Update events#}
                 <form style="display: inline-block" action="{% url 'updateEvent' Events.id %}" method="get">
@@ -58,22 +57,24 @@
                 </form>
 
                 {# Delete Events  #}
-                <form style="display: inline-block" action="{% url 'deleteEvent' Events.id %}" method="get">
+                <form  action="{% url 'deleteEvent' Events.id %}" onclick="return confirm('Are you sure you want to delete this event?');" style="display: inline-block"  method="get">
+
                     <button type="submit"><img class="button_image_style" src="/staticfiles/images/delete-icon.png" alt="Delete button "></button>
                 </form>
 
-                <br>{{ Events.description }}<br>
+                <br class="eventBoxes">{{ Events.description }}<br>
 
 
                 {#   Right click menu #}
-                <div id="EventRightClickMenu" class="EventRightClickMenu">
+                <div id="EventRightClickMenu" class="EventRightClickMenu" >
                     <ul>
                         <li><a href="{% url 'updateEvent' Events.id %}">Edit</a></li>
-                        <li><a href="{% url 'deleteEvent' Events.id %}">Delete</a></li>
+                        <li><a href="{% url 'deleteEvent' Events.id %}" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a></li>
                         <li><a href="#">View More</a></li>
-
                     </ul>
+
                 </div>
+
             {% endfor %}
         </div>
 
@@ -88,11 +89,21 @@
                 </form>
 
                 {# Delete Events  #}
-                <form style="display: inline-block" action="{% url 'deleteEvent' Events.id %}" method="get">
+                <form style="display: inline-block" action="{% url 'deleteEvent' Events.id %}" onclick="return confirm('Are you sure you want to delete this event?');" method="get">
                     <button type="submit"><img class="button_image_style" src="/staticfiles/images/delete-icon.png" alt="Delete button "></button>
                 </form>
 
                 <br>{{ Events.description }}<br>
+
+
+
+
+
+
+
+
+
+
             {% endfor %}
         </div>
 
@@ -108,7 +119,7 @@
                 </form>
 
                 {# Delete Events  #}
-                <form style="display: inline-block" action="{% url 'deleteEvent' Events.id %}" method="get">
+                <form style="display: inline-block" action="{% url 'deleteEvent' Events.id %}" onclick="return confirm('Are you sure you want to delete this event?');" method="get">
                     <button type="submit"><img class="button_image_style" src="/staticfiles/images/delete-icon.png" alt="Delete button "></button>
                 </form>
 
@@ -161,26 +172,6 @@
 </dialog>
 
 
-{#------------ Delete event -------------------#}
-{#----- pop up --------#}
-<dialog id="deleteEvents" class="modal">
-    <div class="modal-box">
-
-        {# --------- list Form -----  #}
-        <h3>Delete Event</h3> {# Title #}
-        {% for Events in all_events %}
-            <br>
-            {{ Events.event_name }}
-            <br>{{ Events.description }}<br>
-            <a href="{% url 'deleteEvent' Events.id %}" class="action-link">Delete</a>
-        {% endfor %}
-        <div class="modal-action">
-            <form method="dialog">
-                <button class="btn">Close</button>
-            </form>
-        </div>
-    </div>
-</dialog>
 
 <script src="{% static 'javascript/RighClickMenu_script.js' %}" defer></script>
 
