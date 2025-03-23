@@ -62,20 +62,13 @@
     width: 200px;
     box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.3);
     display: none;
-    /*opacity: 0;*/
-    /*pointer-events: none;*/
     position: fixed;
-    /*position: relative;*/
-
     transition: opacity 500ms ease;
 
 }
 
 .EventRightClickMenu.active {
     display: block; /*show menu*/
-    /*opacity: 1;*/
-    /*pointer-events: auto;*/
-    /*position: relative;*/
 
 }
 

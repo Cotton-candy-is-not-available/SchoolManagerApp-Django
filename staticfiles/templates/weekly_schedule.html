@@ -49,7 +49,7 @@
         <div id="day1EventDisplay" class="day1EventDisplay">
             {% for Events in display_events.day1_events %}
 {#                id="eventBoxes"#}
-                <br> <b  class="eventBoxes" style="display: inline-block">{{ Events.event_name }}</b>{# Buttons to delete and update#}
+                <br> <b  id="eventBoxes"  class="eventBoxes" style="display: inline-block">{{ Events.event_name }}</b>{# Buttons to delete and update#}
 
                 {#   Update events#}
                 <form style="display: inline-block" action="{% url 'updateEvent' Events.id %}" method="get">
@@ -62,7 +62,7 @@
                     <button type="submit"><img class="button_image_style" src="/staticfiles/images/delete-icon.png" alt="Delete button "></button>
                 </form>
 
-                <br class="eventBoxes">{{ Events.description }}<br>
+                <br >{{ Events.description }}<br>
 
 
                 {#   Right click menu #}
