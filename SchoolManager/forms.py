@@ -5,10 +5,8 @@ from django.contrib .auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput
 from django import forms
-from .models import TD_list, Task, Event, JournalEntry
-
-from .models import Event
-
+from .models import Logs, Goal, Event,JournalEntry
+from operator import itemgetter
 
 #------------------ Register/login ---------------------------
 
@@ -25,17 +23,22 @@ class LoginForm(AuthenticationForm):
 
 
 
-# ------ To do list -----
-class CreateListForm(forms.ModelForm):
+# ------ Future Logs form -----
+class CreateLogsForm(forms.ModelForm):
     class Meta:
-        model = TD_list
-        fields = ['List_name']
+        model = Logs
+        fields = ['Log_name']
 
-# -------- Task form --------
-class CreateTaskForm(forms.ModelForm):
+# -------- Goal form --------
+class CreateGoalForm(forms.ModelForm):
+
+    Importance = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=Goal.Order,
+    )
     class Meta:
-        model = Task
-        fields = ['list','description', 'Important', 'mid_important', 'least_important']
+        model = Goal
+        fields = ['log','description', 'Importance']
 
 #----------------- Events -------------------------
 class EventForm(forms.ModelForm):
@@ -46,6 +49,9 @@ class EventForm(forms.ModelForm):
             'date_of_event': forms.DateInput(format=('%m/%d/%Y'),
                                                  attrs={'class': 'form-control', 'placeholder': 'Select a date',
                                                         'type': 'date'}),
+                'event_name': forms.TextInput(attrs={'class': 'form-control'}),
+
+                'description': forms.TextInput(attrs = {'class': 'descriptionForm'}),
             }
             fields = ['event_name', 'description', 'date_of_event']
 

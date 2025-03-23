@@ -29,31 +29,28 @@ class Event(models.Model):
         return f"{self.event_name},  on the {self.date_of_event}"
 
 
-#------ To do list --------------
-class TD_list(models.Model):
-    List_name = models.CharField(max_length=100)
+#------ Future logs and goals --------------
+# logs
+class Logs(models.Model):
+    Log_name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True, editable = False)
     def __str__(self):
-        return self.List_name
-
-class Task(models.Model):
-    list = models.ForeignKey(TD_list, on_delete=models.CASCADE)
+        return self.Log_name
+# goals
+class Goal(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True, editable = False)
+    log = models.ForeignKey(Logs, on_delete=models.CASCADE)
     description = models.CharField(max_length=100)
     completed = models.BooleanField(default=False)
-    Important = models.BooleanField(default=False)
-    mid_important = models.BooleanField(default=False)
-    least_important = models.BooleanField(default=False)
+
+    Order = [
+        ("1", "Very Important"),
+        ("2", "Mildly Important"),
+        ("3", "Least Important"),
+    ]
+    Importance = models.CharField(choices=Order, default="1", max_length=50)
+
     class Meta:
-        ordering = ['-Important', '-mid_important', '-least_important']
+        ordering = ['Importance']
     def __str__(self):
-        return self.list.List_name + ": " + self.description
-
-
-#
-# class Event(models.Model):
-#     date_of_event = models.DateField(null = True, blank = True)
-#     description = models.TextField()
-#     #each event can be associated to only one calendar
-#
-#     def __str__(self):
-#         return f"Event on {self.date_of_event}"
+        return self.log.Log_name + ": " + self.description

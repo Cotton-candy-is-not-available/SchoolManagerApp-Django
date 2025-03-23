@@ -18,11 +18,8 @@
 {#Centers content#}
 <div class="center_calendar">
 
-    <!-- Add new event button widget -->
-    <button type="button" onclick="add_calendar_events.showModal()">Add New Event</button>
-
-    <!-- Delete event pop up button -->
-    <button type="button" onclick="deleteEvents.showModal()">Delete Event</button>
+<!-- Add new event button widget -->
+<button class="btn" type="button" onclick="add_calendar_events.showModal()">Add New Event</button>
 
     <!-- Next and Previous Month buttons -->
     <button type="button" onclick="prevMonth()">Previous Month</button>
@@ -58,24 +55,7 @@
         </div>
     </dialog>
 
-    {#------------ Delete event -------------------#}
-    {#----- pop up --------#}
-    <dialog id="deleteEvents" class="modal">
-        <div class="modal-box">
 
-            {% for Events in all_events %}
-                <br>
-                {{ Events.event_name }}
-                <br>{{ Events.description }}<br>
-                <a href="{% url 'deleteEvent' Events.id %}" class="action-link">Delete</a>
-            {% endfor %}
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn">Close</button>
-                </form>
-            </div>
-        </div>
-    </dialog>
 
 {# end of main content div#}
 

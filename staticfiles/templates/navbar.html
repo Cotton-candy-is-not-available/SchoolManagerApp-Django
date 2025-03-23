@@ -19,18 +19,18 @@
                     <div class="bar1"></div>
                     <div class="bar2"></div>
                     <div class="bar3"></div>
+                    <div class="bar4"></div>
                 </button>
                 <a class="mobileHide" href={% url 'calendar' %}>Home</a>
-                <a class="mobileHide" href="{% url 'Todo_list' %}">To do list</a>
-                <a class="mobileHide" href={% url 'weekly_schedule' %}>Weekly schedule</a>
                 <a class="contact" href="{% url 'user_logout' %}">Log out</a>
             </div>
         </nav>
 
         <nav id="mobile_nav" class="mobile_nav hidden">
             <a href={% url 'calendar' %}>Home</a>
-            <a href="{% url 'Todo_list' %}">To do list</a>
-            <a href={% url 'weekly_schedule' %}>Weekly schedule</a>
+            <a href="{% url 'weekly_schedule' %}">Weekly schedule</a>
+            <a href={% url 'FutureLogsGoals' %}>Weekly schedule</a>
+            <a href={% url 'journal' %}>Personal Journal</a>
         </nav>
 
 
@@ -46,8 +46,8 @@
 {# Side navigation bar#}
 <nav>
   <div class="sideNav">
-      <li><a href="{% url 'Todo_list' %}">To Do List</a></li>{# active means that you are on the page #}
-      <li><a href={% url 'weekly_schedule' %}>Weekly Schedule</a></li>
+      <li><a href="{% url 'weekly_schedule' %}">Weekly Schedule</a></li>{# active means that you are on the page #}
+      <li> <a href="{% url 'FutureLogsGoals' %}">Future Logs & Goals</a></li>
       <li><a href={% url 'journal' %}> Personal Journal</a></li>
   </div>
 </nav>
