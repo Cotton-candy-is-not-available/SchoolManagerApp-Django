@@ -81,7 +81,7 @@
         {# Next day events #}
         <div class="day2EventDisplay">
             {% for Events in display_events.day2_events %}
-                <br> <b>{{ Events.event_name }}</b>
+                <br> <b class="eventBoxes">{{ Events.event_name }}</b>
 
                 {#   Update events#}
                 <form style="display: inline-block" action="{% url 'updateEvent' Events.id %}" method="get">
@@ -95,13 +95,15 @@
 
                 <br>{{ Events.description }}<br>
 
+{#   Right click menu #}
+                <div id="EventRightClickMenu" class="EventRightClickMenu" >
+                    <ul>
+                        <li><a href="{% url 'updateEvent' Events.id %}">Edit</a></li>
+                        <li><a href="{% url 'deleteEvent' Events.id %}" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a></li>
+                        <li><a href="#">View More</a></li>
+                    </ul>
 
-
-
-
-
-
-
+                </div>
 
 
             {% endfor %}
@@ -111,7 +113,7 @@
         <div class="day3EventDisplay">
 
             {% for Events in display_events.day3_events %}
-                <br> <b>{{ Events.event_name }}</b>
+                <br > <b class="eventBoxes">{{ Events.event_name }}</b>
 
                 {#   Update events#}
                 <form style="display: inline-block" action="{% url 'updateEvent' Events.id %}" method="get">
@@ -124,6 +126,18 @@
                 </form>
 
                 <br>{{ Events.description }}<br>
+
+                {#   Right click menu #}
+                <div id="EventRightClickMenu" class="EventRightClickMenu" >
+                    <ul>
+                        <li><a href="{% url 'updateEvent' Events.id %}">Edit</a></li>
+                        <li><a href="{% url 'deleteEvent' Events.id %}" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a></li>
+                        <li><a href="#">View More</a></li>
+                    </ul>
+
+                </div>
+
+
             {% endfor %}
 
         </div>
