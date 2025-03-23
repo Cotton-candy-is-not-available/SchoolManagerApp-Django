@@ -25,10 +25,10 @@
 
     {# ---------------- Next and previous days ----------------------#}
 
-    <form action="{% url 'next_' %}" method="get">
+    <form action="{% url 'next_' weekDay %}" method="get">
         <button type="submit">Next</button>
     </form>
-    <form action="{% url 'prev' %}" method="get">
+    <form action="{% url 'prev' weekDay%}" method="get">
         <button type="submit">Previous</button>
     </form>
 

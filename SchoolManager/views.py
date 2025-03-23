@@ -1,3 +1,4 @@
+from aiohttp import request
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
@@ -5,18 +6,20 @@ from django.contrib.auth.models import auth
 
 from django.contrib.auth import authenticate
 from datetime import datetime, timedelta
+from django.urls import reverse
+
 from .models import Event, TD_list, Task, JournalEntry
 from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm, EntryForm
-from calendar import HTMLCalendar
+from calendar import HTMLCalendar, weekday
 import json
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.html import escapejs
 from django.core.paginator import Paginator
-# global variables for next and prev buttons in weekly schedule
-increase = 0
-decrease = 0
+
+import re#is needed for weekly events next and prev functions to work
+
 
 def start_page(request):
     return render(request, 'start_page.html')
@@ -39,8 +42,8 @@ def journal(request):
     return render(request, 'journal.html', {"entry_form": entry_form})
 
 def viewJournalEntries(request):
-    # Retrieve all journal entries from the database
-    journals = JournalEntry.objects.all()
+    # Retrieve all journal entries from the database that belong to logged-in user
+    journals = JournalEntry.objects.filter(user_id=request.user.id)
 
     # Create a Paginator with 2 entries per page
     paginator = Paginator(journals, 2)  # Show 2 entries per page
@@ -58,7 +61,8 @@ def add_entry(request):
         if entry_form.is_valid():
             journal_entry = entry_form.save(commit=False) #don't save the form yet
             journal_entry.date_of_entry = datetime.today().date() #get the current date from user's device
-            entry_form.save()
+            journal_entry.user = request.user
+            journal_entry.save()
             return redirect('journal')
         else:
             return HttpResponse("something went wrong with the event form")
@@ -81,6 +85,7 @@ def addEvent(request):
 
             event_instance.save()
             return redirect('calendar')
+
         else:
             return HttpResponse("something went wrong with the event form")
     else:
@@ -181,7 +186,7 @@ def update_list_name(request, pk):
         form = CreateListForm(request.POST, instance=lists)
         if form.is_valid():
             form.save()
-            return redirect('Todo_list')  # can now update on index page and are shown to index
+            return redirect('Todo_list')
     context = {'form': form}
     return render(request, 'Todo_list.html', context=context)
 
@@ -330,60 +335,46 @@ def events_of_the_day( day1, day2, day3):
 def weekly_schedule(request):
     event_form = EventForm(request.POST)
     all_events = Event.objects.filter(user_id=request.user.id)
-    weekDay = datetime.today()  # gets today's date
-    weekDay2 = datetime.today() + timedelta(days=1)  # gets the day after
-    weekDay3 = datetime.today() + timedelta(days=2)  # gets the 3rd day after the first one
+    start_date = request.GET.get('date')
+
+    print("Date1: ", start_date)
+
+    if start_date:
+        weekDay = datetime.strptime(start_date, "%Y-%m-%d")
+    else:
+        weekDay = datetime.today()  # gets today's date
+
+    weekDay2 = weekDay + timedelta(days=1)  # gets the day after
+    weekDay3 = weekDay + timedelta(days=2)  # gets the 3rd day after the first one
+
+
     display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
     context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
         , 'event_form': event_form, 'all_events': all_events, 'display_events': display_events}
     return render(request, 'weekly_schedule.html', context=context)
 
 
-# --------- Goes to dext few days ------------------
+# --------- Goes to next few days ------------------
 @login_required
-def next_(request):
-    global increase, decrease
-    increase += 1
-    event_form = EventForm(request.POST)
-    weekDay = datetime.today() + timedelta(days=increase)  # gets today's date
-    weekDay2 = datetime.today() + timedelta(days=1) + timedelta(days=increase)  # gets the day after
-    weekDay3 = datetime.today() + timedelta(days=2) + timedelta(days=increase)  # gets the 3rd day after the first one
-    decrease = increase
-    # Filters to only get events that are associated with the same days
-    display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
+def next_(request, day):
+    # Search the string
+    match_str = re.search(r'\d{4}-\d{2}-\d{2}', day)
+    #Format date
+    result = datetime.strptime(match_str.group(), '%Y-%m-%d').date()
+    # go to next day
+    nextDay = result + timedelta(days=1)
 
-    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
-        , 'event_form': event_form, 'display_events': display_events}
-    return render(request, 'weekly_schedule.html', context=context)
+    return redirect(reverse('weekly_schedule') + '?date={}'.format(nextDay))
 
 
 # Goes to previous days
 @login_required
-def prev(request):
-    global decrease, increase
-    decrease -= 1
-    event_form = EventForm(request.POST)
-    weekDay = datetime.today() + timedelta(days=decrease)  # gets today's date
-    weekDay2 = datetime.today() + timedelta(days=1) + timedelta(days=decrease)  # gets the day after
-    weekDay3 = datetime.today() + timedelta(days=2) + timedelta(days=decrease)  # gets the 3rd day after the first one
-    increase = decrease
-    # Filters to only get events that are associated with the same days
-    display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
+def prev(request, day):
+    # Search the string
+    match_str = re.search(r'\d{4}-\d{2}-\d{2}', day)
+    # Format date
+    result = datetime.strptime(match_str.group(), '%Y-%m-%d').date()
+    # go to next day
+    prevDay = result - timedelta(days=1)
 
-    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
-        , 'event_form': event_form, 'display_events': display_events}
-    return render(request, 'weekly_schedule.html', context=context)
-
-@login_required
-def stayOnCurrentPage(request):
-    global increase, decrease
-    event_form = EventForm(request.POST)
-    weekDay = datetime.today() + timedelta(days=increase)  # gets today's date
-    weekDay2 = datetime.today() + timedelta(days=1) + timedelta(days=increase)  # gets the day after
-    weekDay3 = datetime.today() + timedelta(days=2) + timedelta(days=increase)  # gets the 3rd day after the first one
-    # Filters to only get events that are associated with the same days
-    display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
-
-    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
-        , 'event_form': event_form, 'display_events': display_events}
-    return render(request, 'weekly_schedule.html', context=context)
+    return redirect(reverse('weekly_schedule') + '?date={}'.format(prevDay))

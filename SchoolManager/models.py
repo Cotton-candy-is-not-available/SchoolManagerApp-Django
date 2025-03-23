@@ -10,6 +10,7 @@ class Calendar(models.Model): #each calendar can have many events associated to 
 
 #------ Personal Journal --------------
 class JournalEntry(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True, editable = False)
     title = models.TextField(max_length= 50)
     date_of_entry = models.DateField(null = True, blank = True)
     writing = models.TextField(max_length = 1300)
