@@ -6,28 +6,26 @@ from django.contrib.auth.models import auth
 
 from django.contrib.auth import authenticate
 from datetime import datetime, timedelta
-
 from django.urls import reverse
 
-from .models import Event, TD_list, Task
-from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm
+from .models import Event, TD_list, Task, JournalEntry
+from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm, EntryForm
 from calendar import HTMLCalendar, weekday
 import json
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.html import escapejs
+from django.core.paginator import Paginator
 
-# global variables for next and prev buttons in weekly schedule
-increase = 0
-decrease = 0
+import re#is needed for weekly events next and prev functions to work
 
 
 def start_page(request):
     return render(request, 'start_page.html')
 
 
-# Displays event in json format for the calendar
+#Displays event in json format for the calendar
 def displayEvents(request):
     events = Event.objects.all()
     return JsonResponse({"events": list(events.values())})
@@ -39,16 +37,49 @@ def calendar(request):
     event_form = EventForm(request.POST)
     return render(request, 'calendar.html', {'events': events, 'event_form': event_form})
 
+def journal(request):
+    entry_form = EntryForm(request.POST)
+    return render(request, 'journal.html', {"entry_form": entry_form})
+
+def viewJournalEntries(request):
+    # Retrieve all journal entries from the database that belong to logged-in user
+    journals = JournalEntry.objects.filter(user_id=request.user.id)
+
+    # Create a Paginator with 2 entries per page
+    paginator = Paginator(journals, 2)  # Show 2 entries per page
+
+    # Get the current page number from the GET parameters (defaults to 1 if not provided)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)  # Get the Page object for the current page
+
+    # Pass the Page object (page_obj) to the template for iteration
+    return render(request, 'journal.html', {'page_obj': page_obj})
+
+def add_entry(request):
+    if request.method == 'POST':
+        entry_form = EntryForm(request.POST)
+        if entry_form.is_valid():
+            journal_entry = entry_form.save(commit=False) #don't save the form yet
+            journal_entry.date_of_entry = datetime.today().date() #get the current date from user's device
+            journal_entry.user = request.user
+            journal_entry.save()
+            return redirect('journal')
+        else:
+            return HttpResponse("something went wrong with the event form")
+    else:
+        entry_form = EntryForm()
+        return render(request, 'journal.html', {'entry_form': entry_form})
+
 
 def addEvent(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST)
 
         if event_form.is_valid():
-            # get the date_of_event from the POST data of the form
+            #get the date_of_event from the POST data of the form
             date_of_event = request.POST.get('date_of_event')
 
-            # set the date retrieved date_of_event to the form
+            #set the date retrieved date_of_event to the form
             event_instance = event_form.save(commit=False)
             event_instance.date_of_event = date_of_event
 
@@ -58,7 +89,7 @@ def addEvent(request):
         else:
             return HttpResponse("something went wrong with the event form")
     else:
-        event_form = EventForm()  # for GET request, show the form
+        event_form = EventForm()  #for GET request, show the form
         return render(request, 'calendar.html', {'event_form': event_form})
 
 
@@ -76,7 +107,6 @@ def register(request):
             return redirect('calendar')
 
     return render(request, "register.html", {'form': form})
-
 
 #     return render(request, "register.html", {'form': form})
 
@@ -117,7 +147,6 @@ def user_logout(request):
 
     return redirect('start_page')
 
-
 # -------- Todo_list ------------#
 # ----Tasks-----
 def create_task(request):
@@ -131,8 +160,7 @@ def create_task(request):
     context = {'form': form}
     return render(request, 'Todo_list.html', context=context)
 
-
-# delete Tasks
+#delete Tasks
 def delete_task(request, pk):
     tasks = Task.objects.get(id=pk)
     tasks.delete()
@@ -151,7 +179,6 @@ def create_list(request):
     context = {'form_': form_}
     return render(request, 'Todo_list.html', context=context)
 
-
 def update_list_name(request, pk):
     lists = TD_list.objects.get(id=pk)
     form = CreateListForm(instance=lists)
@@ -164,7 +191,7 @@ def update_list_name(request, pk):
     return render(request, 'Todo_list.html', context=context)
 
 
-# Delete list
+#Delete list
 def delete_list(request, pk):
     lists = TD_list.objects.get(id=pk)
     lists.delete()
@@ -180,13 +207,11 @@ def Todo_list(request):
     context = {'task': task, 'lists': lists, 'listForm': listForm, 'taskForm': taskForm}
     return render(request, 'Todo_list.html', context=context)
 
-
 def Toggle_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     task.completed = not task.completed
     task.save()
     return redirect('Todo_list')
-
 
 # -------------------  Events -------------------------
 # Add an event
@@ -204,20 +229,51 @@ def addEvent(request):
             event_instance.date_of_event = date_of_event
 
             event_instance.save()
-            return redirect('weekly_schedule')
+            return redirect('calendar')
         else:
             return HttpResponse("something went wrong with the event form")
     else:
         event_form = EventForm()  # for GET request, show the form
-        return render(request, 'weekly_schedule.html', {'event_form': event_form})
+        return render(request, 'calendar.html', {'event_form': event_form})
 
-
-# View event
+#View event
 @login_required
 def viewEvent(request, pk):
     event = Event.objects.get(id=pk)
     context = {'event': event}
+    return render(request, 'weekly_schedule.html',context=context)
+
+def viewMore(request, year, month, day):
+
+    print("viewMore function was run")
+
+    dateCalendar = datetime(year, month, day) #calendar date that is passed to the function
+    dateWeekly = datetime.today() #first date of the weekly
+    global increase, decrease
+
+    diff = abs(dateCalendar.day - dateWeekly.day) #difference between days (only positive)
+
+    if(dateCalendar.day > dateWeekly.day):
+        increase =  diff
+        next_(request)
+        return redirect('next_')
+
+
+    elif(dateCalendar.day < dateWeekly.day):
+        decrease = diff
+        prev(request)
+        return redirect('prev')
+
+    context ={'next_': next_, 'prev': prev, 'increase': increase, 'decrease': decrease}
+
     return render(request, 'weekly_schedule.html', context=context)
+
+
+def toggle_event(request, event_id):
+    events = Event.objects.get(pk=event_id)
+    events.is_completed = not events.is_completed
+    events.save()
+    return redirect('weekly_schedule')
 
 
 # Update event
@@ -253,6 +309,10 @@ def updateEvent(request, pk):
     return render(request, 'updateEvents.html', context=context)
 
 
+def back_to_weekly(request):
+    return redirect('weekly_schedule')
+
+
 @login_required
 def deleteEvent(request, pk):
     event = Event.objects.get(id=pk)
@@ -261,16 +321,15 @@ def deleteEvent(request, pk):
 
 
 # ----------------- weekly_schedule ------------------------
-# Displays events
-def events_of_the_day(day1, day2, day3):
+#Displays events
+def events_of_the_day( day1, day2, day3):
     # Filters to only get events that are associated with the same days
     day1_events = Event.objects.filter(date_of_event__day=day1.day, date_of_event__month=day1.month)
     day2_events = Event.objects.filter(date_of_event__day=day2.day, date_of_event__month=day2.month)
     day3_events = Event.objects.filter(date_of_event__day=day3.day, date_of_event__month=day3.month)
 
-    context = {'day1_events': day1_events, 'day2_events': day2_events, 'day3_events': day3_events}
+    context = {'day1_events':day1_events, 'day2_events':day2_events, 'day3_events':day3_events}
     return context
-
 
 @login_required
 def weekly_schedule(request):
@@ -296,8 +355,6 @@ def weekly_schedule(request):
 
 
 # --------- Goes to next few days ------------------
-import re
-
 @login_required
 def next_(request, day):
     # Search the string
