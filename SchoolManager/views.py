@@ -283,17 +283,19 @@ def weekly_schedule(request):
     return render(request, 'weekly_schedule.html', context=context)
 
 
-# --------- Goes to dext few days ------------------
+# --------- Goes to next few days ------------------
 @login_required
 def next_(request):
     # weekDay = "2020-01-01" # gets today's date
-    # test = weekly_schedule(request)
+    test = weekly_schedule(request)
 
     weekDay = datetime.today()+ timedelta(days=1)
-    # print("test.weekday", test.weekDay)
+    date_str = weekDay.strftime('%Y-%m-%d')
+
+    print("test.weekday", test)
 
     # return redirect(reverse('weekly_schedule') + '?date'= weekDay)
-    return redirect(reverse('weekly_schedule') + '?date={}'.format(weekDay))
+    return redirect(reverse('weekly_schedule') + '?date={}'.format(date_str))
 
 
 # Goes to previous days
