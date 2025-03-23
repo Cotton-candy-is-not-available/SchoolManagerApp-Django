@@ -5,14 +5,15 @@ from django.contrib.auth.models import auth
 
 from django.contrib.auth import authenticate
 from datetime import datetime, timedelta
-from .models import Event, TD_list, Task
-from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm
+from .models import Event, TD_list, Task, JournalEntry
+from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm, EntryForm
 from calendar import HTMLCalendar
 import json
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.html import escapejs
+from django.core.paginator import Paginator
 # global variables for next and prev buttons in weekly schedule
 increase = 0
 decrease = 0
@@ -33,7 +34,40 @@ def calendar(request):
     event_form = EventForm(request.POST)
     return render(request, 'calendar.html', {'events': events, 'event_form': event_form})
 
-def addEvent(request ):
+def journal(request):
+    entry_form = EntryForm(request.POST)
+    return render(request, 'journal.html', {"entry_form": entry_form})
+
+def viewJournalEntries(request):
+    # Retrieve all journal entries from the database
+    journals = JournalEntry.objects.all()
+
+    # Create a Paginator with 2 entries per page
+    paginator = Paginator(journals, 2)  # Show 2 entries per page
+
+    # Get the current page number from the GET parameters (defaults to 1 if not provided)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)  # Get the Page object for the current page
+
+    # Pass the Page object (page_obj) to the template for iteration
+    return render(request, 'journal.html', {'page_obj': page_obj})
+
+def add_entry(request):
+    if request.method == 'POST':
+        entry_form = EntryForm(request.POST)
+        if entry_form.is_valid():
+            journal_entry = entry_form.save(commit=False) #don't save the form yet
+            journal_entry.date_of_entry = datetime.today().date() #get the current date from user's device
+            entry_form.save()
+            return redirect('journal')
+        else:
+            return HttpResponse("something went wrong with the event form")
+    else:
+        entry_form = EntryForm()
+        return render(request, 'journal.html', {'entry_form': entry_form})
+
+
+def addEvent(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST)
 
@@ -47,12 +81,11 @@ def addEvent(request ):
 
             event_instance.save()
             return redirect('calendar')
-
         else:
             return HttpResponse("something went wrong with the event form")
     else:
         event_form = EventForm()  #for GET request, show the form
-        return render(request, 'calendar.html', {'event_form': event_form, 'templateNUM': templateNUM})
+        return render(request, 'calendar.html', {'event_form': event_form})
 
 
 # ----- for register page -------#
@@ -66,7 +99,7 @@ def register(request):
         if form.is_valid():
             form.save()
 
-            return redirect('index')
+            return redirect('calendar')
 
     return render(request, "register.html", {'form': form})
 
@@ -148,7 +181,7 @@ def update_list_name(request, pk):
         form = CreateListForm(request.POST, instance=lists)
         if form.is_valid():
             form.save()
-            return redirect('Todo_list')
+            return redirect('Todo_list')  # can now update on index page and are shown to index
     context = {'form': form}
     return render(request, 'Todo_list.html', context=context)
 
@@ -191,12 +224,12 @@ def addEvent(request):
             event_instance.date_of_event = date_of_event
 
             event_instance.save()
-            return redirect('weekly_schedule')
+            return redirect('calendar')
         else:
             return HttpResponse("something went wrong with the event form")
     else:
         event_form = EventForm()  # for GET request, show the form
-        return render(request, 'weekly_schedule.html', {'event_form': event_form})
+        return render(request, 'calendar.html', {'event_form': event_form})
 
 #View event
 @login_required
@@ -204,6 +237,38 @@ def viewEvent(request, pk):
     event = Event.objects.get(id=pk)
     context = {'event': event}
     return render(request, 'weekly_schedule.html',context=context)
+
+def viewMore(request, year, month, day):
+
+    print("viewMore function was run")
+
+    dateCalendar = datetime(year, month, day) #calendar date that is passed to the function
+    dateWeekly = datetime.today() #first date of the weekly
+    global increase, decrease
+
+    diff = abs(dateCalendar.day - dateWeekly.day) #difference between days (only positive)
+
+    if(dateCalendar.day > dateWeekly.day):
+        increase =  diff
+        next_(request)
+        return redirect('next_')
+
+
+    elif(dateCalendar.day < dateWeekly.day):
+        decrease = diff
+        prev(request)
+        return redirect('prev')
+
+    context ={'next_': next_, 'prev': prev, 'increase': increase, 'decrease': decrease}
+
+    return render(request, 'weekly_schedule.html', context=context)
+
+
+def toggle_event(request, event_id):
+    events = Event.objects.get(pk=event_id)
+    events.is_completed = not events.is_completed
+    events.save()
+    return redirect('weekly_schedule')
 
 
 # Update event

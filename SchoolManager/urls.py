@@ -10,17 +10,20 @@ urlpatterns = [
     # ------- START PAGE -----#
     path('', views.start_page, name='start_page'),
 
-    # ------ HOME PAGE ----#
-
     # -------- CALENDAR -------#
 
     path('calendar/', views.calendar, name='calendar'),
+    path('viewMore/<int:year>/<int:month>/<int:day>/', views.viewMore, name='viewMore'),
+
+    # -------- PERSONAL JOURNAL -------#
+    path('journal/', views.journal, name='journal'),
+    path('viewJournalEntries/', views.viewJournalEntries, name='viewJournalEntries'),
+    path('add_entry/', views.add_entry, name='add_entry'),
 
     # ------- REGISTER PAGE -------#
     path('register/', views.register, name='register'),
 
     # -------- lOG IN ---------#
-
     path('login/', views.log_in, name='log_in'),
 
     # --------- LOG OUT ------#
@@ -45,6 +48,7 @@ urlpatterns = [
     path('add_Event/', views.addEvent, name="add_event"),
     path('viewEvent/<str:pk>', views.viewEvent, name="viewEvent"),
     path('updateEvent/<str:pk>', views.updateEvent, name='updateEvent'),
+    path('toggle_event/<int:event_id>/', views.toggle_event, name="toggle_event"),
 
     #delete event from database
     path('deleteEvent/<str:pk>', views.deleteEvent, name='deleteEvent'),

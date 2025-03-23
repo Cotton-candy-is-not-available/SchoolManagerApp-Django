@@ -45,7 +45,7 @@
                            <button onclick="location.href='{% url 'Toggle_task' Tasks.id %}'"
                                    class="action-link">☑</button>
 
-                           {# If its top priority it turns red #}
+                            If its top priority it turns red
                            {% if Tasks.Important == True %}
                                <li style="color: #b11d1d"><s>{{ Tasks.description }}</s></li>
                            {% else %}

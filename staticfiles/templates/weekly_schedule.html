@@ -23,8 +23,6 @@
     <button class="btn" onclick="updateEvents.showModal()">Update Event</button>
 
 
-
-
     {# ---------------- Next and previous days ----------------------#}
 
     <form action="{% url 'next_' %}" method="get">
@@ -51,27 +49,55 @@
         {#    Current day events #}
         <div class="day1EventDisplay">
             {% for Events in display_events.day1_events %}
-                <br> <b>{{ Events.event_name }}</b>
-                <br>{{ Events.description }}<br>
+                <!-- checkboxes for the events -->
+                {% if Events.is_completed == True %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☑</button>
+                    <b><s>{{ Events.event_name }}</s></b>
+                    <br><s>{{ Events.description }}</s><br>
+                {% else %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☐</button>
+                    <b>{{ Events.event_name }}</b>
+                    <br>{{ Events.description }}<br>
+                {% endif %}
             {% endfor %}
         </div>
 
         {# Next day events #}
         <div class="day2EventDisplay">
             {% for Events in display_events.day2_events %}
-                <br> <b>{{ Events.event_name }}</b>
-                <br>{{ Events.description }}<br>
+                <!-- checkboxes for the events -->
+                {% if Events.is_completed == True %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☑</button>
+                    <b><s>{{ Events.event_name }}</s></b>
+                    <br><s>{{ Events.description }}</s><br>
+                {% else %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☐</button>
+                    <b>{{ Events.event_name }}</b>
+                    <br>{{ Events.description }}<br>
+                {% endif %}
             {% endfor %}
         </div>
 
         {#  Third day events  #}
         <div class="day3EventDisplay">
-
             {% for Events in display_events.day3_events %}
-                <br> <b>{{ Events.event_name }}</b>
-                <br>{{ Events.description }}<br>
+                <!-- checkboxes for the events -->
+                {% if Events.is_completed == True %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☑</button>
+                    <b><s>{{ Events.event_name }}</s></b>
+                    <br><s>{{ Events.description }}</s><br>
+                {% else %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☐</button>
+                    <b>{{ Events.event_name }}</b>
+                    <br>{{ Events.description }}<br>
+                {% endif %}
             {% endfor %}
-
         </div>
     </div>
 </div>
@@ -117,10 +143,6 @@
         </div>
     </div>
 </dialog>
-
-
-
-
 
 {#------------ Delete event -------------------#}
 {#----- pop up --------#}
