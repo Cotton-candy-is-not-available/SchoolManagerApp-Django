@@ -49,10 +49,19 @@
 
         {#------------------  Display events in respective columns -------------------------#}
         {#    Current day events #}
-        <div class="day1EventDisplay">
+        <div id = "day1EventDisplay" class="day1EventDisplay">
             {% for Events in display_events.day1_events %}
                 <br> <b>{{ Events.event_name }}</b>
                 <br>{{ Events.description }}<br>
+
+        <div id="EventRightClickMenu" class="EventRightClickMenu" >
+        <ul>
+            <li><a href="{% url 'updateEvent' Events.id%}">Update</a></li>
+            <li><a href="{% url 'deleteEvent' Events.id%}">Delete</a></li>
+            <li><a href="#">View More</a></li>
+
+        </ul>
+    </div>
             {% endfor %}
         </div>
 
@@ -143,6 +152,7 @@
     </div>
 </dialog>
 
+    <script src="{% static 'javascript/RighClickMenu_script.js' %}" defer></script>
 
 </body>
 </html>
