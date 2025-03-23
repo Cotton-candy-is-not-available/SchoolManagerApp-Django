@@ -20,6 +20,9 @@ urlpatterns = [
     # ------- REGISTER PAGE -------#
     path('register/', views.register, name='register'),
 
+    #----- AUTHENTICATION -----#
+    path('activate/<uidb64>/<token>/', views.activate, name='activate'),
+
     # -------- lOG IN ---------#
 
     path('login/', views.log_in, name='log_in'),
@@ -58,5 +61,10 @@ urlpatterns = [
 
     # path('event-form/', views.addEvent, name="add_event"),
     path('displayEvents/', views.displayEvents, name="display_events"),
+
+    #----- NOTIFICATION ----#
+    path('mark_notification_read/<int:notif_id>/', views.mark_notification_read,
+         name='mark_notification_read'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

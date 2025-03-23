@@ -4,36 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <title>School manager</title>
-    <link rel="icon" type="image/x-icon" href="/staticfiles/images/favicon.png">{# Favicon image of  logo #}
-    <link rel ="stylesheet" href="{% static 'css/navBar_style.css ' %}">{# link to styling #}
+    <link rel="icon" type="image/x-icon" href="/staticfiles/images/favicon.png">
+    <link rel="stylesheet" href="{% static 'css/navBar_style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 <body>
 
 <nav>
-{# Top navigation bar with home and log out#}
-{#Home/calender button#}
-    <div class="topNav">
-  <a href={% url 'calendar' %}>Home</a>
+  <div class="topNav">
+    <a href="{% url 'calendar' %}">Home</a>
 
-{#Log out link and styles#}
-  <div class="topNav-right">
-    <a href="{% url 'user_logout' %}">Log out</a>
+    <div class="topNav-right">
+      <div class="notification-dropdown">
+        <a href="#">
+          <i class="fa-solid fa-bell fa-lg"></i>
+          {% if unread_count > 0 %}
+            <span class="notification-badge">{{ unread_count }}</span>
+          {% endif %}
+        </a>
+        <div class="dropdown-content">
+          {% for notification in unread_notifications %}
+            <div class="notification-item">
+              <p>{{ notification.message }}</p>
+              <small>{{ notification.created_at|date:"M d, H:i" }}</small><br>
+              <a href="{% url 'mark_notification_read' notification.id %}">Mark as read</a>
+            </div>
+          {% empty %}
+            <p>No new notifications.</p>
+          {% endfor %}
+        </div>
+      </div>
+      <a href="{% url 'user_logout' %}">Log out</a>
+    </div>
   </div>
 
-</div>
-
-{# Side navigation bar#}
   <div class="sideNav">
-  <li><a href="{% url 'Todo_list' %}">To do list</a></li>{# active means that you are on the page #}
-  <li><a href={% url 'weekly_schedule' %}>Weekly schedule</a></li>
-
-</div>
-
-
+    <li><a href="{% url 'Todo_list' %}">To do list</a></li>
+    <li><a href="{% url 'weekly_schedule' %}">Weekly schedule</a></li>
+  </div>
 </nav>
-
-
-
 
 </body>
 </html>
+
+{% comment %}{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School manager</title>
+    <link rel="icon" type="image/x-icon" href="/staticfiles/images/favicon.png"> {# Favicon image of logo #}
+    <link rel="stylesheet" href="{% static 'css/navBar_style.css' %}"> {# link to styling #}
+</head>
+<body>
+
+<nav>
+  {# Top navigation bar with home and log out #}
+  <div class="topNav">
+    <a href={% url 'calendar' %}>Home</a>
+
+    <div class="topNav-right">
+      <a href="{% url 'user_logout' %}">Log out</a>
+    </div>
+  </div>
+
+  {# Side navigation bar #}
+  <div class="sideNav">
+    <li><a href="{% url 'Todo_list' %}">To do list</a></li> {# active means that you are on the page #}
+    <li><a href={% url 'weekly_schedule' %}>Weekly schedule</a></li>
+  </div>
+
+</nav>
+
+</body>
+</html>
+\{% endcomment %}

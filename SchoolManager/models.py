@@ -40,6 +40,16 @@ class Task(models.Model):
     def __str__(self):
         return self.list.List_name + ": " + self.description
 
+#-----NOTIFICATION SYSTEM----#
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    message = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Notification for {self.user.username}: {self.message}"
 
 #
 # class Event(models.Model):
@@ -49,3 +59,4 @@ class Task(models.Model):
 #
 #     def __str__(self):
 #         return f"Event on {self.date_of_event}"
+
