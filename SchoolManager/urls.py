@@ -26,13 +26,13 @@ urlpatterns = [
     path('user_logout', views.user_logout, name='user_logout'),
 
 
-    # --------- Todo_list: Tasks ------#
+    # --------- FutureLogs; goals: ------#
     path('create_goal', views.create_goal, name='create_goal'),
-    path('toggle/<int:goal_id>/', views.Toggle_task, name='Toggle_task'),
+    path('toggle/<int:goal_id>/', views.Toggle_goals, name='Toggle_goals'),
     # delete goal from database
     path('delete_goal/<str:pk>', views.delete_goal, name='delete_goal'),
 
-    # --------- Todo_list ------#
+    # --------- Future Logs ------#
     path('FutureLogsGoals/', views.FutureLogsGoals, name='FutureLogsGoals'),
     path('create_logs/', views.create_logs, name='create_logs'),
     # delete list and all of its tasks from database

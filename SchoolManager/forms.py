@@ -34,7 +34,7 @@ class CreateGoalForm(forms.ModelForm):
 
     Importance = forms.ChoiceField(
         widget=forms.RadioSelect,
-        choices=sorted(Goal.Order, key=itemgetter(0)),
+        choices=Goal.Order,
     )
     class Meta:
         model = Goal

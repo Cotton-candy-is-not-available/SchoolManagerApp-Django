@@ -174,7 +174,7 @@ def FutureLogsGoals(request):
     context = {'goals': goals, 'log': log, 'logForm': logForm, 'goalForm': goalForm}
     return render(request, 'FutureLogs&Goals.html', context=context)
 
-def Toggle_task(request, goal_id):
+def Toggle_goals(request, goal_id):
     goals = Goal.objects.get(pk=goal_id)
     goals.completed = not goals.completed
     goals.save()
