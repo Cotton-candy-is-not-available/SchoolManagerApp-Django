@@ -14,12 +14,17 @@ urlpatterns = [
     # -------- CALENDAR -------#
 
     path('calendar/', views.calendar, name='calendar'),
+    path('viewMore/<int:year>/<int:month>/<int:day>/', views.viewMore, name='viewMore'),
+
+    # -------- PERSONAL JOURNAL -------#
+    path('journal/', views.journal, name='journal'),
+    path('viewJournalEntries/', views.viewJournalEntries, name='viewJournalEntries'),
+    path('add_entry/', views.add_entry, name='add_entry'),
 
     # ------- REGISTER PAGE -------#
     path('register/', views.register, name='register'),
 
     # -------- lOG IN ---------#
-
     path('login/', views.log_in, name='log_in'),
 
     # --------- LOG OUT ------#
@@ -44,6 +49,7 @@ urlpatterns = [
     path('add_Event/', views.addEvent, name="add_event"),
     path('viewEvent/<str:pk>', views.viewEvent, name="viewEvent"),
     path('updateEvent/<str:pk>', views.updateEvent, name='updateEvent'),
+    path('toggle_event/<int:event_id>/', views.toggle_event, name="toggle_event"),
 
     #delete event from database
     path('deleteEvent/<str:pk>', views.deleteEvent, name='deleteEvent'),
@@ -52,8 +58,8 @@ urlpatterns = [
     # path('weekly_schedule/<int:more_>', views.weekly_schedule, name='weekly_schedule'),
     path('back_to_weekly/', views.back_to_weekly, name='back_to_weekly'),
     path('weekly_schedule/', views.weekly_schedule, name='weekly_schedule'),
-    path('next_/', views.next_, name='next_'),
-    path('prev/', views.prev, name='prev'),
+    path('next_/<str:day>', views.next_, name='next_'),
+    path('prev/<str:day>', views.prev, name='prev'),
 
 #------------ Events displaying in different ways --------------------------
     path('displayEvents/', views.displayEvents, name="display_events"),

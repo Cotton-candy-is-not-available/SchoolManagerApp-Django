@@ -3,21 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>School manager</title>
-    <link rel="icon" type="image/x-icon" href="/staticfiles/images/favicon.png">{# Favicon image of  logo #}
+      {% load static %}
+    <link rel="stylesheet" href = "{%static 'css/login.css' %}">
 
 </head>
+<body>
+    <div class="glass-container">
+        <div class="login-box">
 
-<h3><a href="{% url 'register' %}" class = a>Register </a></h3>
-<h3><a href ="{% url 'log_in' %}" class = a>Log in </a></h3>
+            <form method="POST" autocomplete="off">
 
-<form method="POST" autocomplete="off">
-
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <input type="submit" value=" Submit"/>
+              {% csrf_token %}
 
 
-</form>
+                <input type="text" id="username" name="username" required placeholder="Username" >
+                <input type="password" id="password" name="password" required placeholder="Password" >
+
+                <div class="options">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for ="remember">Remember me</label>
+                </div>
+                <button type ="submit">Login</button>
+                <p>Don't have an account? <a href="{% url 'register' %}" class = a>Register </a></p>
+
+            </form>
+        </div>
+    </div>
+</body>
+
 </html>

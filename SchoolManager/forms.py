@@ -5,7 +5,7 @@ from django.contrib .auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput
 from django import forms
-from .models import Logs, Goal, Event
+from .models import Logs, Goal, Event,JournalEntry
 from operator import itemgetter
 
 #------------------ Register/login ---------------------------
@@ -53,4 +53,11 @@ class EventForm(forms.ModelForm):
 
                 'description': forms.TextInput(attrs = {'class': 'descriptionForm'}),
             }
-            fields = '__all__'
+            fields = ['event_name', 'description', 'date_of_event']
+
+# -------- Journal Entry Form ------------
+class EntryForm(forms.ModelForm):
+    class Meta:
+        model = JournalEntry
+        fields = ['title', 'writing'] #date will automatically be set to current date
+

@@ -1,15 +1,31 @@
-{%  block title %}
-Register a New User
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>School manager</title>
+          {% load static %}
+        <link rel="stylesheet" href = "{%static 'css/register.css' %}">
 
-    <h1> Register a New User</h1>
+    </head>
+    <body>
 
-<form method="POST" autocomplete="off">
+    <form method="POST" autocomplete="off">
+        <h2> Register a New User</h2>
+         <div class="glass-container">
 
-    {% csrf_token %}
+            <div class="register-box">
 
-    {{ form.as_p }}
+                {% csrf_token %}
 
-    <input type = "submit" value=" Submit"/>
+                {{ form.as_p }}
 
-</form>
+
+                <button type = "submit">Register </button>
+                <p> <a href="{% url 'start_page' %}"  class = a>Back</a> </p>
+
+            </div>
+         </div>
+
+    </form>
+    </body>
+</html>

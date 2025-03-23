@@ -14,8 +14,6 @@
 <div class="main_content">
     <h1>Weekly Schedule</h1>
 
-
-
     <!-- add new event pop up button -->
     <button class="btn" type="button" onclick="newEvents.showModal()">Add New Event</button>
 {##}
@@ -28,10 +26,10 @@
 
     {# ---------------- Next and previous days ----------------------#}
 
-    <form class="normalButtonState" action="{% url 'next_' %}" method="get">
+    <form action="{% url 'next_' weekDay %}" method="get">
         <button type="submit">Next</button>
     </form>
-    <form class="normalButtonState" action="{% url 'prev' %}" method="get">
+    <form action="{% url 'prev' weekDay%}" method="get">
         <button type="submit">Previous</button>
     </form>
 
@@ -52,27 +50,55 @@
         {#    Current day events #}
         <div class="day1EventDisplay">
             {% for Events in display_events.day1_events %}
-                <br> <b>{{ Events.event_name }}</b>
-                <br >{{ Events.description }}<br>
+                <!-- checkboxes for the events -->
+                {% if Events.is_completed == True %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☑</button>
+                    <b><s>{{ Events.event_name }}</s></b>
+                    <br><s>{{ Events.description }}</s><br>
+                {% else %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☐</button>
+                    <b>{{ Events.event_name }}</b>
+                    <br>{{ Events.description }}<br>
+                {% endif %}
             {% endfor %}
         </div>
 
         {# Next day events #}
         <div class="day2EventDisplay">
             {% for Events in display_events.day2_events %}
-                <br> <b>{{ Events.event_name }}</b>
-                <br>{{ Events.description }}<br>
+                <!-- checkboxes for the events -->
+                {% if Events.is_completed == True %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☑</button>
+                    <b><s>{{ Events.event_name }}</s></b>
+                    <br><s>{{ Events.description }}</s><br>
+                {% else %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☐</button>
+                    <b>{{ Events.event_name }}</b>
+                    <br>{{ Events.description }}<br>
+                {% endif %}
             {% endfor %}
         </div>
 
         {#  Third day events  #}
         <div class="day3EventDisplay">
-
             {% for Events in display_events.day3_events %}
-                <br> <b>{{ Events.event_name }}</b>
-                <br>{{ Events.description }}<br>
+                <!-- checkboxes for the events -->
+                {% if Events.is_completed == True %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☑</button>
+                    <b><s>{{ Events.event_name }}</s></b>
+                    <br><s>{{ Events.description }}</s><br>
+                {% else %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☐</button>
+                    <b>{{ Events.event_name }}</b>
+                    <br>{{ Events.description }}<br>
+                {% endif %}
             {% endfor %}
-
         </div>
     </div>
 </div>
@@ -93,7 +119,7 @@
     <span class="emptySpace"> </span>
 
     {#        ------------------  Display events in respective columns -------------------------#}
-    <form action="{% url 'prev' %}" method="get">
+    <form action="{% url 'prev' weekDay%}" method="get">
         <button class="responsiveButtonState" type="submit"><</button>
     </form>
     {#            Current day events#}
@@ -108,7 +134,7 @@
 
         {% endfor %}
     </div>
-    <form action="{% url 'next_' %}" method="get">
+    <form action="{% url 'next_' weekDay%}" method="get">
         <button class="responsiveButtonState" type="submit">></button>
     </form>
 </div>
@@ -177,7 +203,6 @@
     </div>
 </dialog>
 
-    <script src="{% static 'javascript/RighClick_script.js' %}" defer></script>
 
 </body>
 </html>
