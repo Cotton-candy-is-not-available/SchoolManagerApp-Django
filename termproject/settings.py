@@ -133,7 +133,7 @@ LOGIN_URL = '/login/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     EMAIL_HOST = 'smtp.gmail.com'
     EMAIL_HOST_USER = config('EMAIL_ADDRESS')
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
@@ -141,8 +141,7 @@ if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     EMAIL_USE_TLS = True #Transport Layer Security
     DEFAULT_FROM_EMAIL = f'AppManager {config("EMAIL_ADDRESS")}'
     ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 PASSWORD_RESET_TIMEOUT = 14400
 #AppManager
