@@ -6,10 +6,10 @@ from django.contrib.auth.models import auth
 
 from django.contrib.auth import authenticate
 from datetime import datetime, timedelta
+from .models import Event, Logs, Goal, JournalEntry
+from .forms import CreateUserForm, LoginForm, CreateGoalForm, CreateLogsForm, EventForm, EntryForm
 from django.urls import reverse
 
-from .models import Event, TD_list, Task, JournalEntry
-from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm, EntryForm
 from calendar import HTMLCalendar, weekday
 import json
 
@@ -27,13 +27,13 @@ def start_page(request):
 
 #Displays event in json format for the calendar
 def displayEvents(request):
-    events = Event.objects.all()
+    events = Event.objects.filter(user_id=request.user.id)
     return JsonResponse({"events": list(events.values())})
 
 
 @login_required
 def calendar(request):
-    events = Event.objects.all()
+    events = Event.objects.filter(user_id=request.user.id)
     event_form = EventForm(request.POST)
     return render(request, 'calendar.html', {'events': events, 'event_form': event_form})
 
@@ -147,71 +147,76 @@ def user_logout(request):
 
     return redirect('start_page')
 
-# -------- Todo_list ------------#
-# ----Tasks-----
-def create_task(request):
-    form = CreateTaskForm()
+# -------- Future logs and goals ------------#
+# ----Goals-----
+def create_goal(request):
+    form = CreateGoalForm()
     if request.method == 'POST':
-        form = CreateTaskForm(request.POST, request.FILES)
+        form = CreateGoalForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('Todo_list')
+            goal = form.save(commit=False)
+            goal.user = request.user
+            goal.save()
+            return redirect('FutureLogsGoals')
 
     context = {'form': form}
-    return render(request, 'Todo_list.html', context=context)
+    return render(request, 'FutureLogs&Goals.html', context=context)
 
-#delete Tasks
-def delete_task(request, pk):
-    tasks = Task.objects.get(id=pk)
-    tasks.delete()
-    return redirect('Todo_list')
+#delete Goals
+def delete_goal(request, pk):
+    goal = Goal.objects.get(id=pk)
+    goal.delete()
+    return redirect('FutureLogsGoals')
 
 
-# ------- List --------
-def create_list(request):
-    form_ = CreateListForm()
+# ------- Logs --------
+def create_logs(request):
+    form_ = CreateLogsForm()
     if request.method == 'POST':
-        form_ = CreateListForm(request.POST, request.FILES)
+        form_ = CreateLogsForm(request.POST, request.FILES)
         if form_.is_valid():
-            form_.save()
-            return redirect('Todo_list')
+            log = form_.save(commit=False)
+            log.user = request.user
+            log.save()
+            return redirect('FutureLogsGoals')
 
     context = {'form_': form_}
-    return render(request, 'Todo_list.html', context=context)
+    return render(request, 'FutureLogs&Goals.html', context=context)
 
-def update_list_name(request, pk):
-    lists = TD_list.objects.get(id=pk)
-    form = CreateListForm(instance=lists)
+def update_log_name(request, pk):
+    log = Logs.objects.get(id=pk)
+    form = CreateLogsForm(instance=log)
     if request.method == 'POST':
-        form = CreateListForm(request.POST, instance=lists)
+        form = CreateLogsForm(request.POST, instance=log)
         if form.is_valid():
             form.save()
-            return redirect('Todo_list')
+            return redirect('FutureLogsGoals')
     context = {'form': form}
-    return render(request, 'Todo_list.html', context=context)
+    return render(request, 'FutureLogs&Goals.html', context=context)
 
 
 #Delete list
-def delete_list(request, pk):
-    lists = TD_list.objects.get(id=pk)
-    lists.delete()
-    return redirect('Todo_list')
+def delete_log(request, pk):
+    log = Logs.objects.get(id=pk)
+    log.delete()
+    return redirect('FutureLogsGoals')
 
 
-def Todo_list(request):
-    lists = TD_list.objects.all()
-    task = Task.objects.all()
-    listForm = CreateListForm()
-    taskForm = CreateTaskForm()
+def FutureLogsGoals(request):
+    log = Logs.objects.filter(user_id=request.user.id)
+    goals = Goal.objects.filter(user_id=request.user.id)
 
-    context = {'task': task, 'lists': lists, 'listForm': listForm, 'taskForm': taskForm}
-    return render(request, 'Todo_list.html', context=context)
+    logForm = CreateLogsForm()
+    goalForm = CreateGoalForm()
 
-def Toggle_task(request, task_id):
-    task = Task.objects.get(pk=task_id)
-    task.completed = not task.completed
-    task.save()
-    return redirect('Todo_list')
+    context = {'goals': goals, 'log': log, 'logForm': logForm, 'goalForm': goalForm}
+    return render(request, 'FutureLogs&Goals.html', context=context)
+
+def Toggle_goals(request, goal_id):
+    goals = Goal.objects.get(pk=goal_id)
+    goals.completed = not goals.completed
+    goals.save()
+    return redirect('FutureLogsGoals')
 
 # -------------------  Events -------------------------
 # Add an event
@@ -322,11 +327,11 @@ def deleteEvent(request, pk):
 
 # ----------------- weekly_schedule ------------------------
 #Displays events
-def events_of_the_day( day1, day2, day3):
+def events_of_the_day( request, day1, day2, day3):
     # Filters to only get events that are associated with the same days
-    day1_events = Event.objects.filter(date_of_event__day=day1.day, date_of_event__month=day1.month)
-    day2_events = Event.objects.filter(date_of_event__day=day2.day, date_of_event__month=day2.month)
-    day3_events = Event.objects.filter(date_of_event__day=day3.day, date_of_event__month=day3.month)
+    day1_events = Event.objects.filter(date_of_event__day=day1.day, date_of_event__month=day1.month, user_id=request.user.id)
+    day2_events = Event.objects.filter(date_of_event__day=day2.day, date_of_event__month=day2.month, user_id=request.user.id)
+    day3_events = Event.objects.filter(date_of_event__day=day3.day, date_of_event__month=day3.month, user_id=request.user.id)
 
     context = {'day1_events':day1_events, 'day2_events':day2_events, 'day3_events':day3_events}
     return context
@@ -348,7 +353,7 @@ def weekly_schedule(request):
     weekDay3 = weekDay + timedelta(days=2)  # gets the 3rd day after the first one
 
 
-    display_events = events_of_the_day(weekDay, weekDay2, weekDay3)
+    display_events = events_of_the_day(request, weekDay, weekDay2, weekDay3)
     context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
         , 'event_form': event_form, 'all_events': all_events, 'display_events': display_events}
     return render(request, 'weekly_schedule.html', context=context)

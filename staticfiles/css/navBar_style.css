@@ -53,6 +53,7 @@ li a:hover:not(.active) {
 /*    overflow-x: hidden;!*makes it not possible to scroll*!*/
 
 
+/* ------------------- Responsive nav bar -----------------------------*/
 /* Hamburger nav bar*/
 .navdiv {
     background: #3C5473;
@@ -99,7 +100,7 @@ li a:hover:not(.active) {
 
 
 /*Hides and shows nav bars*/
-@media all and (max-width: 650px) {
+@media all and (max-width: 1000px) {
     .mobileHide {/* Hide top nav*/
         display: none;
     }
@@ -109,5 +110,10 @@ li a:hover:not(.active) {
     }
     .sideNav {/* Hide side nav*/
         display: none;
+    }
+    .main_content{
+        margin-left:1%;
+    padding:00px  10px;/* top padding, left side padding*/
+    height:00px;
     }
 }
