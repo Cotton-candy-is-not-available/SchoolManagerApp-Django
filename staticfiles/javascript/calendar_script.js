@@ -1,5 +1,6 @@
 let currentDate = new Date; //start from current user's device date
 var numOfEvents = 0; //counter for number of events on a specific day
+var buttonAppearedAlready = false; //boolean for viewMore button
 
 function generateCalendar(newDate) {
     //retrieve the current newDate and calculate/retrieve all of its information
@@ -34,7 +35,6 @@ function generateCalendar(newDate) {
         dayCell.setAttribute('data-day', day); //basically creating an attribute of each daycell to contain the event data specific to that day
         dayCell.innerText = day.toString();
         calendarGrid.appendChild(dayCell);
-
     }
 
     $(document).ready(function () {
@@ -48,13 +48,27 @@ function generateCalendar(newDate) {
                    for (var key in response.events) { //loop through all the events in the database
                         const eventDate = new Date(response.events[key].date_of_event.replace(/-/g, '\/')) //save the date of the event
 
+                        //basically creating a new date variable to hold the current calendar date of this big for loop
+                        //it keeps track of the date the for loop is currently iterating through (aka the calendar date based on dayNum)
+                        let CurrentCalendarDateFull = new Date();
+                        CurrentCalendarDateFull.setDate(dayNum-1); //attach dayNum to the day part of CurrentCalendarDateFull
+                        //parse the date to be YYYY-MM-DD format so that weekly_schedule can process it properly
+                        let parsedDate = CurrentCalendarDateFull.toISOString().split('T')[0];
+
+                        //debugging for checking the dates being passed to weekly_schedules
+
+                        console.log("calendarDateFull is:" + CurrentCalendarDateFull);
+                        console.log("parsed date is:" + parsedDate);
+
+
                       if (eventDate.getMonth() === month && eventDate.getFullYear() === year && eventDate.getDate() === dayNum) { //check if the date of the event is the same as the day
                         //if yes
 
                         //get the dayCell for the corresponding day
                         const dayCell = document.querySelector(`.day[data-day="${dayNum}"]`);
 
-                        if (dayCell && numOfEvents < 3) {
+                        if (dayCell && numOfEvents < 3) { //won't keep displaying events in the dayCell if more than 3 are already being displayed
+
                             //retrieve the event data for that day
                             const eventHTML = `<li>${response.events[key].event_name}</li>`; //displays name of the event
 
@@ -70,9 +84,14 @@ function generateCalendar(newDate) {
                           numOfEvents += 1
                           console.log("number of events is:" + numOfEvents + " day number is:" + dayNum);
 
-                          if(numOfEvents > 3) { //if the number of events for that specific day is > 3
+                          if(numOfEvents > 3 && buttonAppearedAlready === false) { //if the number of events for that specific day is > 3, and the 'viewmore' button has not been displayed yet
                               ShowViewMore(); //toggle the view more button ON
-                              dayCell.innerHTML += `<a href="/weekly_schedule/" id="vmButton" style="color: #254B5B;
+                              buttonAppearedAlready = true; //so that the view more button only appears once for that day
+                              console.log("parsed date BEFORE BUTTON is:" + parsedDate);
+
+                              //view more button that passes the parsed (YYYY-MM-DD) version of CurrentCalendarDateFull to weekly_schedule
+                              //directs to the weekly_schedule page that corresponds to CurrentCalendarDateFull
+                              dayCell.innerHTML += `<a href="/weekly_schedule/?date=${parsedDate}" id="vmButton" style="color: #254B5B;
                                                                                                      font-style: italic">View More</a>`
                           }
                           else {
@@ -83,11 +102,8 @@ function generateCalendar(newDate) {
                       //if no, take the next event in the database and check again
                    }
                    numOfEvents = 0; //reset the event counter for the next day
+                   buttonAppearedAlready = false; //reset the button press for the next day
                }
-
-
-
-
            },
            error: function (response){
                alert("error")
