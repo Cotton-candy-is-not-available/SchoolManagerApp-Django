@@ -132,16 +132,20 @@ def register(request):
         form = CreateUserForm(request.POST)
 
         if form.is_valid():
-            user = form.save(commit = False)
-            user.is_active = False
-            user.save()
+            form.save()
 
-            activateEmail(request, user, form.cleaned_data.get ('email'))
             return redirect('index')
 
-        else:
-            for error in list(form.errors.values()):
-                messages.error(request, error)
+            #user = form.save(commit = False)
+            #user.is_active = False
+            #user.save()
+
+            #activateEmail(request, user, form.cleaned_data.get ('email'))
+            #return redirect('index')
+
+        #else:
+            #for error in list(form.errors.values()):
+                #messages.error(request, error)
 
 
     return render(request, "register.html", {'form': form})
