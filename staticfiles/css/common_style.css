@@ -1,5 +1,19 @@
+:root {
+    --BBDteal: #1AAB93;
+    --BBDpink: #E48D78;
+    --BBDdarkTan: #D05F45;
+    --BBDgrey: #5A6F75;
+    --BBDdarkBlue: #355764;
+    --BBDblack: #3D3E3F;
+    --BBDlightBlue: #ABB9BC;
+    --BBDbeige: #F1D1B5;
+}
+
+
+
 .errorlist { /*Hides this field is required text*/
     display: none;
+    color: tea;
 
 }
 
@@ -87,6 +101,9 @@ button[type="submit"]:hover {
     }
 
 }
+
+
+
 
 
 

@@ -1,19 +1,14 @@
-.a {
-            text-decoration: none;
-            font-size: 30px;
-        }
-
 
 
 /* --------------------------- Side navigation bar ---------------------------------*/
 .sideNav {
-    display: block;
+  display: block;
 
   list-style-type: none;
   margin: 0;
   padding: 0;
   width: 14%;/*width of side nav box*/
-  background-color: #ba1655;/* box colour*/
+  background-color: var(--BBDlightBlue);/* box colour*/
   position: absolute;/* make it stay at the top*/
   height: 100%;
   overflow: auto;
@@ -25,6 +20,7 @@ li a {
   color: #000;
   padding: 8px 16px;
   text-decoration: none;
+  font-size: 30px;
 }
 
 /*When on tab*/
