@@ -21,7 +21,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
 
     #----- AUTHENTICATION -----#
-    path('activate/<uidb64>/<token>/', views.activate, name='activate'),
+    #path('activate/<uidb64>/<token>/', views.activate, name='activate'),
 
     # -------- lOG IN ---------#
 
@@ -65,6 +65,7 @@ urlpatterns = [
     #----- NOTIFICATION ----#
     path('mark_notification_read/<int:notif_id>/', views.mark_notification_read,
          name='mark_notification_read'),
+path('mark_all_notifications_read/', views.mark_all_notifications_read, name='mark_all_notifications_read'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

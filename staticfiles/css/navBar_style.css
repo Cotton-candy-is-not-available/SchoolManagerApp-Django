@@ -1,4 +1,14 @@
- .a {
+/*
+beige - F3D1B5
+light blue - ADB9BC
+medium desat blue cyanish whatever - 566B72
+dark blueish teal - 254B5B
+light pink - E68E77
+dark saturated pink - D05E43
+cyan (possibly for accents) - 20AB93
+dark almost black blue - 171717
+*/
+.a {
             text-decoration: none;
             font-size: 30px;
         }
@@ -6,13 +16,12 @@
  /*----------------   Home and log out button text ------------*/
  .topNav {
   overflow: hidden;
-  background-color: #207971;
+  background-color: #355663;
      height: 80px;/*height of top nav*/
 }
 /*nav text styling*/
 .topNav a {
  float: left;
-  color: #ffffff;/*white*/
   text-align: center;
   padding: 30px 25px;/*text height, text side padding*/
   text-decoration: none;
@@ -21,8 +30,7 @@
 
 /*Hover colours*/
 .topNav a:hover {
-  background-color: #93cbec;/*hover colour*/
-  color: #637920;/*regular colour*/
+  color: #20AB93;/*regular colour*/
 }
 
 /*move logout to the right*/
@@ -37,7 +45,7 @@
   margin: 0;
   padding: 0;
   width: 14%;/*width of side nav box*/
-  background-color: #ba1655;/* box colour*/
+  background-color: #aab8bb;/* box colour*/
   position: absolute;/* make it stay at the top*/
   height: 100%;
   overflow: auto;
@@ -46,21 +54,20 @@
 /*Side nav text styling*/
 li a {
   display: block;
-  color: #000;
+  color: #660000;
   padding: 8px 16px;
   text-decoration: none;
 }
 
 /*When on tab*/
 li a.active {
-  background-color: #5faa04;
-  color: white;
+  background-color: #ff0000;
+  color: #20AB93;
 }
 
 /*When not on tab*/
 li a:hover:not(.active) {
-  background-color: #b11d1d;
-  color: white;
+  color: #1e9d87;
 }
 
 /*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
@@ -73,9 +80,9 @@ li a:hover:not(.active) {
 
 
  .topNav a {
-            color: white;
-            text-decoration: none;
-            margin-right: 20px;
+     color: #660000;
+     text-decoration: none;
+     margin-right: 20px;
  }
 
  .topNav-right {
@@ -83,12 +90,43 @@ li a:hover:not(.active) {
             align-items: center;
  }
 
- .notification-dropdown {
-            position: relative;
-            margin-right: 20px;
- }
+.notification-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 15px;
+}
 
- .notification-dropdown .dropdown-content {
+.notification-dropdown {
+    display: none;
+    position: fixed;
+    top: 80px; /* Adjust based on your navbar height */
+    right: 20px;
+    width: 300px;
+    max-height: 400px;
+    background-color: #e59a83;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgb(206, 94, 68);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 15px;
+    border-bottom: 1px solid #b58282;
+}
+
+.notification-badge {
+    top: -5px;
+    right: -5px;
+    background-color: #e28c77;
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 10px;
+}
+
+
+/* .notification-dropdown .dropdown-content {
             display: none;
             position: absolute;
             right: 0;
@@ -101,32 +139,35 @@ li a:hover:not(.active) {
             z-index: 999;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             padding: 10px;
- }
+ }*/
 
- .notification-dropdown:hover .dropdown-content {
+/* .notification-dropdown:hover .dropdown-content {
             display: block;
  }
 
  .notification-badge {
-            background-color: red;
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 3px 6px;
+      font-size: 12px;
+ }*/
+            /*background-color: red;
             color: white;
             border-radius: 50%;
             padding: 3px 7px;
             font-size: 12px;
             vertical-align: top;
             margin-left: 4px;
- }
+ }*/
 
- .notification-item {
+/* .notification-item {
             padding: 5px 0;
             border-bottom: 1px solid #ddd;
- }
-
- .sideNav li {
-            list-style: none;
-            padding: 10px;
- }
-
+ }*/
 
 /*body{*/
 /*    overflow-y: hidden;!*makes it not possible to scroll*!*/

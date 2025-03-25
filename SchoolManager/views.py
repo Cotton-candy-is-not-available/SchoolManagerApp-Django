@@ -23,7 +23,7 @@ from django.utils.html import escapejs
 
 # For activation #
 
-from .tokens import account_activation_token
+#from .tokens import account_activation_token
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -87,40 +87,41 @@ def addEvent(request):
 
 #----- ACTIVATE THE ACCOUNT ----#
 
-def activateEmail(request, user, to_email):
-    mail_subject = "Activate your user account"
-    message = render_to_string("template_activation.html", {
-        'user': user.username, #if doesn't work delete username
-        'domain': get_current_site(request).domain,
-        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-        'token': account_activation_token.make_token(user),
-        'protocol': 'https' if request.is_secure() else 'http',
-    })
-    email = EmailMessage(mail_subject, message, to=[to_email])
-    if email.send():
-        messages.success(request, f'Dear <b> {user} </b>, please'
-                              f'go to your email <b> {to_email} </b> inbox and click on \ '
-                              f'recieved activation link to confirm and complete the registration')
-    else:
-        messages.error(request, f'Problem sending email to {to_email}, check if'
-                                f'you typed it correctly.')
-def activate(request, uidb64, token):
-    User = get_user_model()
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except:
-        user = None
+#def activateEmail(request, user, to_email):
+#    mail_subject = "Activate your user account"
+#    message = render_to_string("template_activation.html", {
+#        'user': user.username, #if doesn't work delete username
+#        'domain': get_current_site(request).domain,
+#        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#        'token': account_activation_token.make_token(user),
+#        'protocol': 'https' if request.is_secure() else 'http',
+#   })
+#    email = EmailMessage(mail_subject, message, to=[to_email])
+#    if email.send():
+#        messages.success(request, f'Dear <b> {user} </b>, please'
+#                              f'go to your email <b> {to_email} </b> inbox and click on \ '
+#                              f'recieved activation link to confirm and complete the registration')
+#   else:
+#        messages.error(request, f'Problem sending email to {to_email}, check if'
+#                                f'you typed it correctly.')
 
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        messages.success(request, f'Thank you! Your account has been activated')
-        return redirect ('login')
-    else:
-        messages.error(request, "Activation link is invalid!")
+# def activate(request, uidb64, token):
+#    User = get_user_model()
+#    try:
+#        uid = force_str(urlsafe_base64_decode(uidb64))
+#        user = User.objects.get(pk=uid)
+#    except:
+#        user = None
 
-    return redirect('start_page')
+#    if user is not None and account_activation_token.check_token(user, token):
+#        user.is_active = True
+#        user.save()
+#        messages.success(request, f'Thank you! Your account has been activated')
+#        return redirect ('login')
+#    else:
+#        messages.error(request, "Activation link is invalid!")
+
+#    return redirect('start_page')
 
 
 # ----- for register page -------#
@@ -275,6 +276,7 @@ def addEvent(request):
 
             # set the date retrieved date_of_event to the form
             event_instance = event_form.save(commit=False)
+            event_instance.user = request.user
             event_instance.date_of_event = date_of_event
 
             event_instance.save()
@@ -329,6 +331,8 @@ def deleteEvent(request, pk):
 
 @login_required
 def weekly_schedule(request):
+    create_notifications(request.user)
+
     global decrease, increase
     increase = 0
     decrease = 0
@@ -414,13 +418,25 @@ def create_notifications(user):
     upcoming_event = Event.objects.filter(
         user =user,
         date_of_event__gt=today,
-        date_of_event__lte=today + timedelta(days=2))
+        date_of_event__lte=today + timedelta(days=2)
+    )
+    print("Upcoming events found:", upcoming_event)
 
     for event in upcoming_event:
+
         message = f"Upcoming event: {event.event_name} on {event.date_of_event}"
 
+        print("Checking event for notifications:", message)
+
         if not Notification.objects.filter(user=user, message=message).exists():
+            print("Checking event for notifications:", message)
             Notification.objects.create(user=user, message=message)
+
+            #filter(user=user, message__icontains=event.event_name, is_read=False).exists()):
+            #message = f"Upcoming event: {event.event_name} on {event.date_of_event}"
+            #Notification.objects.create(user=user, message=message)
+            #message = f"Upcoming event: {event.event_name} on {event.date_of_event}").exists():
+            #Notification.objects.create(user=user, message=message)
 
 
 @login_required
@@ -428,6 +444,12 @@ def mark_notification_read(request, notif_id):
     notification = Notification.objects.get(id=notif_id, user=request.user)
     notification.is_read = True
     notification.save()
-    return redirect('calendar')
+    return redirect(request.META.get('HTTP_REFERER', 'calendar'))
+
+@login_required
+def mark_all_notifications_read(request):
+    Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
+    return redirect(request.META.get('HTTP_REFERER', 'calendar'))
+
 #Password for an email
 #SCHOOL123

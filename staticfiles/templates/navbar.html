@@ -12,38 +12,65 @@
 <body>
 
 <nav>
-  <div class="topNav">
-    <a href="{% url 'calendar' %}">Home</a>
-
-    <div class="topNav-right">
-      <div class="notification-dropdown">
-        <a href="#">
-          <i class="fa-solid fa-bell fa-lg"></i>
-          {% if unread_count > 0 %}
-            <span class="notification-badge">{{ unread_count }}</span>
-          {% endif %}
-        </a>
-        <div class="dropdown-content">
-          {% for notification in unread_notifications %}
-            <div class="notification-item">
-              <p>{{ notification.message }}</p>
-              <small>{{ notification.created_at|date:"M d, H:i" }}</small><br>
-              <a href="{% url 'mark_notification_read' notification.id %}">Mark as read</a>
+   <div class="topNav">
+            <a href="{% url 'calendar' %}">Home</a>
+            <div class="topNav-right">
+                <div class="notification-container">
+                    <a href="#" id="notificationBell">
+                        <i class="fa-solid fa-bell fa-lg"></i>
+                        {% if unread_count > 0 %}
+                            <span class="notification-badge" id="notificationBadge">{{ unread_count }}</span>
+                        {% endif %}
+                    </a>
+                <a href="{% url 'user_logout' %}">Log out</a>
             </div>
-          {% empty %}
-            <p>No new notifications.</p>
-          {% endfor %}
         </div>
-      </div>
-      <a href="{% url 'user_logout' %}">Log out</a>
-    </div>
-  </div>
 
   <div class="sideNav">
     <li><a href="{% url 'Todo_list' %}">To do list</a></li>
     <li><a href="{% url 'weekly_schedule' %}">Weekly schedule</a></li>
   </div>
+
+   <div class="notification-dropdown" id="notificationDropdown">
+       {% for notification in unread_notifications %}
+           <div class="notification-item">
+               <div class="notification-content">
+                   <p>{{ notification.message }}</p>
+                   <small>{{ notification.created_at|date:"M d, H:i" }}</small>
+               </div>
+               <a href="{% url 'mark_notification_read' notification.id %}" class="mark-read">Mark as read</a>
+           </div>
+       {% empty %}
+           <div class="notification-item">
+               <p>No new notifications.</p>
+           </div>
+       {% endfor %}
+   </div>
+   </div>
+
 </nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const bell = document.getElementById('notificationBell');
+    const dropdown = document.getElementById('notificationDropdown');
+
+    bell.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!bell.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+});
+</script>
+
+
 
 </body>
 </html>
