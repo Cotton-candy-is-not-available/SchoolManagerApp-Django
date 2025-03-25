@@ -36,8 +36,17 @@
     {# ------------ Display list ------------#}
     <div class="list-grid">
         {% for TD_list in lists %}
-            <div class="list-name"><h2><u><b> {{ TD_list.List_name }} </b></u></h2></div>{# list title #}
+            <div><h2 class="logs"><u><b> {{ TD_list.List_name }} </b></u></h2></div>{# list title #}
+            {# Logs right click menu#}
+            <div id="LogsRightClickMenu" class="LogsRightClickMenu">
+                <ul>
+                    <li><a href="#">Edit</a></li>
+                    <li><a href="{% url 'delete_list' TD_list.id %}"
+                           onclick="return confirm('Are you sure you want to delete this List?');">Delete</a></li>
+                    <li><a href="#">View More</a></li>
+                </ul>
 
+            </div>
             {# ------------ Display tasks for each lists ------------#}
             {% for Tasks in task %}
 
@@ -48,33 +57,34 @@
                             <button onclick="location.href='{% url 'Toggle_task' Tasks.id %}'"
                                     class="action-link">☑
                             </button>
-{#   Right click menu #}
+                            {#   Right click menu #}
 
                             {# If its top priority it turns red #}
                             {% if Tasks.Important == True %}
-                                <li class = "goals" style="color: #b11d1d; display: inline-block"><s>{{ Tasks.description }}</s></li>
+                                <li class="goals" style="color: #b11d1d; display: inline-block">
+                                    <s>{{ Tasks.description }}</s></li>
                                 <form style="display: inline-block" action="{% url 'update_goal' Tasks.id %}"
                                       method="get">
                                     <button><img class="button_image_style"
-                                                               src="/staticfiles/images/edit-Icon.png"
-                                                               alt="Edit button"></button>
+                                                 src="/staticfiles/images/edit-Icon.png"
+                                                 alt="Edit button"></button>
                                 </form>
 
                                 {# Delete task  #}
                                 <form style="display: inline-block" action="{% url 'delete_task' Tasks.id %}"
                                       method="get">
-                                    <button ><img class="button_image_style"
-                                                               src="/staticfiles/images/delete-icon.png"
-                                                               alt="Delete button "></button>
+                                    <button><img class="button_image_style"
+                                                 src="/staticfiles/images/delete-icon.png"
+                                                 alt="Delete button "></button>
                                 </form>
                             {% else %}
-                                <li  class = "goals" style="display: inline-block"><s>{{ Tasks.description }}</s></li>
+                                <li class="goals" style="display: inline-block"><s>{{ Tasks.description }}</s></li>
                                 {#                                   Update task#}
                                 <form style="display: inline-block" action="{% url 'update_goal' Tasks.id %}"
                                       method="get">
-                                    <button ><img class="button_image_style"
-                                                               src="/staticfiles/images/edit-Icon.png"
-                                                               alt="Edit button"></button>
+                                    <button><img class="button_image_style"
+                                                 src="/staticfiles/images/edit-Icon.png"
+                                                 alt="Edit button"></button>
                                 </form>
 
                                 {# Delete task  #}
@@ -94,14 +104,15 @@
                                     class="action-link">☐
                             </button>
                             {% if Tasks.Important == True %}
-                                <li class="goals" style="color: #b11d1d; display: inline-block;">{{ Tasks.description }}</li>
+                                <li class="goals"
+                                    style="color: #b11d1d; display: inline-block;">{{ Tasks.description }}</li>
 
                                 {#   Update task#}
                                 <form style="display: inline-block" action="{% url 'update_goal' Tasks.id %}"
                                       method="get">
-                                    <button ><img class="button_image_style"
-                                                               src="/staticfiles/images/edit-Icon.png"
-                                                               alt="Edit button"></button>
+                                    <button><img class="button_image_style"
+                                                 src="/staticfiles/images/edit-Icon.png"
+                                                 alt="Edit button"></button>
                                 </form>
 
                                 {# Delete task  #}
@@ -136,15 +147,18 @@
                         {% endif %}
                     </ul>
                 {% endif %}
-                 <div id="EventRightClickMenu" class="EventRightClickMenu" >
-                                <ul>
-                                    <li><a href="{% url 'update_goal' Tasks.id %}">Edit</a></li>
-                                    <li><a href="{% url 'delete_task' Tasks.id %}" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a></li>
-                                    <li><a href="#">View More</a></li>
-                                </ul>
+                {#                Goals right click menu#}
+                <div id="EventRightClickMenu" class="EventRightClickMenu">
+                    <ul>
+                        <li><a href="{% url 'update_goal' Tasks.id %}">Edit</a></li>
+                        <li><a href="{% url 'delete_task' Tasks.id %}"
+                               onclick="return confirm('Are you sure you want to delete this event?');">Delete</a></li>
+                        <li><a href="#">View More</a></li>
+                    </ul>
 
-                            </div>
+                </div>
             {% endfor %}
+
         {% endfor %}
     </div>
 
@@ -235,9 +249,7 @@
     </dialog>
 
 
-
-<script src="{% static 'javascript/RighClickMenu_script.js' %}" defer></script>
-
+    <script src="{% static 'javascript/RighClickMenu_script.js' %}" defer></script>
 
 
 </div>

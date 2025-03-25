@@ -21,6 +21,8 @@ function Menu(i, topPosition, leftPosition){
 }
 
 
+console.log("logs", Logs);
+console.log("Logs_Right_Click_Menu", Logs_Right_Click_Menu);
 
 function LogsMenu(i, topPosition, leftPosition){
         //Turns on context menu

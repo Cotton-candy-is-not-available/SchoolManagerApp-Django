@@ -16,17 +16,18 @@
 
 
 /*-------------- Right click custom context menu ----------------------*/
+/*Event and goals right click menu*/
 .EventRightClickMenu {
     width: 200px;
     box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.3);
-    display: block;
+    display: none;
     position: fixed;
     transition: opacity 500ms ease;
 
 }
 
 .EventRightClickMenu.active {
-    /*display: block; !*show menu*!*/
+    display: block; /*show menu*/
 
 }
 
@@ -63,6 +64,50 @@
 }
 
 
+/*Logs right click menu*/
+.LogsRightClickMenu {
+    width: 200px;
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.3);
+    display: none;
+    position: fixed;
+    transition: opacity 500ms ease;
+
+}
+
+.LogsRightClickMenu.active {
+    display: block; /*show menu*/
+
+}
 
 
+.LogsRightClickMenu ul li a {
+    text-decoration: none;
+    display: inline-block;
+
+    padding: 20px 32px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    color: black;
+
+    box-sizing: border-box;
+    border-bottom: 1px solid #000000;
+    border-left: 4px solid transparent;
+
+    background: white;
+
+    transition: all 400ms ease;
+
+}
+
+.LogsRightClickMenu ul li a:hover {
+    background: #20AB93;
+    border-left: 4px solid #ba16a4;
+}
+
+.LogsRightClickMenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
