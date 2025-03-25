@@ -34,6 +34,22 @@ function generateCalendar(newDate) {
         dayCell.className = 'day';
         dayCell.setAttribute('data-day', day); //basically creating an attribute of each daycell to contain the event data specific to that day
         dayCell.innerText = day.toString();
+
+        let currCylceDate = new Date();
+        currCylceDate.setDate(day-1);
+
+        //debug statements to check between currentDate and the currCycleDate
+        /*
+        console.log("currCycleDate is: " + currCylceDate);
+        console.log("dayNum is: " + day);
+        console.log(("currentDate is: " + currentDate));
+        */
+
+        //if the current date of the iteration is the same as the current real life date
+        if(currCylceDate.getDate() === currentDate.getDate() && currCylceDate.getMonth() === currentDate.getMonth() && currCylceDate.getFullYear() === currentDate.getFullYear()) {
+            dayCell.classList.add('highlight'); //add highlight class to the matched dayCell
+        }
+
         calendarGrid.appendChild(dayCell);
     }
 
@@ -45,6 +61,7 @@ function generateCalendar(newDate) {
                $("#display").empty();
 
                for (let dayNum = 1; dayNum < daysInMonth; dayNum++) { //loop through each day individually
+
                    for (var key in response.events) { //loop through all the events in the database
                         const eventDate = new Date(response.events[key].date_of_event.replace(/-/g, '\/')) //save the date of the event
 
@@ -56,10 +73,8 @@ function generateCalendar(newDate) {
                         let parsedDate = CurrentCalendarDateFull.toISOString().split('T')[0];
 
                         //debugging for checking the dates being passed to weekly_schedules
-
-                        console.log("calendarDateFull is:" + CurrentCalendarDateFull);
-                        console.log("parsed date is:" + parsedDate);
-
+                        //console.log("calendarDateFull is:" + CurrentCalendarDateFull);
+                        //console.log("parsed date is:" + parsedDate);
 
                       if (eventDate.getMonth() === month && eventDate.getFullYear() === year && eventDate.getDate() === dayNum) { //check if the date of the event is the same as the day
                         //if yes
@@ -85,10 +100,6 @@ function generateCalendar(newDate) {
                             //adds the event data to the daycell day data
                             dayCell.innerHTML += `<button class="event_as_button" onclick="viewEventDetailsWidget('${response.events[key].event_name}', '${parsedDate}', '${response.events[key].description}')"><a>${eventHTML}</a></button>`;
 
-                            //highlight the current day
-                            if (dayNum === newDate.getDate()) {
-                                dayCell.classList.add('highlight');
-                            }
                         }
 
                           numOfEvents += 1
