@@ -83,7 +83,7 @@ function generateCalendar(newDate) {
                             //passes each detail of the event individually to the viewEventDetailsWidget function
                             //AND
                             //adds the event data to the daycell day data
-                            dayCell.innerHTML += `<button onclick="viewEventDetailsWidget('${response.events[key].event_name}', '${parsedDate}', '${response.events[key].description}')"><a>${eventHTML}</a></button>`;
+                            dayCell.innerHTML += `<button class="event_as_button" onclick="viewEventDetailsWidget('${response.events[key].event_name}', '${parsedDate}', '${response.events[key].description}')"><a>${eventHTML}</a></button>`;
 
                             //highlight the current day
                             if (dayNum === newDate.getDate()) {

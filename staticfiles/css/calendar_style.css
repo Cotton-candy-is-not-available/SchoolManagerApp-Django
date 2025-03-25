@@ -74,15 +74,29 @@ button[type="submit"]:hover {
     background-color: #E68E77;
 }
 
-.detailsButton {
-    background-color: cadetblue;
-
-}
-
-
 /* view more button */
 /*is styled within line 75 of calendar_script*/
 
 /*styling for the content inside of the view event details widget*/
+#view_event_details h3 {
+    font-size: 40px;
+    justify-self: center;
+}
 
+#view_event_details h2 {
+    font-weight: bold;
+    font-size: 28px;
+    justify-self: center;
+}
+
+#view_event_details p {
+    font-size: 18px;
+}
+
+/*styling for each individual event being displayed in the daycell boxes*/
+.event_as_button {
+    padding: revert;
+    border-radius: revert;
+    margin: revert;
+}
 
