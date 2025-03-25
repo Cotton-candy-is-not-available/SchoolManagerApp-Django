@@ -27,7 +27,7 @@
         </div>
 
   <div class="sideNav">
-    <li><a href="{% url 'Todo_list' %}">To do list</a></li>
+    <li><a href="{% url 'FutureLogsGoals' %}">To do list</a></li>
     <li><a href="{% url 'weekly_schedule' %}">Weekly schedule</a></li>
   </div>
 
@@ -35,7 +35,7 @@
        {% for notification in unread_notifications %}
            <div class="notification-item">
                <div class="notification-content">
-                   <p>{{ notification.message }}</p>
+                  <p>{{ notification.message }}</p>
                    <small>{{ notification.created_at|date:"M d, H:i" }}</small>
                </div>
                <a href="{% url 'mark_notification_read' notification.id %}" class="mark-read">Mark as read</a>

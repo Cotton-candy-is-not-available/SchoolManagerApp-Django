@@ -1,4 +1,6 @@
 let currentDate = new Date; //start from current user's device date
+var numOfEvents = 0; //counter for number of events on a specific day
+var buttonAppearedAlready = false; //boolean for viewMore button
 
 function generateCalendar(newDate) {
     //retrieve the current newDate and calculate/retrieve all of its information
@@ -33,7 +35,6 @@ function generateCalendar(newDate) {
         dayCell.setAttribute('data-day', day); //basically creating an attribute of each daycell to contain the event data specific to that day
         dayCell.innerText = day.toString();
         calendarGrid.appendChild(dayCell);
-
     }
 
     $(document).ready(function () {
@@ -43,34 +44,65 @@ function generateCalendar(newDate) {
            success: function (response){
                $("#display").empty();
 
-               for (var key in response.events) { //loop through each event
-                   console.log(key)
-                   console.log(response.events);
-                   //.replace(/-/g, '\/') is so that it displays in the correct days
-                   const eventDate = new Date(response.events[key].date_of_event.replace(/-/g, '\/')) //save the date of the event
-                  //Debugging
-                   console.log("this is the eventDay.getday: " + eventDate.getDate())
-                   console.log(eventDate)
-                   console.log(daysInMonth);
+               for (let dayNum = 1; dayNum < daysInMonth; dayNum++) { //loop through each day individually
+                   for (var key in response.events) { //loop through all the events in the database
+                        const eventDate = new Date(response.events[key].date_of_event.replace(/-/g, '\/')) //save the date of the event
 
-                   for(let day = 1; day < daysInMonth; day++) {
-                       console.log("we're looping through days in the month")
-                      if (eventDate.getMonth() === month && eventDate.getFullYear() === year && eventDate.getDate() === day) { //check if the date of the event is the same as the day
-                          // Find the dayCell for the corresponding day
-                        const dayCell = document.querySelector(`.day[data-day="${day}"]`);
-                        if (dayCell) {
+                        //basically creating a new date variable to hold the current calendar date of this big for loop
+                        //it keeps track of the date the for loop is currently iterating through (aka the calendar date based on dayNum)
+                        let CurrentCalendarDateFull = new Date();
+                        CurrentCalendarDateFull.setDate(dayNum-1); //attach dayNum to the day part of CurrentCalendarDateFull
+                        //parse the date to be YYYY-MM-DD format so that weekly_schedule can process it properly
+                        let parsedDate = CurrentCalendarDateFull.toISOString().split('T')[0];
+
+                        //debugging for checking the dates being passed to weekly_schedules
+
+                        console.log("calendarDateFull is:" + CurrentCalendarDateFull);
+                        console.log("parsed date is:" + parsedDate);
+
+
+                      if (eventDate.getMonth() === month && eventDate.getFullYear() === year && eventDate.getDate() === dayNum) { //check if the date of the event is the same as the day
+                        //if yes
+
+                        //get the dayCell for the corresponding day
+                        const dayCell = document.querySelector(`.day[data-day="${dayNum}"]`);
+
+                        if (dayCell && numOfEvents < 3) { //won't keep displaying events in the dayCell if more than 3 are already being displayed
+
                             //retrieve the event data for that day
-                            const eventHTML = `<br><li>${response.events[key].event_name} </li>`;//displays name of the event
-                            // const eventHTML = `<br><li>${response.events[key].event_name} - ${response.events[key].description}</li>`;//displays description and name of event
+                            const eventHTML = `<li>${response.events[key].event_name}</li>`; //displays name of the event
+
+                            //if numOfEvents in one daycell is less than 3
                             dayCell.innerHTML += `${eventHTML}`; //add the event data to the data-day of the daycell
 
                             //highlight the current day
-                            if (day === newDate.getDate()) {
+                            if (dayNum === newDate.getDate()) {
                                 dayCell.classList.add('highlight'); // Highlight current day
                             }
                         }
+
+                          numOfEvents += 1
+                          console.log("number of events is:" + numOfEvents + " day number is:" + dayNum);
+
+                          if(numOfEvents > 3 && buttonAppearedAlready === false) { //if the number of events for that specific day is > 3, and the 'viewmore' button has not been displayed yet
+                              ShowViewMore(); //toggle the view more button ON
+                              buttonAppearedAlready = true; //so that the view more button only appears once for that day
+                              console.log("parsed date BEFORE BUTTON is:" + parsedDate);
+
+                              //view more button that passes the parsed (YYYY-MM-DD) version of CurrentCalendarDateFull to weekly_schedule
+                              //directs to the weekly_schedule page that corresponds to CurrentCalendarDateFull
+                              dayCell.innerHTML += `<a href="/weekly_schedule/?date=${parsedDate}" id="vmButton" style="color: #254B5B;
+                                                                                                     font-style: italic">View More</a>`
+                          }
+                          else {
+                              //if no, keep the view more button toggled OFF
+                              HideViewMore();
+                          }
                       }
+                      //if no, take the next event in the database and check again
                    }
+                   numOfEvents = 0; //reset the event counter for the next day
+                   buttonAppearedAlready = false; //reset the button press for the next day
                }
            },
            error: function (response){
@@ -92,4 +124,14 @@ function prevMonth() {
 
 window.onload = function() {
     generateCalendar(currentDate);
+}
+
+function ShowViewMore() {
+    var button = document.getElementById("vmButton");
+    button.style.display = "block";
+}
+
+function HideViewMore() {
+    var button = document.getElementById("vmButton");
+    button.style.display = "none";
 }

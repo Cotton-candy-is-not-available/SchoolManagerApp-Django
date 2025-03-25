@@ -10,12 +10,12 @@ Users can personalise their schedule by adding and removing events from the cale
 Users also have a to-do list to add tasks such as assignments or daily chores.
 
 Screenshots of application: 
-![Screenshot 1](img_1.png)
-![Screenshot 2](img.png)
-![img_5.png](img_5.png)
-![img_2.png](img_2.png)
-![img_3.png](img_3.png)
-![img_4.png](img_4.png)
-![img_6.png](img_6.png)
+![Screenshot 1](staticfiles/images/AppScreenshots/img_1.png)
+![Screenshot 2](staticfiles/images/AppScreenshots/img.png)
+![img_5.png](staticfiles/images/AppScreenshots/img_5.png)
+![img_2.png](staticfiles/images/AppScreenshots/img_2.png)
+![img_3.png](staticfiles/images/AppScreenshots/img_3.png)
+![img_4.png](staticfiles/images/AppScreenshots/img_4.png)
+![img_6.png](staticfiles/images/AppScreenshots/img_6.png)
 
 

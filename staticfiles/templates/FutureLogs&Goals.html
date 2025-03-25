@@ -1,0 +1,168 @@
+{% include 'navbar.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Future Logs</title>
+    <link rel="stylesheet" href="{% static 'css/Logs&goals.css ' %}">
+    {#link to styling#}
+
+</head>
+
+<body>
+<div class="main_content">
+    <h1>Future logs and goals</h1>
+
+    {#------------ Create new log -------------------#}
+    {# ---- pop up button ------#}
+    <button class="btn" onclick="newLog.showModal()">New Log</button>
+
+    {#--------- Create new goal ---------#}
+    {# ---- pop up button ------#}
+    <button class="btn" onclick="newGoal.showModal()">New Goal</button>
+
+    {#--------- Delete Log ---------#}
+    <!-- Delete Log pop up button -->
+    <button class="btn" onclick="deleteLog.showModal()">Delete Log</button>
+
+    {#--------- Delete goal ---------#}
+    <!-- Delete goal pop up button -->
+    <button class="btn" onclick="deleteGoal.showModal()">Delete Goal</button>
+
+
+    {# ------------ Display list ------------#}
+    <div class="log-grid">
+        {% for Logs in log %}
+            <div class="list-name"><h2><u><b> {{ Logs.Log_name }} </b></u></h2></div>{# list title #}
+
+            {# ------------ Display goals for each Log ------------#}
+            {% for Goal in goals %}
+                {% if Goal.log.Log_name == Logs.Log_name %}
+                    <ul>
+                        {% if Goal.completed == True %}
+                            <button onclick="location.href='{% url 'Toggle_goals' Goal.id %}'"
+                                    class="action-link">✓
+                            </button>
+
+                        {#If very important; bold it#}
+                            {% if Goal.get_Importance_display == 'Very Important' %}
+                                <li><b><s>{{ Goal.description }}</s></b></li>
+
+                            {% else %}
+                                <li><s>{{ Goal.description }}</s></li>
+                            {% endif %}
+
+
+                        {% else %}
+                            <button onclick="location.href='{% url 'Toggle_goals' Goal.id %}'"
+                                    class="action-link">☐
+                            </button>
+                        {#If very important; bold it#}
+                            {% if Goal.get_Importance_display == 'Very Important' %}
+                                <li><b>{{ Goal.description }}</b></li>
+
+                            {% else %}
+                            <li class="goal-desc">{{ Goal.description }}</li>
+                            {% endif %}
+
+
+
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+    {#------------ Create new list -------------------#}
+    {#----- pop up --------#}
+    <dialog id="newLog" class="modal">
+        <div class="modal-box">
+            {# ---- list Form -----  #}
+            <h3>New Log</h3>{# Title #}
+            <form method="post" action="{% url 'create_logs' %}">
+                {% csrf_token %}
+                {{ logForm.as_p }}
+                <input type="submit">
+            </form>
+
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+
+    {#--------- Create new goal ---------#}
+    {#----- pop up --------#}
+    <dialog id="newGoal" class="modal">
+        <div class="modal-box">
+            <div class="test">
+                {# ---- goal Form -----  #}
+                <h3>New Goal</h3>{# Title #}
+                <form method="post" action="{% url 'create_goal' %}">
+                    {% csrf_token %}
+                    {{ goalForm.as_p }}
+                    <input type="submit">
+                </form>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <button class="btn">Close</button><!-- Close button -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+
+    {#------------ Delete Goals -------------------#}
+    {#----- pop up --------#}
+    <dialog id="deleteGoal" class="modal">
+        <div class="modal-box">
+
+            {# --------- Display all Goals -----  #}
+            <h3>Delete Goal</h3> {# Title #}
+
+            {% for Goal in goals %}
+                {{ Goal.description }}<br>
+                <a href="{% url 'delete_goal' Goal.id %}" class="action-link">Delete</a><br><br>
+            {% endfor %}
+            <div class="modal-action">
+                <form method="dialog">
+                    <br>
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+
+    {#------------ Delete Logs -------------------#}
+    {#----- pop up --------#}
+    <dialog id="deleteLog" class="modal">
+        <div class="modal-box">
+
+            {# --------- Display all Logs -----  #}
+            <h3>Delete Log</h3> {# Title #}
+
+            {% for Logs in log %}
+                <br>{{ Logs.Log_name }}<br>
+                <a href="{% url 'delete_log' Logs.id %}" class="action-link">Delete</a><br>
+            {% endfor %}
+            <div class="modal-action">
+                <form method="dialog">
+                    <br>
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+
+</div>
+</body>
+</html>

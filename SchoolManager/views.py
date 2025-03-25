@@ -1,17 +1,19 @@
 from typing import Protocol
 
+# from aiohttp import request
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import auth
-
-from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.models import User
 
-from datetime import datetime, timedelta, date
-from .models import Event, TD_list, Task, Notification
-from .forms import CreateUserForm, LoginForm, CreateTaskForm, CreateListForm, EventForm
-from calendar import HTMLCalendar
+from django.contrib.auth import authenticate
+from datetime import datetime, timedelta
+from .models import Event, Logs, Goal, JournalEntry, Notification
+from .forms import CreateUserForm, LoginForm, CreateGoalForm, CreateLogsForm, EventForm, EntryForm
+from django.urls import reverse
+
+from calendar import HTMLCalendar, weekday
 import json
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -19,6 +21,10 @@ from django.contrib import messages
 
 
 from django.utils.html import escapejs
+from django.core.paginator import Paginator
+
+import re#is needed for weekly events next and prev functions to work
+
 # global variables for next and prev buttons in weekly schedule
 
 # For activation #
@@ -31,36 +37,58 @@ from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 
 
-increase = 0
-decrease = 0
-
 def start_page(request):
     return render(request, 'start_page.html')
 
 
-
-@login_required
-def index(request):
-    event_form = EventForm()
-    events = Event.objects.all()
-    return render(request, 'index.html', {'events': events})
-
-
-
+#Displays event in json format for the calendar
 def displayEvents(request):
-    events = Event.objects.all()
+    events = Event.objects.filter(user_id=request.user.id)
     return JsonResponse({"events": list(events.values())})
 
 
 @login_required
 def calendar(request):
     create_notifications(request.user)
-
-    events = Event.objects.all()
+    events = Event.objects.filter(user_id=request.user.id)
     event_form = EventForm(request.POST)
     return render(request,
                   'calendar.html',
                   {'events': events, 'event_form': event_form,})
+
+
+def journal(request):
+    entry_form = EntryForm(request.POST)
+    return render(request, 'journal.html', {"entry_form": entry_form})
+
+def viewJournalEntries(request):
+    # Retrieve all journal entries from the database that belong to logged-in user
+    journals = JournalEntry.objects.filter(user_id=request.user.id)
+
+    # Create a Paginator with 2 entries per page
+    paginator = Paginator(journals, 2)  # Show 2 entries per page
+
+    # Get the current page number from the GET parameters (defaults to 1 if not provided)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)  # Get the Page object for the current page
+
+    # Pass the Page object (page_obj) to the template for iteration
+    return render(request, 'journal.html', {'page_obj': page_obj})
+
+def add_entry(request):
+    if request.method == 'POST':
+        entry_form = EntryForm(request.POST)
+        if entry_form.is_valid():
+            journal_entry = entry_form.save(commit=False) #don't save the form yet
+            journal_entry.date_of_entry = datetime.today().date() #get the current date from user's device
+            journal_entry.user = request.user
+            journal_entry.save()
+            return redirect('journal')
+        else:
+            return HttpResponse("something went wrong with the event form")
+    else:
+        entry_form = EntryForm()
+        return render(request, 'journal.html', {'entry_form': entry_form})
 
 
 def addEvent(request):
@@ -85,44 +113,6 @@ def addEvent(request):
         event_form = EventForm()  #for GET request, show the form
         return render(request, 'calendar.html', {'event_form': event_form})
 
-#----- ACTIVATE THE ACCOUNT ----#
-
-#def activateEmail(request, user, to_email):
-#    mail_subject = "Activate your user account"
-#    message = render_to_string("template_activation.html", {
-#        'user': user.username, #if doesn't work delete username
-#        'domain': get_current_site(request).domain,
-#        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-#        'token': account_activation_token.make_token(user),
-#        'protocol': 'https' if request.is_secure() else 'http',
-#   })
-#    email = EmailMessage(mail_subject, message, to=[to_email])
-#    if email.send():
-#        messages.success(request, f'Dear <b> {user} </b>, please'
-#                              f'go to your email <b> {to_email} </b> inbox and click on \ '
-#                              f'recieved activation link to confirm and complete the registration')
-#   else:
-#        messages.error(request, f'Problem sending email to {to_email}, check if'
-#                                f'you typed it correctly.')
-
-# def activate(request, uidb64, token):
-#    User = get_user_model()
-#    try:
-#        uid = force_str(urlsafe_base64_decode(uidb64))
-#        user = User.objects.get(pk=uid)
-#    except:
-#        user = None
-
-#    if user is not None and account_activation_token.check_token(user, token):
-#        user.is_active = True
-#        user.save()
-#        messages.success(request, f'Thank you! Your account has been activated')
-#        return redirect ('login')
-#    else:
-#        messages.error(request, "Activation link is invalid!")
-
-#    return redirect('start_page')
-
 
 # ----- for register page -------#
 def register(request):
@@ -135,19 +125,7 @@ def register(request):
         if form.is_valid():
             form.save()
 
-            return redirect('index')
-
-            #user = form.save(commit = False)
-            #user.is_active = False
-            #user.save()
-
-            #activateEmail(request, user, form.cleaned_data.get ('email'))
-            #return redirect('index')
-
-        #else:
-            #for error in list(form.errors.values()):
-                #messages.error(request, error)
-
+            return redirect('calendar')
 
     return render(request, "register.html", {'form': form})
 
@@ -188,80 +166,78 @@ def user_logout(request):
 
     return redirect('start_page')
 
-# -------- Todo_list ------------#
-# ----Tasks-----
-
-def create_task(request):
-    form = CreateTaskForm()
+# -------- Future logs and goals ------------#
+# ----Goals-----
+def create_goal(request):
+    form = CreateGoalForm()
     if request.method == 'POST':
-        form = CreateTaskForm(request.POST, request.FILES)
+        form = CreateGoalForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('Todo_list')
+            goal = form.save(commit=False)
+            goal.user = request.user
+            goal.save()
+            return redirect('FutureLogsGoals')
 
     context = {'form': form}
-    return render(request, 'Todo_list.html', context=context)
+    return render(request, 'FutureLogs&Goals.html', context=context)
 
-#delete Tasks
-
-def delete_task(request, pk):
-    tasks = Task.objects.get(id=pk)
-    tasks.delete()
-    return redirect('Todo_list')
-
-
-# ------- List --------
+#delete Goals
+def delete_goal(request, pk):
+    goal = Goal.objects.get(id=pk)
+    goal.delete()
+    return redirect('FutureLogsGoals')
 
 
-def create_list(request):
-    form_ = CreateListForm()
+# ------- Logs --------
+def create_logs(request):
+    form_ = CreateLogsForm()
     if request.method == 'POST':
-        form_ = CreateListForm(request.POST, request.FILES)
+        form_ = CreateLogsForm(request.POST, request.FILES)
         if form_.is_valid():
-            form_.save()
-            return redirect('Todo_list')
+            log = form_.save(commit=False)
+            log.user = request.user
+            log.save()
+            return redirect('FutureLogsGoals')
 
     context = {'form_': form_}
-    return render(request, 'Todo_list.html', context=context)
-
+    return render(request, 'FutureLogs&Goals.html', context=context)
 
 @login_required
-def update_list_name(request, pk):
-    lists = TD_list.objects.get(id=pk)
-    form = CreateListForm(instance=lists)
+def update_log_name(request, pk):
+    log = Logs.objects.get(id=pk)
+    form = CreateLogsForm(instance=log)
     if request.method == 'POST':
-        form = CreateListForm(request.POST, instance=lists)
+        form = CreateLogsForm(request.POST, instance=log)
         if form.is_valid():
             form.save()
-            return redirect('Todo_list')  # can now update on index page and are shown to index
+            return redirect('FutureLogsGoals')
     context = {'form': form}
-    return render(request, 'Todo_list.html', context=context)
+    return render(request, 'FutureLogs&Goals.html', context=context)
 
 
 #Delete list
-
 @login_required
-def delete_list(request, pk):
-    lists = TD_list.objects.get(id=pk)
-    lists.delete()
-    return redirect('Todo_list')
+def delete_log(request, pk):
+    log = Logs.objects.get(id=pk)
+    log.delete()
+    return redirect('FutureLogsGoals')
 
-@login_required
-def Todo_list(request):
-    lists = TD_list.objects.all()
-    task = Task.objects.all()
-    listForm = CreateListForm()
-    taskForm = CreateTaskForm()
 
-    context = {'task': task, 'lists': lists, 'listForm': listForm, 'taskForm': taskForm}
-    return render(request, 'Todo_list.html', context=context)
+def FutureLogsGoals(request):
+    log = Logs.objects.filter(user_id=request.user.id)
+    goals = Goal.objects.filter(user_id=request.user.id)
 
-@login_required
-def Toggle_task(request, task_id):
-    task = Task.objects.get(pk=task_id)
-    task.completed = not task.completed
-    task.save()
-    return redirect('Todo_list')
+    logForm = CreateLogsForm()
+    goalForm = CreateGoalForm()
+
+    context = {'goals': goals, 'log': log, 'logForm': logForm, 'goalForm': goalForm}
+    return render(request, 'FutureLogs&Goals.html', context=context)
+
+def Toggle_goals(request, goal_id):
+    goals = Goal.objects.get(pk=goal_id)
+    goals.completed = not goals.completed
+    goals.save()
+    return redirect('FutureLogsGoals')
 
 # -------------------  Events -------------------------
 # Add an event
@@ -280,12 +256,12 @@ def addEvent(request):
             event_instance.date_of_event = date_of_event
 
             event_instance.save()
-            return redirect('weekly_schedule')
+            return redirect('calendar')
         else:
             return HttpResponse("something went wrong with the event form")
     else:
         event_form = EventForm()  # for GET request, show the form
-        return render(request, 'weekly_schedule.html', {'event_form': event_form})
+        return render(request, 'calendar.html', {'event_form': event_form})
 
 #View event
 @login_required
@@ -294,50 +270,53 @@ def viewEvent(request, pk):
     context = {'event': event}
     return render(request, 'weekly_schedule.html',context=context)
 
+def viewMore(request, year, month, day):
 
-# Update event
-# @login_required
-# def updateEvent(request, pk):
-#     event = Event.objects.get(id=pk)
-#     form = EventForm(instance=event)
-#     if request.method == 'POST':
-#         form = EventForm(request.POST, instance=event)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('weekly_schedule')
-#     context = {'form': form}
-#     return render(request, 'update_event_page.html', context=context)
+    print("viewMore function was run")
+
+    dateCalendar = datetime(year, month, day) #calendar date that is passed to the function
+    dateWeekly = datetime.today() #first date of the weekly
+    global increase, decrease
+
+    diff = abs(dateCalendar.day - dateWeekly.day) #difference between days (only positive)
+
+    if(dateCalendar.day > dateWeekly.day):
+        increase =  diff
+        next_(request)
+        return redirect('next_')
 
 
+    elif(dateCalendar.day < dateWeekly.day):
+        decrease = diff
+        prev(request)
+        return redirect('prev')
+
+    context ={'next_': next_, 'prev': prev, 'increase': increase, 'decrease': decrease}
+
+    return render(request, 'weekly_schedule.html', context=context)
 
 
-@login_required
-def deleteEvent(request, pk):
-    event = Event.objects.get(id=pk)
-    event.delete()
+def toggle_event(request, event_id):
+    events = Event.objects.get(pk=event_id)
+    events.is_completed = not events.is_completed
+    events.save()
     return redirect('weekly_schedule')
 
 
-# ----------------- weekly_schedule ------------------------
-# Figure out how to make duplicate code a function
-# def events_of_the_day( request, day1, day2, day3):
-#     # Filters to only get events that are associated with the same days
-#     day1_events = Event.objects.filter(date_of_event__day=day1.day, date_of_event__month=day1.month)
-#     day2_events = Event.objects.filter(date_of_event__day=day2.day, date_of_event__month=day2.month)
-#     day3_events = Event.objects.filter(date_of_event__day=day3.day, date_of_event__month=day3.month)
-#
-#     context = {'day1_events':day1_events, 'day2_events':day2_events, 'day3_events':day3_events}
-#     return render(request, 'weekly_schedule.html',context=context )
-
+# Update event
 @login_required
-def weekly_schedule(request):
-    create_notifications(request.user)
-
-    global decrease, increase
-    increase = 0
-    decrease = 0
-    event_form = EventForm(request.POST)
+def updateEvent(request, pk):
     all_events = Event.objects.filter(user_id=request.user.id)
+    event = Event.objects.get(id=pk)
+    event_form = EventForm(instance=event)
+
+    if request.method == 'POST':
+        event_form = EventForm(request.POST, instance=event)
+        if event_form.is_valid():
+            event_form.save()
+            return redirect('weekly_schedule')
+
+    # Display events on edit page
     weekDay = datetime.today()  # gets today's date
     weekDay2 = datetime.today() + timedelta(days=1)  # gets the day after
     weekDay3 = datetime.today() + timedelta(days=2)  # gets the 3rd day after the first one
@@ -352,69 +331,85 @@ def weekly_schedule(request):
     context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3,
                'day1_events': day1_events, 'day2_events': day2_events, 'day3_events': day3_events
         , 'event_form': event_form, 'all_events': all_events}
-    return render(request, 'weekly_schedule.html', context=context)
+
+    # context = {'event': event, 'all_events': all_events, 'event_form': event_form, 'test': test}
+    return render(request, 'updateEvents.html', context=context)
 
 
-# --------- Goes to dext few days ------------------
+def back_to_weekly(request):
+    return redirect('weekly_schedule')
+
+
 @login_required
-def next_(request):
-    global increase, decrease
-    increase += 1
-    event_form = EventForm(request.POST)
-    weekDay = datetime.today() + timedelta(days=increase)  # gets today's date
-    weekDay2 = datetime.today() + timedelta(days=1) + timedelta(days=increase)  # gets the day after
-    weekDay3 = datetime.today() + timedelta(days=2) + timedelta(days=increase)  # gets the 3rd day after the first one
-    decrease = increase
-    # Filters to only get events that are associated with the same days
-    day1_events = Event.objects.filter(date_of_event__day=weekDay.day, date_of_event__month=weekDay.month,
-                                       user_id=request.user.id)
-    day2_events = Event.objects.filter(date_of_event__day=weekDay2.day, date_of_event__month=weekDay2.month,
-                                       user_id=request.user.id)
-    day3_events = Event.objects.filter(date_of_event__day=weekDay3.day, date_of_event__month=weekDay3.month,
-                                       user_id=request.user.id)
+def deleteEvent(request, pk):
+    event = Event.objects.get(id=pk)
+    event.delete()
+    return redirect('weekly_schedule')
 
-    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3,
-               'day1_events': day1_events, 'day2_events': day2_events, 'day3_events': day3_events,
-               'event_form': event_form}
+
+# ----------------- weekly_schedule ------------------------
+#Displays events
+def events_of_the_day( request, day1, day2, day3):
+    # Filters to only get events that are associated with the same days
+    day1_events = Event.objects.filter(date_of_event__day=day1.day, date_of_event__month=day1.month, user_id=request.user.id)
+    day2_events = Event.objects.filter(date_of_event__day=day2.day, date_of_event__month=day2.month, user_id=request.user.id)
+    day3_events = Event.objects.filter(date_of_event__day=day3.day, date_of_event__month=day3.month, user_id=request.user.id)
+
+    context = {'day1_events':day1_events, 'day2_events':day2_events, 'day3_events':day3_events}
+    return context
+
+@login_required
+def weekly_schedule(request):
+    event_form = EventForm(request.POST)
+    all_events = Event.objects.filter(user_id=request.user.id)
+    start_date = request.GET.get('date')
+
+    print("Date1: ", start_date)
+
+    if start_date:
+        weekDay = datetime.strptime(start_date, "%Y-%m-%d")
+    else:
+        weekDay = datetime.today()  # gets today's date
+
+    weekDay2 = weekDay + timedelta(days=1)  # gets the day after
+    weekDay3 = weekDay + timedelta(days=2)  # gets the 3rd day after the first one
+
+
+    display_events = events_of_the_day(request, weekDay, weekDay2, weekDay3)
+    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
+        , 'event_form': event_form, 'all_events': all_events, 'display_events': display_events}
     return render(request, 'weekly_schedule.html', context=context)
+
+
+# --------- Goes to next few days ------------------
+@login_required
+def next_(request, day):
+    # Search the string
+    match_str = re.search(r'\d{4}-\d{2}-\d{2}', day)
+    #Format date
+    result = datetime.strptime(match_str.group(), '%Y-%m-%d').date()
+    # go to next day
+    nextDay = result + timedelta(days=1)
+
+    return redirect(reverse('weekly_schedule') + '?date={}'.format(nextDay))
 
 
 # Goes to previous days
 @login_required
-def prev(request):
-    global decrease, increase
-    decrease -= 1
-    event_form = EventForm(request.POST)
-    weekDay = datetime.today() + timedelta(days=decrease)  # gets today's date
-    weekDay2 = datetime.today() + timedelta(days=1) + timedelta(days=decrease)  # gets the day after
-    weekDay3 = datetime.today() + timedelta(days=2) + timedelta(days=decrease)  # gets the 3rd day after the first one
-    increase = decrease
-    # Filters to only get events that are associated with the same days
-    day1_events = Event.objects.filter(date_of_event__day=weekDay.day, date_of_event__month=weekDay.month,
-                                       user_id=request.user.id)
-    day2_events = Event.objects.filter(date_of_event__day=weekDay2.day, date_of_event__month=weekDay2.month,
-                                       user_id=request.user.id)
-    day3_events = Event.objects.filter(date_of_event__day=weekDay3.day, date_of_event__month=weekDay3.month,
-                                       user_id=request.user.id)
+def prev(request, day):
+    # Search the string
+    match_str = re.search(r'\d{4}-\d{2}-\d{2}', day)
+    # Format date
+    result = datetime.strptime(match_str.group(), '%Y-%m-%d').date()
+    # go to next day
+    prevDay = result - timedelta(days=1)
 
-    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3,
-               'day1_events': day1_events, 'day2_events': day2_events, 'day3_events': day3_events,
-               'event_form': event_form}
-    return render(request, 'weekly_schedule.html', context=context)
+    return redirect(reverse('weekly_schedule') + '?date={}'.format(prevDay))
 
-
-#for sending email feature
-#send_mail(
-#    'Test Email from SchoolManager',
-#    'This is a test email sent using Mailgun SMTP!',
-#    None,  # Uses DEFAULT_FROM_EMAIL
-#    ['your_verified_email@gmail.com'],  # Use a verified recipient for sandbox
-#    fail_silently=False,
-#)
 
 #----NOTIFICATION FEATURE ----#
 def create_notifications(user):
-    today = date.today()
+    today = datetime.today()
     upcoming_event = Event.objects.filter(
         user =user,
         date_of_event__gt=today,

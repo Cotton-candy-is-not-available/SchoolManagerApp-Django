@@ -7,27 +7,29 @@
 
     <title>Weekly schedule</title>
     <link rel="stylesheet" href="{% static 'css/weeklySchedule_style.css ' %}">
-    {# link to styling #}
+    <link rel="stylesheet" href="{% static 'css/common_style.css ' %}">
+    {# links to styling #}
 </head>
 <body>
 <div class="main_content">
     <h1>Weekly Schedule</h1>
 
     <!-- add new event pop up button -->
-    <button class="btn" onclick="newEvents.showModal()">Add New Event</button>
-
-    <!-- Delete event pop up button -->
-    <button class="btn" onclick="deleteEvents.showModal()">Delete Event</button>
-
-
+    <button class="btn" type="button" onclick="newEvents.showModal()">Add New Event</button>
+{##}
+{#        <!-- Delete event pop up button -->#}
+{#        <button class="btn" type="button" onclick="deleteEvents.showModal()">Delete Event</button>#}
+{##}
+{#     <!-- Update event pop up button -->#}
+{#        <button class="btn" type="button" onclick="updateEvents.showModal()">Update Event</button>#}
 
 
     {# ---------------- Next and previous days ----------------------#}
 
-    <form action="{% url 'next_' %}" method="get">
+    <form action="{% url 'next_' weekDay %}" method="get">
         <button type="submit">Next</button>
     </form>
-    <form action="{% url 'prev' %}" method="get">
+    <form action="{% url 'prev' weekDay%}" method="get">
         <button type="submit">Previous</button>
     </form>
 
@@ -47,44 +49,130 @@
         {#------------------  Display events in respective columns -------------------------#}
         {#    Current day events #}
         <div class="day1EventDisplay">
-            {% for Events in day1_events %}
-                <br> <b>{{ Events.event_name }}</b>
-                <br>{{ Events.description }}<br>
+            {% for Events in display_events.day1_events %}
+                <!-- checkboxes for the events -->
+                {% if Events.is_completed == True %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☑</button>
+                    <b><s>{{ Events.event_name }}</s></b>
+                    <br><s>{{ Events.description }}</s><br>
+                {% else %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☐</button>
+                    <b>{{ Events.event_name }}</b>
+                    <br>{{ Events.description }}<br>
+                {% endif %}
             {% endfor %}
         </div>
 
         {# Next day events #}
         <div class="day2EventDisplay">
-            {% for Events in day2_events %}
-                <br> <b>{{ Events.event_name }}</b>
-                <br>{{ Events.description }}<br>
+            {% for Events in display_events.day2_events %}
+                <!-- checkboxes for the events -->
+                {% if Events.is_completed == True %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☑</button>
+                    <b><s>{{ Events.event_name }}</s></b>
+                    <br><s>{{ Events.description }}</s><br>
+                {% else %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☐</button>
+                    <b>{{ Events.event_name }}</b>
+                    <br>{{ Events.description }}<br>
+                {% endif %}
             {% endfor %}
         </div>
 
         {#  Third day events  #}
         <div class="day3EventDisplay">
-
-            {% for Events in day3_events %}
-                <br> <b>{{ Events.event_name }}</b>
-                <br>{{ Events.description }}<br>
+            {% for Events in display_events.day3_events %}
+                <!-- checkboxes for the events -->
+                {% if Events.is_completed == True %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☑</button>
+                    <b><s>{{ Events.event_name }}</s></b>
+                    <br><s>{{ Events.description }}</s><br>
+                {% else %}
+                   <button onclick="location.href='{% url 'toggle_event' Events.id %}'"
+                           class="action-link">☐</button>
+                    <b>{{ Events.event_name }}</b>
+                    <br>{{ Events.description }}<br>
+                {% endif %}
             {% endfor %}
-
         </div>
     </div>
 </div>
+
+
+{# ------------------- Responsive display events -------------------#}
+<div class="responsiveContainer">
+
+    {#Empty space for container#}
+    <span class="emptySpace"> </span>
+
+
+    <div class="responsiveWeekName">
+        <p>{{ weekDay|date:"l d" }}</p>{# day of the week 1#}
+    </div>
+
+    {#Empty space for container#}
+    <span class="emptySpace"> </span>
+
+    {#        ------------------  Display events in respective columns -------------------------#}
+    <form action="{% url 'prev' weekDay%}" method="get">
+        <button class="responsiveButtonState" type="submit"><</button>
+    </form>
+    {#            Current day events#}
+    <div id = "event" class="day1EventDisplayResponsive">
+        {% for Events in display_events.day1_events %}
+            <br> <b>{{ Events.event_name }}</b>
+            <br>{{ Events.description }}<br>
+
+
+
+
+
+        {% endfor %}
+    </div>
+    <form action="{% url 'next_' weekDay%}" method="get">
+        <button class="responsiveButtonState" type="submit">></button>
+    </form>
+</div>
+
 
 {#------------ Add new event -------------------#}
 {#----- pop up --------#}
 <dialog id="newEvents" class="modal">
     <div class="modal-box">
-        {# ---- list Form -----  #}
-        <h3>Add Event</h3> {# Title #}
-        <form method="post" action="{% url 'add_event' %}">
+        {# ---- New Event Form -----  #}
+        <form method="dialog">
+        <h3 style="display: inline-block">Add Event</h3> {# Title #}
+
+        <button style="display: inline-block;" class="X-button">X</button>
+        </form>
+        <form method="post" action="{% url 'add_event' %}" >
             {% csrf_token %}
             {{ event_form.as_p }}
-            <input type="submit">
-        </form>
+                            <button type="submit">Submit</button>
 
+        </form>
+    </div>
+</dialog>
+
+
+{#------------ Update event -------------------#}
+{#----- pop up --------#}
+<dialog id="updateEvents" class="modal">
+    <div class="modal-box">
+
+        {# --------- Update Form -----  #}
+        <h3>Update Event</h3> {# Title #}
+        {% for Events in all_events %}
+            <br>
+            {{ Events.event_name }}
+            <br>{{ Events.description }}<br>
+            <a href="{% url 'updateEvent' Events.id %}" class="action-link">Update</a>
+        {% endfor %}
         <div class="modal-action">
             <form method="dialog">
                 <button class="btn">Close</button>
@@ -101,23 +189,6 @@
 
         {# --------- list Form -----  #}
         <h3>Delete Event</h3> {# Title #}
-
-        {#        {% for Events in day1_events %}#}
-        {#            <form method="get"  action="{% url 'deleteEvent' Events.id %}">#}
-        {##}
-        {#            <label for="eventName"><input type='checkbox' name='{{ Events.id }}' id='{{ Events.id }}'></input>#}
-        {#             <br> <b>{{ Events.event_name }}</b>#}
-        {#                <br>{{ Events.description }}<br></label>#}
-        {#            <form method="post" action="{% url 'deleteEvent' Events.id %}">#}
-        {#            {% csrf_token %}#}
-        {##}
-        {#        {% endfor %}#}
-        {#        <br>#}
-        {#        <input type="submit">#}
-        {#            </form>#}
-
-
-
         {% for Events in all_events %}
             <br>
             {{ Events.event_name }}

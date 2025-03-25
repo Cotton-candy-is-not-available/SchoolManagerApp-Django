@@ -1,12 +1,92 @@
-
-/*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
-.main_content{
-    margin-left:20%;
-    padding:16px 16px;/* top padding, left side padding*/
-    height:100px;
+.errorlist { /*Hides this field is required text*/
+    display: none;
 
 }
 
+.form-control {
+    height: 50px;
+    width: 200px;
+    font-size: 16px;
+}
+
+.descriptionForm {
+    height: 100px;
+    width: 300px;
+    font-size: 16px;
+    word-wrap: break-word;
+}
+
+.modal {
+    height: 430px; /*change modal/box size*/
+    width: 400px; /*change modal/box size*/
+    font-size: 16px;
+    /*overflow: hidden;!*stops scrolling*!*/
+    /*background-color: #b11d1d;*/
+}
+
+button {
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #ADB9BC;
+}
+
+button[type="button"]:hover {
+    background-color: #E68E77;
+}
+
+button[type="submit"]:hover {
+    background-color: #E68E77;
+}
+
+
+@media all and (max-width: 1000px) {
+
+    button {
+        font-size: 40px;
+    }
+
+    h1 {
+        font-size: 80px;
+    }
+
+    .modal {
+        width: 700px; /*change modal/box size*/
+        height: 700px;
+        font-size: 40px;
+        /*background-color: #b11d1d;*/
+    }
+
+    .form-control {
+        height: 50px;
+        width: 400px;
+        font-size: 30px;
+    }
+
+    .descriptionForm {
+        height: 200px;
+        width: 400px;
+        font-size: 30px;
+        word-wrap: break-word;
+    }
+
+
+}
+
+@media all and (max-width: 800px) {
+
+    button {
+        font-size: 20px;
+    }
+
+    h1 {
+        font-size: 50px;
+    }
+
+}
 
 
 

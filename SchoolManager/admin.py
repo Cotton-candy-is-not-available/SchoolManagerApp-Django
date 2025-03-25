@@ -2,8 +2,10 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import TD_list, Task, Event
+from .models import Logs, Goal, Event, JournalEntry,Notification
 
-admin.site.register(TD_list)
-admin.site.register(Task)
+admin.site.register(Logs)
+admin.site.register(Goal)
 admin.site.register(Event)
+admin.site.register(JournalEntry)
+admin.site.register(Notification)
