@@ -49,20 +49,36 @@ function generateCalendar(newDate) {
                    //.replace(/-/g, '\/') is so that it displays in the correct days
                    const eventDate = new Date(response.events[key].date_of_event.replace(/-/g, '\/')) //save the date of the event
                   //Debugging
-                   console.log("this is the eventDay.getday: " + eventDate.getDate())
+                  //  console.log("this is the eventDay.getday: " + eventDate.getDate())
                    console.log(eventDate)
                    console.log(daysInMonth);
 
                    for(let day = 1; day < daysInMonth; day++) {
-                       console.log("we're looping through days in the month")
+                       // console.log("we're looping through days in the month")
                       if (eventDate.getMonth() === month && eventDate.getFullYear() === year && eventDate.getDate() === day) { //check if the date of the event is the same as the day
                           // Find the dayCell for the corresponding day
                         const dayCell = document.querySelector(`.day[data-day="${day}"]`);
                         if (dayCell) {
                             //retrieve the event data for that day
-                            const eventHTML = `<br><li>${response.events[key].event_name} </li>`;//displays name of the event
-                            // const eventHTML = `<br><li>${response.events[key].event_name} - ${response.events[key].description}</li>`;//displays description and name of event
-                            dayCell.innerHTML += `${eventHTML}`; //add the event data to the data-day of the daycell
+                        // const dayCell = document.createElement("div");
+
+                            const eventHTML = `<br><li id = "CalendarEventBox" class = "CalendarEventBox" oncontextmenu = testFunction() >${response.events[key].event_name} </li>`;//displays name of the event
+
+                            let EventID = response.events[key].id;
+                            let UpdateUrl = "/updateEvent/ pk ".replace('pk', EventID);
+                            let DeleteUrl = "/deleteEvent/ pk ".replace('pk', EventID);
+
+                            const MenuHTML = `<div id="EventRightClickMenu2" class = "EventRightClickMenu2" >
+                                <ul>
+                                    <li><a href='${UpdateUrl}'>Edit</a></li>
+                                    <li><a href='${DeleteUrl}'onClick="return confirm('Are you sure you want to delete this event?');">Delete</a>
+                                    </li>
+                                    <li><a href="#">View More</a></li>
+                                </ul>
+
+                            </div>`;//displays description and name of event
+
+                            dayCell.innerHTML += `${eventHTML} ${MenuHTML}`; //add the event data to the data-day of the daycell
 
                             //highlight the current day
                             if (day === newDate.getDate()) {
@@ -73,7 +89,7 @@ function generateCalendar(newDate) {
                    }
                }
            },
-           error: function (response){
+           error: function (response) {
                alert("error")
            }
        });
@@ -90,6 +106,9 @@ function prevMonth() {
     generateCalendar(currentDate);
 }
 
+
 window.onload = function() {
     generateCalendar(currentDate);
 }
+
+

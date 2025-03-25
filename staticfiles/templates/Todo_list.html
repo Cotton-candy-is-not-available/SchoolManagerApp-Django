@@ -84,7 +84,15 @@
                                                                alt="Delete button "></button>
                                 </form>
 
+                            {#   Right click menu #}
+                            <div id="EventRightClickMenu" class="EventRightClickMenu" >
+                                <ul>
+                                    <li><a href="{% url 'update_goal' Tasks.id %}">Edit</a></li>
+                                    <li><a href="{% url 'delete_task' Tasks.id %}" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a></li>
+                                    <li><a href="#">View More</a></li>
+                                </ul>
 
+                            </div>
 
                             {% endif %}
 
