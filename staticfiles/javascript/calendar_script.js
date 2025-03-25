@@ -62,23 +62,8 @@ function generateCalendar(newDate) {
                             //retrieve the event data for that day
                         // const dayCell = document.createElement("div");
 
-                            const eventHTML = `<br><li id = "CalendarEventBox" class = "CalendarEventBox" oncontextmenu = testFunction() >${response.events[key].event_name} </li>`;//displays name of the event
-
-                            let EventID = response.events[key].id;
-                            let UpdateUrl = "/updateEvent/ pk ".replace('pk', EventID);
-                            let DeleteUrl = "/deleteEvent/ pk ".replace('pk', EventID);
-
-                            const MenuHTML = `<div id="EventRightClickMenu2" class = "EventRightClickMenu2" >
-                                <ul>
-                                    <li><a href='${UpdateUrl}'>Edit</a></li>
-                                    <li><a href='${DeleteUrl}'onClick="return confirm('Are you sure you want to delete this event?');">Delete</a>
-                                    </li>
-                                    <li><a href="#">View More</a></li>
-                                </ul>
-
-                            </div>`;//displays description and name of event
-
-                            dayCell.innerHTML += `${eventHTML} ${MenuHTML}`; //add the event data to the data-day of the daycell
+                            const eventHTML = `<br><li>${response.events[key].event_name} </li>`;//displays name of the event
+                            dayCell.innerHTML += `${eventHTML} `; //add the event data to the data-day of the daycell
 
                             //highlight the current day
                             if (day === newDate.getDate()) {
