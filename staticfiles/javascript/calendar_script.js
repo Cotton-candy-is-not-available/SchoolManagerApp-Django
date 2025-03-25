@@ -72,12 +72,22 @@ function generateCalendar(newDate) {
                             //retrieve the event data for that day
                             const eventHTML = `<li>${response.events[key].event_name}</li>`; //displays name of the event
 
-                            //if numOfEvents in one daycell is less than 3
-                            dayCell.innerHTML += `${eventHTML}`; //add the event data to the data-day of the daycell
+                            //debug statements to check what data is being passed around
+                            /*
+                            console.log("event name being passed is: " + response.events[key].event_name); //correct
+                            console.log("event date being passed is: " + response.events[key].event_date); //undefined
+                            console.log("event date being passed is: " + parsedDate); //correct
+                            console.log("event description being passed is: " + response.events[key].description); //correct
+                            */
+
+                            //passes each detail of the event individually to the viewEventDetailsWidget function
+                            //AND
+                            //adds the event data to the daycell day data
+                            dayCell.innerHTML += `<button onclick="viewEventDetailsWidget('${response.events[key].event_name}', '${parsedDate}', '${response.events[key].description}')"><a>${eventHTML}</a></button>`;
 
                             //highlight the current day
                             if (dayNum === newDate.getDate()) {
-                                dayCell.classList.add('highlight'); // Highlight current day
+                                dayCell.classList.add('highlight');
                             }
                         }
 
@@ -135,3 +145,19 @@ function HideViewMore() {
     var button = document.getElementById("vmButton");
     button.style.display = "none";
 }
+
+function viewEventDetailsWidget(eventName, parsedDate, eventDesc) {
+
+    var eName = document.getElementById("event_name_wg");
+    var eDate = document.getElementById("event_date");
+    var eDesc = document.getElementById("event_desc");
+
+    eName.innerText = eventName;
+    eDate.innerText = parsedDate;
+    eDesc.innerText = eventDesc;
+
+    //show the modal
+    document.getElementById("view_event_details").showModal();
+}
+
+

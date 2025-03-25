@@ -74,7 +74,15 @@ button[type="submit"]:hover {
     background-color: #E68E77;
 }
 
+.detailsButton {
+    background-color: cadetblue;
+
+}
+
 
 /* view more button */
 /*is styled within line 75 of calendar_script*/
+
+/*styling for the content inside of the view event details widget*/
+
 
