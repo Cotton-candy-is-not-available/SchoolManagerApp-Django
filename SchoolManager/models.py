@@ -2,12 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-#------ Calendar --------------
-class Calendar(models.Model): #each calendar can have many events associated to it
-    date = models.DateField()
-    day_number = models.IntegerField()
-    text_box = models.TextField(null=True, blank=True)
-
 #------ Personal Journal --------------
 class JournalEntry(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True, editable = False)
@@ -54,3 +48,16 @@ class Goal(models.Model):
         ordering = ['Importance']
     def __str__(self):
         return self.log.Log_name + ": " + self.description
+
+
+#-----NOTIFICATION SYSTEM----#
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    message = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Notification for {self.user.username}: {self.message}"
+

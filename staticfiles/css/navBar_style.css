@@ -1,19 +1,51 @@
+/*
+beige - F3D1B5
+light blue - ADB9BC
+medium desat blue cyanish whatever - 566B72
+dark blueish teal - 254B5B
+light pink - E68E77
+dark saturated pink - D05E43
+cyan (possibly for accents) - 20AB93
+dark almost black blue - 171717
+*/
 .a {
             text-decoration: none;
             font-size: 30px;
         }
 
+ /*----------------   Home and log out button text ------------*/
+ .topNav {
+  overflow: hidden;
+  background-color: #355663;
+     height: 80px;/*height of top nav*/
+}
+/*nav text styling*/
+.topNav a {
+ float: left;
+  text-align: center;
+  padding: 30px 25px;/*text height, text side padding*/
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/*Hover colours*/
+.topNav a:hover {
+  color: #20AB93;/*regular colour*/
+}
+
+/*move logout to the right*/
+.topNav-right {
+  float: right;
+}
 
 
 /* --------------------------- Side navigation bar ---------------------------------*/
 .sideNav {
-    display: block;
-
   list-style-type: none;
   margin: 0;
   padding: 0;
   width: 14%;/*width of side nav box*/
-  background-color: #ba1655;/* box colour*/
+  background-color: #aab8bb;/* box colour*/
   position: absolute;/* make it stay at the top*/
   height: 100%;
   overflow: auto;
@@ -22,25 +54,23 @@
 /*Side nav text styling*/
 li a {
   display: block;
-  color: #000;
+  color: #660000;
   padding: 8px 16px;
   text-decoration: none;
 }
 
 /*When on tab*/
 li a.active {
-  background-color: #5faa04;
-  color: white;
+  background-color: #ff0000;
+  color: #20AB93;
 }
 
 /*When not on tab*/
 li a:hover:not(.active) {
-  background-color: #b11d1d;
-  color: white;
+  color: #1e9d87;
 }
 
 /*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
-
 .main_content{
     margin-left:20%;
     padding:16px 16px;/* top padding, left side padding*/
@@ -48,72 +78,100 @@ li a:hover:not(.active) {
 
 }
 
+
+ .topNav a {
+     color: #660000;
+     text-decoration: none;
+     margin-right: 20px;
+ }
+
+ .topNav-right {
+            display: flex;
+            align-items: center;
+ }
+
+.notification-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.notification-dropdown {
+    display: none;
+    position: fixed;
+    top: 80px; /* Adjust based on your navbar height */
+    right: 20px;
+    width: 300px;
+    max-height: 400px;
+    background-color: #e59a83;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgb(206, 94, 68);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 20px;
+    border-bottom: 1px solid #b58282;
+      display: inline-block;
+
+}
+
+.notification-badge {
+    top: -5px;
+    right: -5px;
+    background-color: #e28c77;
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 10px;
+}
+
+
+/* .notification-dropdown .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 30px;
+            background-color: #f9f9f9;
+            min-width: 260px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            z-index: 999;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+ }*/
+
+/* .notification-dropdown:hover .dropdown-content {
+            display: block;
+ }
+
+ .notification-badge {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 3px 6px;
+      font-size: 12px;
+ }*/
+            /*background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 3px 7px;
+            font-size: 12px;
+            vertical-align: top;
+            margin-left: 4px;
+ }*/
+
+/* .notification-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+ }*/
+
 /*body{*/
 /*    overflow-y: hidden;!*makes it not possible to scroll*!*/
 /*    overflow-x: hidden;!*makes it not possible to scroll*!*/
-
-
-/* ------------------- Responsive nav bar -----------------------------*/
-/* Hamburger nav bar*/
-.navdiv {
-    background: #3C5473;
-    padding-right: 15px;
-    padding: 23px;
-}
-.default_nav {
-    display: grid;
-    grid-template-columns: auto auto auto 1fr auto;
-    grid-template-areas: ". . . . contact";
-    align-items: center;
-    justify-content: space-between;
-}
-.default_nav > a {
-    color: #F2F2F2;
-    font-size: 28px;
-    margin-right: 30px;
-    margin-left: 30px;
-    text-decoration: none;
-    font-family: "Cabin Condensed", sans-serif;
-    font-weight: 600;
-    font-style: normal;
-}
-.contact {
-    grid-area: contact;
-}
-
-/*/MOBILE NAVBAR/*/
-.mobile_nav {
-    grid-column: span 2;
-    animation: appear 1s;
-}
-.hidden {
-    display: none;
-}
-.mobile_nav > a {
-    display: block;
-    background: #A8B2BF;
-    padding: 10px;
-}
-.mobileShow {
-    display: none;
-}
-
-
-/*Hides and shows nav bars*/
-@media all and (max-width: 1000px) {
-    .mobileHide {/* Hide top nav*/
-        display: none;
-    }
-    .mobileShow {/* Show responsive hamburger top nav*/
-        display: block;
-
-    }
-    .sideNav {/* Hide side nav*/
-        display: none;
-    }
-    .main_content{
-        margin-left:1%;
-    padding:00px  10px;/* top padding, left side padding*/
-    height:00px;
-    }
-}
+/*}*/

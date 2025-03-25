@@ -65,5 +65,11 @@ urlpatterns = [
     path('displayEvents/', views.displayEvents, name="display_events"),
 
     path('events_of_the_day/', views.events_of_the_day, name='events_of_the_day'),
+
+    #----- NOTIFICATION ----#
+    path('mark_notification_read/<int:notif_id>/', views.mark_notification_read,
+         name='mark_notification_read'),
+path('mark_all_notifications_read/', views.mark_all_notifications_read, name='mark_all_notifications_read'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
