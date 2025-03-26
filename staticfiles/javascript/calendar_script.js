@@ -36,7 +36,7 @@ function generateCalendar(newDate) {
         dayCell.innerText = day.toString();
 
         let currCylceDate = new Date();
-        currCylceDate.setDate(day - 1);
+        currCylceDate.setDate(day);
 
         //debug statements to check between currentDate and the currCycleDate
         /*
