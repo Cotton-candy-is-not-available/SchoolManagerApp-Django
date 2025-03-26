@@ -1,14 +1,14 @@
 
-/* sideNav extension */
 window.addEventListener('load', adjustHeight);
 window.addEventListener('resize', adjustHeight);
 
-
-function adjustSideNavHeight() {
+function adjustHeight() {
   const sideNav = document.querySelector('.sideNav');
-  const mainContent = document.querySelector('.main-content');
+  const mainContent = document.querySelector('.main_content');
 
-  const contentHeight = mainContent.scrollHeight;
+  if (sideNav && mainContent) {
+    const contentHeight = mainContent.scrollHeight; // Gets the full height of the content
 
-  sideNav.style.height = `${Math.max(contentHeight, window.innerHeight)}px`;
+    sideNav.style.height = `${Math.max(contentHeight, window.innerHeight)}px`;
+  }
 }

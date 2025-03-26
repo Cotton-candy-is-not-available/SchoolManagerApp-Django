@@ -17,7 +17,7 @@
 /*Side nav text styling*/
 li a {
   display: block;
-  width: 65%;
+  width: 75%;
   margin: 30px auto 30px auto;
   padding: 15px 10px 15px 10px;
   background-color: var(--BBDpink);
@@ -74,7 +74,7 @@ li a:hover:not(.active) {
 }
 .default_nav a img{
     grid-area: homeLogo;
-    width: 80px;
+    width: 100px;
     border-radius: 50%;
     padding: 10px;
 }

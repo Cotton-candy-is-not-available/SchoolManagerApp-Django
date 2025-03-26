@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {# link to styling #}
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <script src="javascript/sidenavCalc"></script>
    {# link to styling #}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -32,7 +31,7 @@
                     <img src="/staticfiles/images/favicon.png"  alt="BBD_Logo" >
                 </a>
                 <div class="topNavDisplay">
-                    <h1 class="title mobileHide"> Title </h1>
+                    <h1 class="title mobileHide"> School Manager </h1>
                     <div class="rightSideNav">
                         <!--<a class="mobileHide" href={% url 'calendar' %}>Home</a> from when title linked to cal-->
 
@@ -95,6 +94,9 @@
            </div>
        {% endfor %}
    </div>
+
+  <script src="{% static 'javascript/sidenavCalc.js' %}" defer></script>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
