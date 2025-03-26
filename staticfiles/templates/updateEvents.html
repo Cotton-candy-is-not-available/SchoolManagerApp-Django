@@ -5,9 +5,10 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Update event</title>
+    <title>Weekly schedule</title>
     <link rel="stylesheet" href="{% static 'css/weeklySchedule_style.css ' %}">
-    {# link to styling #}
+    <link rel="stylesheet" href="{% static 'css/common_style.css ' %}">
+    {# links to styling #}
 </head>
 <body>
 <div class="main_content">
@@ -15,19 +16,16 @@
  <!-- add new event pop up button -->
     <button class="btn" onclick="newEvents.showModal()">Add New Event</button>
 
-    <!-- Delete event pop up button -->
-    <button class="btn" onclick="deleteEvents.showModal()">Delete Event</button>
-
  <!-- Update event pop up button -->
     <button class="btn" onclick="updateEvents.showModal()">Update Event</button>
 
 
     {# ---------------- Next and previous days ----------------------#}
 
-    <form action="{% url 'next_' %}" method="get">
+    <form action="{% url 'next_' weekDay%}" method="get">
         <button type="submit">Next</button>
     </form>
-    <form action="{% url 'prev' %}" method="get">
+    <form action="{% url 'prev' weekDay%}" method="get">
         <button type="submit">Previous</button>
     </form>
 

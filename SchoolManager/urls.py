@@ -34,6 +34,7 @@ urlpatterns = [
     # --------- FutureLogs; goals: ------#
     path('create_goal', views.create_goal, name='create_goal'),
     path('toggle/<int:goal_id>/', views.Toggle_goals, name='Toggle_goals'),
+    path('update_goal/<str:pk>/', views.update_goal, name='update_goal'),
     # delete goal from database
     path('delete_goal/<str:pk>', views.delete_goal, name='delete_goal'),
 
@@ -50,7 +51,6 @@ urlpatterns = [
     path('viewEvent/<str:pk>', views.viewEvent, name="viewEvent"),
     path('updateEvent/<str:pk>', views.updateEvent, name='updateEvent'),
     path('toggle_event/<int:event_id>/', views.toggle_event, name="toggle_event"),
-
     #delete event from database
     path('deleteEvent/<str:pk>', views.deleteEvent, name='deleteEvent'),
 
@@ -65,5 +65,11 @@ urlpatterns = [
     path('displayEvents/', views.displayEvents, name="display_events"),
 
     path('events_of_the_day/', views.events_of_the_day, name='events_of_the_day'),
+
+    #----- NOTIFICATION ----#
+    path('mark_notification_read/<int:notif_id>/', views.mark_notification_read,
+         name='mark_notification_read'),
+path('mark_all_notifications_read/', views.mark_all_notifications_read, name='mark_all_notifications_read'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
