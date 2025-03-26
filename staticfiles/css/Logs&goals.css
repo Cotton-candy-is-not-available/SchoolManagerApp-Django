@@ -1,6 +1,12 @@
 /*Pop up box styling*/
 .modal-box{
-  color: #5faa04;
+  color: var(--BBDblack);
+  text-align: center;
+}
+
+.modal {
+  position: fixed;
+  margins: auto;
 }
 
 div.log-grid{
