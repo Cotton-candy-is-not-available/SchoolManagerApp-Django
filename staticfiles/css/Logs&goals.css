@@ -6,7 +6,8 @@
 
 .modal {
   position: fixed;
-  margins: auto;
+  top: 25%;
+  left: 40%;
 }
 
 div.log-grid{
