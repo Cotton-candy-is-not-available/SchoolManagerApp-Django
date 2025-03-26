@@ -6,7 +6,7 @@
   margin: 0;
   padding: 0;
   width: 14%;/*width of side nav box*/
-  background-color: cornflowerblue;/* box colour*/
+  background-color: #aab8bb;/* box colour*/
   position: absolute;/* make it stay at the top*/
   height: 100%;
   overflow: auto;
@@ -15,6 +15,13 @@
   padding: 8px 16px;
   text-decoration: none;
   font-size: 30px;
+}
+/*Side nav text styling*/
+li a {
+  display: block;
+  color: #660000;
+  padding: 8px 16px;
+  text-decoration: none;
 }
 
 /*When on tab*/
@@ -25,8 +32,7 @@ li a.active {
 
 /*When not on tab*/
 li a:hover:not(.active) {
-  background-color: #b11d1d;
-  color: white;
+  background-color: #1e9d87;
 }
 
 /*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
@@ -87,6 +93,45 @@ li a:hover:not(.active) {
 .mobileShow {
     display: none;
 }
+
+
+.notification-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.notification-dropdown {
+    display: none;
+    position: fixed;
+    top: 80px; /* Adjust based on your navbar height */
+    right: 20px;
+    width: 300px;
+    max-height: 400px;
+    background-color: #e59a83;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgb(206, 94, 68);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 20px;
+    border-bottom: 1px solid #b58282;
+      display: inline-block;
+
+}
+
+.notification-badge {
+    top: -5px;
+    right: -5px;
+    background-color: #e28c77;
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 10px;
+}
+
 
 
 /*Hides and shows nav bars*/
