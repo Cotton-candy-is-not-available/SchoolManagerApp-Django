@@ -239,5 +239,32 @@
     <script src="{% static 'javascript/RighClickMenu_script.js' %}" defer></script>
 
 </div>
+
+
+
+{#------------ Update Goals -------------------#}
+{#----- pop up --------#}
+<dialog id="updateGoals" class="modal" open = "open">
+    <div class="modal-box">
+        {# ---- Update Form -----  #}
+        <h3>Edit Goals</h3> {# Title #}
+        <form method="post" autocomplete="off" >
+    {% csrf_token %}
+    {{ UpdateGoalsform.as_p }}{# form displaying #}
+    <button type="submit">Update</button>
+</form>
+
+      <div class="modal-action">
+            <form method="get" action="{% url 'FutureLogsGoals' %}">
+                <button >Back</button>
+            </form>
+        </div>
+
+    </div>
+
+</dialog>
+
+
+
 </body>
 </html>

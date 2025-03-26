@@ -34,6 +34,7 @@ urlpatterns = [
     # --------- FutureLogs; goals: ------#
     path('create_goal', views.create_goal, name='create_goal'),
     path('toggle/<int:goal_id>/', views.Toggle_goals, name='Toggle_goals'),
+    path('update_goal/<str:pk>/', views.update_goal, name='update_goal'),
     # delete goal from database
     path('delete_goal/<str:pk>', views.delete_goal, name='delete_goal'),
 
@@ -50,7 +51,6 @@ urlpatterns = [
     path('viewEvent/<str:pk>', views.viewEvent, name="viewEvent"),
     path('updateEvent/<str:pk>', views.updateEvent, name='updateEvent'),
     path('toggle_event/<int:event_id>/', views.toggle_event, name="toggle_event"),
-
     #delete event from database
     path('deleteEvent/<str:pk>', views.deleteEvent, name='deleteEvent'),
 

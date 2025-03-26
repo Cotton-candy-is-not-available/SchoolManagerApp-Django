@@ -181,6 +181,22 @@ def create_goal(request):
     context = {'form': form}
     return render(request, 'FutureLogs&Goals.html', context=context)
 
+# Update tasks
+
+def update_goal(request, pk):
+    goals = Goal.objects.get(id=pk)
+    # all_goals = Goal.objects.get(id=pk)
+    UpdateGoalsform = CreateGoalForm(instance=goals)
+    if request.method == 'POST':
+        UpdateGoalsform = CreateGoalForm(request.POST, instance=goals)
+        if UpdateGoalsform.is_valid():
+            UpdateGoalsform.save()
+            return redirect('FutureLogsGoals')
+    context = {'UpdateGoalsform': UpdateGoalsform}
+    return render(request, 'updateGoals.html', context=context)
+
+
+
 #delete Goals
 def delete_goal(request, pk):
     goal = Goal.objects.get(id=pk)
@@ -205,14 +221,14 @@ def create_logs(request):
 @login_required
 def update_log_name(request, pk):
     log = Logs.objects.get(id=pk)
-    form = CreateLogsForm(instance=log)
+    UpdateLogsForm = CreateLogsForm(instance=log)
     if request.method == 'POST':
-        form = CreateLogsForm(request.POST, instance=log)
-        if form.is_valid():
-            form.save()
+        UpdateLogsForm = CreateLogsForm(request.POST, instance=log)
+        if UpdateLogsForm.is_valid():
+            UpdateLogsForm.save()
             return redirect('FutureLogsGoals')
-    context = {'form': form}
-    return render(request, 'FutureLogs&Goals.html', context=context)
+    context = {'UpdateLogsForm': UpdateLogsForm}
+    return render(request, 'updateLogs.html', context=context)
 
 
 #Delete list
@@ -318,18 +334,12 @@ def updateEvent(request, pk):
 
     # Display events on edit page
     weekDay = datetime.today()  # gets today's date
-    weekDay2 = datetime.today() + timedelta(days=1)  # gets the day after
-    weekDay3 = datetime.today() + timedelta(days=2)  # gets the 3rd day after the first one
+    weekDay2 = weekDay + timedelta(days=1)  # gets the day after
+    weekDay3 = weekDay + timedelta(days=2)  # gets the 3rd day after the first one
     # Filters to only get events that are associated with the same days
-    day1_events = Event.objects.filter(date_of_event__day=weekDay.day, date_of_event__month=weekDay.month,
-                                       user_id=request.user.id)
-    day2_events = Event.objects.filter(date_of_event__day=weekDay2.day, date_of_event__month=weekDay2.month,
-                                       user_id=request.user.id)
-    day3_events = Event.objects.filter(date_of_event__day=weekDay3.day, date_of_event__month=weekDay3.month,
-                                       user_id=request.user.id)
+    display_events = events_of_the_day(request, weekDay, weekDay2, weekDay3)
 
-    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3,
-               'day1_events': day1_events, 'day2_events': day2_events, 'day3_events': day3_events
+    context = {'weekDay': weekDay, 'weekDay2': weekDay2, 'weekDay3': weekDay3
         , 'event_form': event_form, 'all_events': all_events}
 
     # context = {'event': event, 'all_events': all_events, 'event_form': event_form, 'test': test}
@@ -363,8 +373,6 @@ def weekly_schedule(request):
     event_form = EventForm(request.POST)
     all_events = Event.objects.filter(user_id=request.user.id)
     start_date = request.GET.get('date')
-
-    print("Date1: ", start_date)
 
     if start_date:
         weekDay = datetime.strptime(start_date, "%Y-%m-%d")
