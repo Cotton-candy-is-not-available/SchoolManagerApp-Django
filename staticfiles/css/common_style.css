@@ -1,9 +1,34 @@
+:root {
+    --BBDteal: #1AAB93;
+    --BBDpink: #E48D78;
+    --BBDdarkTan: #D05F45;
+    --BBDdarkPink: #670000;
+    --BBDgrey: #5A6F75;
+    --BBDdarkBlue: #355764;
+    --BBDblack: #3D3E3F;
+    --BBDlightBlue: #ABB9BC;
+    --BBDbeige: #F1D1B5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+
 .errorlist { /*Hides this field is required text*/
     display: none;
 
 }
 
-/*Makes everything in the body fit in the middle and not be hidde behind nav bar*/
+/*Styling of body*/
+body{
+    background-color: #F1D1B5;
+}
+
+/*!*Makes everything in the body fit in the middle and not be hidde behind nav bar*!*/
 .main_content{
     margin-left:20%;
     padding:16px 16px;/* top padding, left side padding*/
@@ -89,7 +114,6 @@ button[type="submit"]:hover {
     button {
         font-size: 20px;
     }
-
 
     h1 {
         font-size: 50px;

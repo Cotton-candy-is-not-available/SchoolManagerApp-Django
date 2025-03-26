@@ -9,8 +9,11 @@
 
     {# link to styling #}
     <link rel="stylesheet" href="{% static 'css/navBar_style.css ' %}">
-{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">#}
-{#       <link rel="stylesheet" href="{% static 'css/navBar_style.css' %}">#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {# link to styling #}
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+   {# link to styling #}
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
@@ -24,16 +27,30 @@
                     <div class="bar3"></div>
                     <div class="bar4"></div>
                 </button>
-                <a class="mobileHide" href={% url 'calendar' %}>Home</a>
-                <a class="contact" href="{% url 'user_logout' %}">Log out</a>
-                <div class="notification-container">
-                    <a href="#" id="notificationBell">
-                        <i class="fa-solid fa-bell fa-lg"></i>
-                        {% if unread_count > 0 %}
-                            <span class="notification-badge" id="notificationBadge">{{ unread_count }}</span>
-                        {% endif %}
-                    </a>
-            </div>
+                <a class="mobileHide" href={% url 'calendar' %}>
+                    <img src="/staticfiles/images/favicon.png"  alt="BBD_Logo" >
+                </a>
+                <div class="topNavDisplay">
+                    <h1 class="title mobileHide"> School Manager </h1>
+                    <div class="rightSideNav">
+                        <!--<a class="mobileHide" href={% url 'calendar' %}>Home</a> from when title linked to cal-->
+
+                            {# ----------------- Notification bell -----------  #}
+                            <div class="notification-container">
+                                <a href="#" id="notificationBell">
+                                    <i class="fa-solid fa-bell fa-lg"></i>
+                                    {% if unread_count > 0 %}
+                                        <span class="notification-badge" id="notificationBadge">{{ unread_count }}</span>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            {# -------------------------------------------  #}
+
+                        <a class="logout" href="{% url 'user_logout' %}">Log out</a>
+                    </div>
+                </div>
+
+
             </div>
         </nav>
 
@@ -77,6 +94,9 @@
            </div>
        {% endfor %}
    </div>
+
+  <script src="{% static 'javascript/sidenavCalc.js' %}" defer></script>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {

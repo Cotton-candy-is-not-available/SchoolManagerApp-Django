@@ -14,17 +14,20 @@
 <div class="main_content">
     <h1>Weekly Schedule</h1>
 
-    <!-- add new event pop up button -->
-    <button class="btn" onclick="newEvents.showModal()">Add New Event</button>
+    <div class="buttonies">
+        <!-- add new event pop up button -->
+        <button class="btn" onclick="newEvents.showModal()">Add New Event</button>
 
-    {# ---------------- Next and previous days ----------------------#}
+        {# ---------------- Next and previous days ----------------------#}
 
-    <form action="{% url 'next_' weekDay %}" method="get">
-        <button type="submit">Next</button>
-    </form>
-    <form action="{% url 'prev' weekDay%}" method="get">
-        <button type="submit">Previous</button>
-    </form>
+        <form action="{% url 'next_' weekDay %}" method="get">
+            <button type="submit">Next</button>
+        </form>
+        <form action="{% url 'prev' weekDay%}" method="get">
+            <button type="submit">Previous</button>
+        </form>
+    </div>
+
 
     {# ---------------- Week name display ----------------------#}
     <div class="container">
