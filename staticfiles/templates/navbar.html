@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/navBar_style.css ' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {# link to styling #}
+
 </head>
 <header>
         <nav class="navdiv">
@@ -18,45 +19,108 @@
                     <div class="bar1"></div>
                     <div class="bar2"></div>
                     <div class="bar3"></div>
+                    <div class="bar4"></div>
                 </button>
                 <a class="mobileHide" href={% url 'calendar' %}>Home</a>
-                <a class="mobileHide" href="{% url 'Todo_list' %}">To do list</a>
-                <a class="mobileHide" href={% url 'weekly_schedule' %}>Weekly schedule</a>
                 <a class="contact" href="{% url 'user_logout' %}">Log out</a>
             </div>
         </nav>
 
         <nav id="mobile_nav" class="mobile_nav hidden">
             <a href={% url 'calendar' %}>Home</a>
-            <a href="{% url 'Todo_list' %}">To do list</a>
-            <a href={% url 'weekly_schedule' %}>Weekly schedule</a>
+            <a href="{% url 'weekly_schedule' %}">Weekly schedule</a>
+            <a href={% url 'FutureLogsGoals' %}>Weekly schedule</a>
+            <a href={% url 'journal' %}>Personal Journal</a>
         </nav>
 
 
     <script src="{% static 'javascript/MobileNav_script.js' %}" defer></script>
 
-    </header>
+</header>
 
 
 
 
 <body>
 
+{# Side navigation bar#}
 <nav>
-    {# Side navigation bar#}
   <div class="sideNav">
-  <li><a href="{% url 'Todo_list' %}">To do list</a></li>{# active means that you are on the page #}
-  <li><a href={% url 'weekly_schedule' %}>Weekly schedule</a></li>
-
-</div>
+      <li><a href="{% url 'weekly_schedule' %}">Weekly Schedule</a></li>{# active means that you are on the page #}
+      <li> <a href="{% url 'FutureLogsGoals' %}">Future Logs & Goals</a></li>
+      <li><a href={% url 'journal' %}> Personal Journal</a></li>
+  </div>
 </nav>
 
 
 </body>
-
-
-
-
-
-
 </html>
+
+
+
+
+{##}
+{#<nav>#}
+{#   <div class="topNav">#}
+{#            <a href="{% url 'calendar' %}">Home</a>#}
+{#            <div class="topNav-right">#}
+{#                <div class="notification-container">#}
+{#                    <a href="#" id="notificationBell">#}
+{#                        <i class="fa-solid fa-bell fa-lg"></i>#}
+{#                        {% if unread_count > 0 %}#}
+{#                            <span class="notification-badge" id="notificationBadge">{{ unread_count }}</span>#}
+{#                        {% endif %}#}
+{#                    </a>#}
+{#                <a href="{% url 'user_logout' %}">Log out</a>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#  <div class="sideNav">#}
+{#    <li><a href="{% url 'FutureLogsGoals' %}">To do list</a></li>#}
+{#    <li><a href="{% url 'weekly_schedule' %}">Weekly schedule</a></li>#}
+{#    <li><a href="{% url 'journal' %}">Personal Journal</a></li>#}
+{#  </div>#}
+{##}
+{#   <div class="notification-dropdown" id="notificationDropdown">#}
+{#       {% for notification in unread_notifications %}#}
+{#           <div class="notification-item">#}
+{#               <div class="notification-content">#}
+{#                  <p>{{ notification.message }}</p>#}
+{#                   <small>{{ notification.created_at|date:"M d, H:i" }}</small>#}
+{#               </div>#}
+{#               <a href="{% url 'mark_notification_read' notification.id %}" class="mark-read">Mark as read</a>#}
+{#           </div>#}
+{#       {% empty %}#}
+{#           <div class="notification-item">#}
+{#               <p>No new notifications.</p>#}
+{#           </div>#}
+{#       {% endfor %}#}
+{#   </div>#}
+{#   </div>#}
+{##}
+{#</nav>#}
+{##}
+{#<script>#}
+{#document.addEventListener('DOMContentLoaded', () => {#}
+{#    const bell = document.getElementById('notificationBell');#}
+{#    const dropdown = document.getElementById('notificationDropdown');#}
+{##}
+{#    bell.addEventListener('click', (e) => {#}
+{#        e.preventDefault();#}
+{#        e.stopPropagation();#}
+{#        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';#}
+{#    });#}
+{##}
+{#    // Close dropdown when clicking outside#}
+{#    document.addEventListener('click', (e) => {#}
+{#        if (!bell.contains(e.target) && !dropdown.contains(e.target)) {#}
+{#            dropdown.style.display = 'none';#}
+{#        }#}
+{#    });#}
+
+{#</script>#}
+{##}
+{##}
+{##}
+{#</body>#}
+{#</html>#}

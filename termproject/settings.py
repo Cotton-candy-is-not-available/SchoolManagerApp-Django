@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os.path
-
 from decouple import config
 from pathlib import Path
 from decouple import config
@@ -32,7 +31,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+#for email
+ENVIRONMENT = config("ENVIRONMENT", default="development")
+POSTGRES_LOCALLY = config("POSTGRES_LOCALLY", cast=bool, default=False)
 # Application definition
 
 INSTALLED_APPS = [
@@ -68,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'SchoolManager.processor.notification_context',
             ],
         },
     },
@@ -117,7 +119,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -129,3 +130,22 @@ LOGIN_URL = '/login/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = config('EMAIL_ADDRESS')
+    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True #Transport Layer Security
+    DEFAULT_FROM_EMAIL = f'AppManager {config("EMAIL_ADDRESS")}'
+    ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
+
+
+PASSWORD_RESET_TIMEOUT = 14400
+#AppManager
+#dlel fpyy hrfb savx password
+
+#ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+#ACCOUNT_EMAIL_REQUIRED = True
+

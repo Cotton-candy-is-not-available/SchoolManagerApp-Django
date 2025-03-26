@@ -109,9 +109,6 @@ for (let i = 0; i < WeeklyEvents.length; i++) {
         event.preventDefault();//prevents regular right click menu from appearing
         event.stopPropagation(); //important!!
 
-        console.log("before active i: ", i)
-
-        console.log("after active i: ", i)
         //Position of the menu
         let topPosition = event.clientY;
         let leftPosition = event.clientX;

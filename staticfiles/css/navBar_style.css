@@ -1,30 +1,20 @@
-.a {
-            text-decoration: none;
-            font-size: 30px;
-        }
-
-
-
-/* --------------------------- Side navigation bar ---------------------------------*/
+/** --------------------------- Side navigation bar ---------------------------------*!*/
 .sideNav {
-    display: block;
+  display: block;
 
   list-style-type: none;
   margin: 0;
   padding: 0;
   width: 14%;/*width of side nav box*/
-  background-color: #ba1655;/* box colour*/
+  background-color: cornflowerblue;/* box colour*/
   position: absolute;/* make it stay at the top*/
   height: 100%;
   overflow: auto;
-}
-
-/*Side nav text styling*/
-li a {
-  display: block;
+/*@@ -25,94 +20,95 @@*/
   color: #000;
   padding: 8px 16px;
   text-decoration: none;
+  font-size: 30px;
 }
 
 /*When on tab*/
@@ -53,6 +43,7 @@ li a:hover:not(.active) {
 /*    overflow-x: hidden;!*makes it not possible to scroll*!*/
 
 
+/* ------------------- Responsive nav bar -----------------------------*/
 /* Hamburger nav bar*/
 .navdiv {
     background: #3C5473;
@@ -99,15 +90,24 @@ li a:hover:not(.active) {
 
 
 /*Hides and shows nav bars*/
-@media all and (max-width: 650px) {
-    .mobileHide {/* Hide top nav*/
+@media all and (max-width: 1000px) {
+    .mobileHide { /* Hide top nav*/
         display: none;
     }
-    .mobileShow {/* Show responsive hamburger top nav*/
+
+    .mobileShow { /* Show responsive hamburger top nav*/
         display: block;
 
     }
-    .sideNav {/* Hide side nav*/
+
+    .sideNav { /* Hide side nav*/
         display: none;
     }
+
+    .main_content {
+        margin-left: 1%;
+        padding: 00px 10px; /* top padding, left side padding*/
+        height: 00px;
+    }
+
 }
